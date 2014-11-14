@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="ca.csf.RTS.Menu.MenuController">
-	<!-- TODO Add Nodes -->
+	<center>
+		<VBox alignment="CENTER">
+			<Button text="Start Game!" onAction="#startGame" alignment="CENTER" />
+			<Button text="Options" onAction="#options" alignment="CENTER" />
+		</VBox>
+	</center>
 </BorderPane>
 
