@@ -36,10 +36,10 @@ public class Screen {
 		glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-		int WIDTH = 300;
-		int HEIGHT = 300;
-
-		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
+		ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());;
+		
+		window = glfwCreateWindow(GLFWvidmode.width(vidmode), GLFWvidmode.height(vidmode), "yo mama", glfwGetPrimaryMonitor(), NULL);
+		
 		if (window == NULL)
 			throw new RuntimeException("Failed to create the GLFW window");
 
@@ -50,9 +50,6 @@ public class Screen {
 					glfwSetWindowShouldClose(window, GL_TRUE);
 			}
 		});
-
-		ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		glfwSetWindowPos(window, (GLFWvidmode.width(vidmode) - WIDTH) / 2, (GLFWvidmode.height(vidmode) - HEIGHT) / 2);
 
 		glfwMakeContextCurrent(window);
 		glfwSwapInterval(1);
@@ -71,5 +68,4 @@ public class Screen {
 			glfwPollEvents();
 		}
 	}
-
 }
