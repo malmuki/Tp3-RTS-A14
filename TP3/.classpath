@@ -11,11 +11,5 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/TP3/lib/SimpleFX.jar!/doc"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/lwjgl.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/TP3/lib/javadoc.zip!/"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="TP3/lib/windows"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
