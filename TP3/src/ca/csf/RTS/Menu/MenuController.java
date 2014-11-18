@@ -2,8 +2,11 @@ package ca.csf.RTS.Menu;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.window.Keyboard.Key;
 import org.jsfml.window.VideoMode;
+import org.jsfml.window.WindowStyle;
 import org.jsfml.window.event.Event;
+import org.jsfml.window.event.KeyEvent;
 
 import ca.csf.simpleFx.SimpleFXController;
 import javafx.fxml.FXML;
@@ -20,7 +23,7 @@ public class MenuController extends SimpleFXController {
 		getSimpleFxStage().close();
 		//Create the window
 		RenderWindow window = new RenderWindow();
-		window.create(new VideoMode(640, 480), "Hello JSFML!");
+		window.create(new VideoMode(1366, 768), "Hello JSFML!", WindowStyle.FULLSCREEN);
 
 		//Limit the framerate
 		window.setFramerateLimit(60);
@@ -35,10 +38,17 @@ public class MenuController extends SimpleFXController {
 
 		    //Handle events
 		    for(Event event : window.pollEvents()) {
-		        if(event.type == Event.Type.CLOSED) {
-		            //The user pressed the close button
-		            window.close();
-		        }
+		    	KeyEvent keyEvent = event.asKeyEvent();
+		    	switch (event.type) {
+				case KEY_PRESSED:
+					if(keyEvent.key == Key.ESCAPE) {
+			            //The user pressed the close button
+			            window.close();
+			        }
+					break;
+				default:
+					break;
+				}
 		    }
 		}
 	}
