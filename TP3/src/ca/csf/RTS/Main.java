@@ -1,6 +1,6 @@
 package ca.csf.RTS;
 
-import ca.csf.RTS.Menu.Menu;
+import ca.csf.RTS.Menu.model.Menu;
 
 public class Main {
 

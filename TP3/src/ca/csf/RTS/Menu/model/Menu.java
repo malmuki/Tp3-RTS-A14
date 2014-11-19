@@ -1,5 +1,6 @@
-package ca.csf.RTS.Menu;
+package ca.csf.RTS.Menu.model;
 
+import ca.csf.RTS.Menu.controller.MenuController;
 import ca.csf.simpleFx.SimpleFXApplication;
 import ca.csf.simpleFx.SimpleFXApplicationLauncher;
 import ca.csf.simpleFx.SimpleFXScene;
