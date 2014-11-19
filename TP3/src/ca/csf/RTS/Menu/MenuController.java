@@ -1,7 +1,9 @@
 package ca.csf.RTS.Menu;
 
+import org.jsfml.graphics.CircleShape;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard.Key;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.WindowStyle;
@@ -29,10 +31,17 @@ public class MenuController extends SimpleFXController {
 		window.setFramerateLimit(60);
 
 		//Main loop
+		int cercleX = 0;
+		int cercleY = 0;
 		while(window.isOpen()) {
 		    //Fill the window with red
 		    window.clear(Color.RED);
-
+		    
+		    CircleShape circle = new CircleShape(150);
+		    
+		    circle.setPosition(new Vector2f(cercleX,cercleY));
+		    
+		    window.draw(circle);
 		    //Display what was drawn (... the red color!)
 		    window.display();
 
@@ -41,10 +50,25 @@ public class MenuController extends SimpleFXController {
 		    	KeyEvent keyEvent = event.asKeyEvent();
 		    	switch (event.type) {
 				case KEY_PRESSED:
-					if(keyEvent.key == Key.ESCAPE) {
-			            //The user pressed the close button
-			            window.close();
-			        }
+					switch (keyEvent.key) {
+					case ESCAPE:
+						window.close();
+						break;
+					case  D:
+						cercleX+= 7;
+						break;
+					case A:
+						cercleX-= 7;
+						break;
+					case W:
+						cercleY -= 7;
+						break;
+					case S:
+						cercleY += 7;
+						break;
+					default:
+						break;
+					}
 					break;
 				default:
 					break;
