@@ -30,16 +30,12 @@ public class MenuController extends SimpleFXController {
 		//Limit the framerate
 		window.setFramerateLimit(60);
 
-		//Main loop
-		int cercleX = 0;
-		int cercleY = 0;
+		
+		CircleShape circle = new CircleShape(150);
 		while(window.isOpen()) {
 		    //Fill the window with red
 		    window.clear(Color.RED);
-		    
-		    CircleShape circle = new CircleShape(150);
-		    
-		    circle.setPosition(new Vector2f(cercleX,cercleY));
+		    		    
 		    
 		    window.draw(circle);
 		    //Display what was drawn (... the red color!)
@@ -55,16 +51,16 @@ public class MenuController extends SimpleFXController {
 						window.close();
 						break;
 					case  D:
-						cercleX+= 7;
+						circle.move(7,0);
 						break;
 					case A:
-						cercleX-= 7;
+						circle.move(-7,0);
 						break;
 					case W:
-						cercleY -= 7;
+						circle.move(0,-7);
 						break;
 					case S:
-						cercleY += 7;
+						circle.move(0,7);
 						break;
 					default:
 						break;
