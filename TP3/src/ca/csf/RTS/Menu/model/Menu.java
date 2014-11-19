@@ -16,8 +16,8 @@ public class Menu extends SimpleFXApplication {
 	@Override
 	public void start() {
 		try {
-			SimpleFXScene simpleFXScene = new SimpleFXScene(MenuController.class.getResource("MenuWindow.fxml"),
-					MenuController.class.getResource("menu.css"), new MenuController());
+			SimpleFXScene simpleFXScene = new SimpleFXScene(MenuController.class.getResource("../vue/MenuWindow.fxml"),
+					MenuController.class.getResource("../vue/menu.css"), new MenuController());
 			SimpleFXStage simpleFXStage = new SimpleFXStage("My Application", StageStyle.DECORATED, simpleFXScene, this);
 			simpleFXStage.show();
 		} catch (Exception ex) {

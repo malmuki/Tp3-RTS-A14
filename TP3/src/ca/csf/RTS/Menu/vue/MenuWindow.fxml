@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Button?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="ca.csf.RTS.Menu.MenuController">
+	fx:controller="ca.csf.RTS.Menu.controller.MenuController">
 	<center>
 		<VBox alignment="CENTER">
 			<Button text="Start Game!" onAction="#startGame" alignment="CENTER" />
