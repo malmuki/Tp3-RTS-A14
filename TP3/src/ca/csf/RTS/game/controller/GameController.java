@@ -23,7 +23,6 @@ public class GameController implements GameEventHandler {
 	public void newGame() {
 		game.newGame();
 
-		
 		RenderWindow window = new RenderWindow();
 		window.create(VideoMode.getDesktopMode(), Menu.TITLE, WindowStyle.FULLSCREEN);
 
