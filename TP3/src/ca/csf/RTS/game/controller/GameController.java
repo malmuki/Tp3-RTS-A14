@@ -1,8 +1,9 @@
 package ca.csf.RTS.game.controller;
 
-import org.jsfml.graphics.CircleShape;
 import org.jsfml.graphics.Color;
+import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.system.Vector2f;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.WindowStyle;
 import org.jsfml.window.event.Event;
@@ -29,14 +30,13 @@ public class GameController implements GameEventHandler {
 		// Limit the framerate
 		window.setFramerateLimit(60);
 
-		CircleShape circle = new CircleShape(150);
-		circle.set
+		 RectangleShape rectangle = new RectangleShape(new Vector2f(20, 20));
 
 		while (window.isOpen()) {
 			// Fill the window with red
 			window.clear(Color.RED);
 
-			window.draw(circle);
+			window.draw(rectangle);
 			// Display what was drawn (... the red color!)
 			window.display();
 
@@ -50,16 +50,16 @@ public class GameController implements GameEventHandler {
 						window.close();
 						break;
 					case D:
-						circle.move(7, 0);
+						rectangle.move(7, 0);
 						break;
 					case A:
-						circle.move(-7, 0);
+						rectangle.move(-7, 0);
 						break;
 					case W:
-						circle.move(0, -7);
+						rectangle.move(0, -7);
 						break;
 					case S:
-						circle.move(0, 7);
+						rectangle.move(0, 7);
 						break;
 					default:
 						break;
