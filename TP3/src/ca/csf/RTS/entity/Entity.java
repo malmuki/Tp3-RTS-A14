@@ -1,7 +1,7 @@
 package ca.csf.RTS.entity;
 
-import org.jsfml.graphics.Drawable;
+import org.jsfml.graphics.Sprite;
 
-public interface Entity extends Drawable {
-
+public abstract class Entity {
+	protected Sprite sprite;
 }

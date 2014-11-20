@@ -30,6 +30,7 @@ public class GameController implements GameEventHandler {
 		window.setFramerateLimit(60);
 
 		CircleShape circle = new CircleShape(150);
+		circle.set
 
 		while (window.isOpen()) {
 			// Fill the window with red

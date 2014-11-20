@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 
 public class Game {
+	
 	private ArrayList<GameEventHandler> gameEventHandler;
-
+	private Tile[][] map;
+	
+	
 	public Game() {
 		
 	}
@@ -16,7 +19,7 @@ public class Game {
 	}
 
 	public void newGame() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	
