@@ -9,7 +9,6 @@ public class Game {
 	private ArrayList<GameEventHandler> gameEventHandler;
 	private Tile[][] map;
 	
-	
 	public Game() {
 		
 	}
