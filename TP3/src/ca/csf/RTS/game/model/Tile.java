@@ -12,6 +12,6 @@ public class Tile {
 	
 	public Tile(Vector2i locationMap){
 		this.locationMap = locationMap;
-		this.locationScreen = new Vector2f(locationMap.x + TILE_SIZE, locationMap.y + TILE_SIZE);
+		this.locationScreen = new Vector2f(locationMap.x + TILE_SIZE/2, locationMap.y + TILE_SIZE/2);
 	}
 }
