@@ -4,6 +4,7 @@ import org.jsfml.graphics.CircleShape;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
+import org.jsfml.system.Clock;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Keyboard.Key;
 import org.jsfml.window.VideoMode;
@@ -17,6 +18,7 @@ import ca.csf.RTS.game.model.Game;
 
 public class GameController implements GameEventHandler {
 
+	private static final float SENSITIVITY = 250;
 	private Game game;
 
 	public GameController() {
@@ -42,7 +44,12 @@ public class GameController implements GameEventHandler {
 		// Limit the framerate
 		window.setFramerateLimit(60);
 
+		// pour que les movement soit constant
+		Clock frameClock = new Clock();
+
 		while (window.isOpen()) {
+			//pour obtenir le temps depuis la derniere frame
+			float dt = frameClock.restart().asSeconds();
 			// Fill the window with red
 			window.clear(Color.RED);
 
@@ -52,19 +59,16 @@ public class GameController implements GameEventHandler {
 			window.setView(view);
 
 			if (Keyboard.isKeyPressed(Key.D)) {
-				view.move(7, 0);
+				view.move(dt * SENSITIVITY, 0);
 			}
-
 			if (Keyboard.isKeyPressed(Key.A)) {
-				view.move(-7, 0);
+				view.move(dt * SENSITIVITY, 0);
 			}
-
 			if (Keyboard.isKeyPressed(Key.S)) {
-				view.move(0, 7);
+				view.move(0, dt * SENSITIVITY);
 			}
-
 			if (Keyboard.isKeyPressed(Key.W)) {
-				view.move(0, -7);
+				view.move(0, dt * -SENSITIVITY);
 			}
 
 			// Handle events
