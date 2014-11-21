@@ -13,6 +13,9 @@ import org.jsfml.window.event.Event;
 import org.jsfml.window.event.KeyEvent;
 
 import ca.csf.RTS.Menu.model.Menu;
+import ca.csf.RTS.entity.E_Entity;
+import ca.csf.RTS.entity.Entity;
+import ca.csf.RTS.entity.EntityFactory;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.model.Game;
 
@@ -28,6 +31,8 @@ public class GameController implements GameEventHandler {
 	public void newGame() {
 		game.newGame();
 
+		Entity soldat = EntityFactory.getInstance().getEntity(E_Entity.SOLDAT);
+		
 		RenderWindow window = new RenderWindow();
 		window.create(VideoMode.getDesktopMode(), Menu.TITLE,
 				WindowStyle.FULLSCREEN);
@@ -53,6 +58,7 @@ public class GameController implements GameEventHandler {
 			// Fill the window with red
 			window.clear(Color.RED);
 
+			soldat.draw(window);
 			window.draw(circle);
 			// Display what was drawn (... the red color!)
 			window.display();
@@ -62,7 +68,7 @@ public class GameController implements GameEventHandler {
 				view.move(dt * SENSITIVITY, 0);
 			}
 			if (Keyboard.isKeyPressed(Key.A)) {
-				view.move(dt * SENSITIVITY, 0);
+				view.move(dt * -SENSITIVITY, 0);
 			}
 			if (Keyboard.isKeyPressed(Key.S)) {
 				view.move(0, dt * SENSITIVITY);
@@ -79,6 +85,7 @@ public class GameController implements GameEventHandler {
 					if (keyEvent.key == Key.ESCAPE) {
 						window.close();
 					}
+					break;
 				default:
 					break;
 				}
