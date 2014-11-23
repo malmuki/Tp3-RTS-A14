@@ -1,5 +1,7 @@
 package ca.csf.RTS.game.controller;
 
+import java.util.ArrayList;
+
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
@@ -20,6 +22,7 @@ import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.entity.Entity;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.model.Game;
+import ca.csf.RTS.game.model.Tile;
 
 public class GameController implements GameEventHandler {
 
@@ -29,14 +32,14 @@ public class GameController implements GameEventHandler {
 
 	public GameController() {
 		game = new Game();
+		game.addEventHandler(this);
 	}
 
 	public void newGame() {
 		game.newGame();
 
 		RenderWindow window = new RenderWindow();
-		window.create(VideoMode.getDesktopMode(), Menu.TITLE,
-				WindowStyle.FULLSCREEN);
+		window.create(VideoMode.getDesktopMode(), Menu.TITLE, WindowStyle.FULLSCREEN);
 
 		// declare une nouvelle vue pour pouvoir la deplacer
 		View defaultView = (View) window.getDefaultView();
@@ -60,8 +63,8 @@ public class GameController implements GameEventHandler {
 			float dt = frameClock.restart().asSeconds();
 			// Fill the window with red
 			window.clear(Color.RED);
-			
-			//dessine toutes les entitys
+
+			// dessine toutes les entitys
 			for (Entity entity : game.getAllEntity()) {
 				entity.draw(window);
 			}
@@ -71,35 +74,44 @@ public class GameController implements GameEventHandler {
 			window.setView(view);
 
 			if (Keyboard.isKeyPressed(Key.D)) {
-				view.move(dt * SENSITIVITY, 0);
+				if (view.getCenter().x * 2 < Game.MAP_SIZE * Tile.TILE_SIZE) {
+					view.move(dt * SENSITIVITY, 0);
+				}
 			}
 			if (Keyboard.isKeyPressed(Key.A)) {
-				view.move(dt * -SENSITIVITY, 0);
+				if (view.getCenter().x - view.getSize().x / 2 > 0) {
+					view.move(dt * -SENSITIVITY, 0);
+				}
 			}
 			if (Keyboard.isKeyPressed(Key.S)) {
-				view.move(0, dt * SENSITIVITY);
+				if (view.getCenter().y * 2 < Game.MAP_SIZE * Tile.TILE_SIZE) {
+					view.move(0, dt * SENSITIVITY);
+				}
 			}
 			if (Keyboard.isKeyPressed(Key.W)) {
-				view.move(0, dt * -SENSITIVITY);
+				if (view.getCenter().y - view.getSize().y / 2 > 0) {
+					view.move(0, dt * -SENSITIVITY);
+				}
 			}
 
 			// pour la selection des units et des buildings
 			if (Mouse.isButtonPressed(Button.LEFT)) {
 				if (isLeftButtonPressed) {
-					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(
-							Mouse.getPosition().x, Mouse.getPosition().y));
-					selection.setSize(new Vector2f(mousePos.x
-							- selection.getPosition().x, mousePos.y
+					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
+					selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y
 							- selection.getPosition().y));
+					game.selectEntity(selection.getPosition(), mousePos);
 				} else {
-					;
 					isLeftButtonPressed = true;
-					selection.setPosition(window.mapPixelToCoords(new Vector2i(
-							Mouse.getPosition().x, Mouse.getPosition().y)));
+					selection.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
 				}
 			} else {
 				isLeftButtonPressed = false;
 				selection.setSize(new Vector2f(0, 0));
+			}
+
+			if (Mouse.isButtonPressed(Button.RIGHT)) {
+
 			}
 
 			// Handle events
@@ -118,5 +130,9 @@ public class GameController implements GameEventHandler {
 			}
 		}
 	}
+
+	@Override
+	public void highlightSelected(ArrayList<Entity> entity) {
+
+	}
 }
-// }

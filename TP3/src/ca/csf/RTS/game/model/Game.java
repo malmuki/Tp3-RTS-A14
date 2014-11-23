@@ -2,6 +2,7 @@ package ca.csf.RTS.game.model;
 
 import java.util.ArrayList;
 
+import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.entity.E_Entity;
@@ -18,6 +19,7 @@ public class Game {
 	private ArrayList<Entity> entityList;
 
 	public Game() {
+		gameEventHandler = new ArrayList<GameEventHandler>();
 		entityList = new ArrayList<Entity>();
 		for (int i = 0; i < MAP_SIZE; i++) {
 			for (int j = 0; j < MAP_SIZE; j++) {
@@ -37,5 +39,21 @@ public class Game {
 	public ArrayList<Entity> getAllEntity() {
 		// TODO Auto-generated method stub
 		return entityList;
+	}
+
+	public void selectEntity(Vector2f selection1, Vector2f selection2) {
+		ArrayList<Entity> toHighlight = new ArrayList<Entity>();
+
+		for (int i = (int) selection1.x / (int) Tile.TILE_SIZE; i < selection2.x / (int) Tile.TILE_SIZE; i++) {
+			for (int j = (int) selection1.y / (int) Tile.TILE_SIZE; j < selection2.y / (int) Tile.TILE_SIZE; j++) {
+				if (map[i][j].getOnTile() != null) {
+					toHighlight.add(map[i][j].getOnTile());
+				}
+			}
+		}
+
+		for (GameEventHandler game : gameEventHandler) {
+			game.highlightSelected(toHighlight);
+		}
 	}
 }
