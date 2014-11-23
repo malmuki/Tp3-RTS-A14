@@ -17,9 +17,7 @@ import org.jsfml.window.event.Event;
 import org.jsfml.window.event.KeyEvent;
 
 import ca.csf.RTS.Menu.model.Menu;
-import ca.csf.RTS.entity.E_Entity;
 import ca.csf.RTS.entity.Entity;
-import ca.csf.RTS.entity.EntityFactory;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.model.Game;
 
@@ -36,10 +34,9 @@ public class GameController implements GameEventHandler {
 	public void newGame() {
 		game.newGame();
 
-		Entity soldat = EntityFactory.getInstance().getEntity(E_Entity.SOLDAT);
-
 		RenderWindow window = new RenderWindow();
-		window.create(VideoMode.getDesktopMode(), Menu.TITLE, WindowStyle.FULLSCREEN);
+		window.create(VideoMode.getDesktopMode(), Menu.TITLE,
+				WindowStyle.FULLSCREEN);
 
 		// declare une nouvelle vue pour pouvoir la deplacer
 		View defaultView = (View) window.getDefaultView();
@@ -63,8 +60,11 @@ public class GameController implements GameEventHandler {
 			float dt = frameClock.restart().asSeconds();
 			// Fill the window with red
 			window.clear(Color.RED);
-
-			soldat.draw(window);
+			
+			//dessine toutes les entitys
+			for (Entity entity : game.getAllEntity()) {
+				entity.draw(window);
+			}
 			window.draw(selection);
 			// Display what was drawn (... the red color!)
 			window.display();
@@ -86,13 +86,16 @@ public class GameController implements GameEventHandler {
 			// pour la selection des units et des buildings
 			if (Mouse.isButtonPressed(Button.LEFT)) {
 				if (isLeftButtonPressed) {
-					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
-					selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y
+					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(
+							Mouse.getPosition().x, Mouse.getPosition().y));
+					selection.setSize(new Vector2f(mousePos.x
+							- selection.getPosition().x, mousePos.y
 							- selection.getPosition().y));
 				} else {
 					;
 					isLeftButtonPressed = true;
-					selection.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
+					selection.setPosition(window.mapPixelToCoords(new Vector2i(
+							Mouse.getPosition().x, Mouse.getPosition().y)));
 				}
 			} else {
 				isLeftButtonPressed = false;
