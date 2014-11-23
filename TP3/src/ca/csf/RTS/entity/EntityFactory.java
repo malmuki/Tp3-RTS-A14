@@ -1,5 +1,7 @@
 package ca.csf.RTS.entity;
 
+import ca.csf.RTS.entity.concrete.Soldat;
+
 public class EntityFactory {
 
 	private EntityFactory() {
@@ -14,8 +16,12 @@ public class EntityFactory {
 	}
 
 	public Entity getEntity(E_Entity entity) {
-		return null;
-		// TODO
+		switch (entity) {
+		case SOLDAT:
+			return new Soldat();
+		default:
+			return null;
+		}
 	}
 
 }
