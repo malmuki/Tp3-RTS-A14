@@ -1,5 +1,11 @@
 package ca.csf.RTS.eventHandler;
 
-public interface GameEventHandler {
+import java.util.ArrayList;
 
+import ca.csf.RTS.entity.Entity;
+
+public interface GameEventHandler {
+	
+	public void highlightSelected(ArrayList<Entity> entity);
+	
 }
