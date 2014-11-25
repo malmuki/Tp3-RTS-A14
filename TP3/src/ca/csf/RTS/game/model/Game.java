@@ -12,7 +12,7 @@ import ca.csf.RTS.eventHandler.GameEventHandler;
 
 public class Game {
 
-	public static final int MAP_SIZE = 100;
+	public static final int MAP_SIZE = 150;
 
 	private ArrayList<GameEventHandler> gameEventHandler;
 	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
@@ -37,7 +37,6 @@ public class Game {
 	}
 
 	public ArrayList<Entity> getAllEntity() {
-		// TODO Auto-generated method stub
 		return entityList;
 	}
 
