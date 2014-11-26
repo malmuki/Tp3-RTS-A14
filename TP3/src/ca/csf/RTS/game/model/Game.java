@@ -43,8 +43,10 @@ public class Game {
 	public void selectEntity(Vector2f selection1, Vector2f selection2) {
 		ArrayList<Entity> toHighlight = new ArrayList<Entity>();
 
-		for (int i = (int) selection1.x / (int) Tile.TILE_SIZE; i < selection2.x / (int) Tile.TILE_SIZE; i++) {
-			for (int j = (int) selection1.y / (int) Tile.TILE_SIZE; j < selection2.y / (int) Tile.TILE_SIZE; j++) {
+		for (int i = (int) selection1.x / (int) Tile.TILE_SIZE; i < selection2.x
+				/ (int) Tile.TILE_SIZE; i++) {
+			for (int j = (int) selection1.y / (int) Tile.TILE_SIZE; j < selection2.y
+					/ (int) Tile.TILE_SIZE; j++) {
 				if (map[i][j].getOnTile() != null) {
 					toHighlight.add(map[i][j].getOnTile());
 				}
