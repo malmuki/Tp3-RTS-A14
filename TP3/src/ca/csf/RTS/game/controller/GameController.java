@@ -45,7 +45,8 @@ public class GameController implements GameEventHandler {
 		// declare une nouvelle vue pour pouvoir la deplacer
 		View defaultView = (View) window.getDefaultView();
 		View gameView = new View(defaultView.getCenter(), defaultView.getSize());
-		//View uiView = new View(defaultView.getCenter(), defaultView.getSize());
+		// View uiView = new View(defaultView.getCenter(),
+		// defaultView.getSize());
 
 		// pour que les movement soit constant
 		Clock frameClock = new Clock();
@@ -55,9 +56,9 @@ public class GameController implements GameEventHandler {
 		selection.setFillColor(Color.TRANSPARENT);
 		selection.setOutlineColor(Color.BLACK);
 		selection.setOutlineThickness(SELECTION_THICKNESS);
-		
+
 		while (window.isOpen()) {
-			
+
 			window.setView(gameView);
 			// pour obtenir le temps depuis la derniere frame
 			float dt = frameClock.restart().asSeconds();
@@ -71,7 +72,6 @@ public class GameController implements GameEventHandler {
 			window.draw(selection);
 			// Display what was drawn
 			window.display();
-			
 
 			if (Keyboard.isKeyPressed(Key.D)) {
 				if (gameView.getCenter().x * 2 < Game.MAP_SIZE * Tile.TILE_SIZE) {
@@ -82,7 +82,8 @@ public class GameController implements GameEventHandler {
 				if (gameView.getCenter().x - gameView.getSize().x / 2 > 0) {
 					gameView.move(dt * -SENSITIVITY, 0);
 				} else {
-					gameView.setCenter(gameView.getSize().x / 2, gameView.getCenter().y);
+					gameView.setCenter(gameView.getSize().x / 2,
+							gameView.getCenter().y);
 				}
 			}
 			if (Keyboard.isKeyPressed(Key.S)) {
@@ -138,6 +139,6 @@ public class GameController implements GameEventHandler {
 
 	@Override
 	public void highlightSelected(ArrayList<Entity> entity) {
-		
+
 	}
 }
