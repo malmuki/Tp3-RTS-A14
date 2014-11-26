@@ -3,6 +3,7 @@ package ca.csf.RTS.game.controller;
 import java.util.ArrayList;
 
 import org.jsfml.graphics.Color;
+import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
@@ -41,13 +42,17 @@ public class GameController implements GameEventHandler {
 		RenderWindow window = new RenderWindow();
 		window.create(VideoMode.getDesktopMode(), Menu.TITLE,
 				WindowStyle.FULLSCREEN);
+		
+		window.setFramerateLimit(500);
 
 		// declare une nouvelle vue pour pouvoir la deplacer
 		View defaultView = (View) window.getDefaultView();
 		View gameView = new View(defaultView.getCenter(), defaultView.getSize());
-		// View uiView = new View(defaultView.getCenter(),
-		// defaultView.getSize());
-
+		gameView.setViewport(new FloatRect(0,0,1,1));
+		//View uiView = new View(defaultView.getCenter(), defaultView.getSize());
+		View miniMapView = new View(defaultView.getCenter(), defaultView.getSize());
+		miniMapView.setViewport(new FloatRect(0.75f, 0, 0.25f, 0.25f));
+		
 		// pour que les movement soit constant
 		Clock frameClock = new Clock();
 		Boolean isLeftButtonPressed = false;
@@ -58,8 +63,9 @@ public class GameController implements GameEventHandler {
 		selection.setOutlineThickness(SELECTION_THICKNESS);
 
 		while (window.isOpen()) {
-
-			window.setView(gameView);
+			
+			//window.setView(gameView);
+			
 			// pour obtenir le temps depuis la derniere frame
 			float dt = frameClock.restart().asSeconds();
 			// Fill the window with red
@@ -69,9 +75,18 @@ public class GameController implements GameEventHandler {
 			for (Entity entity : game.getAllEntity()) {
 				entity.draw(window);
 			}
+			window.setView(miniMapView);
+			for (Entity entity : game.getAllEntity()) {
+				entity.draw(window);
+			}
+			window.setView(gameView);
+			
 			window.draw(selection);
 			// Display what was drawn
+			
 			window.display();
+			
+			//window.display();
 
 			if (Keyboard.isKeyPressed(Key.D)) {
 				if (gameView.getCenter().x * 2 < Game.MAP_SIZE * Tile.TILE_SIZE) {
