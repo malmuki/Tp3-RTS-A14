@@ -9,7 +9,6 @@ public class DijkstraTile implements Comparable<DijkstraTile> {
 
   public DijkstraTile(int row, int column) {
     g = 0;
-    h = 0;
     ROW = row;
     COLUMN = column;
     parent = null;

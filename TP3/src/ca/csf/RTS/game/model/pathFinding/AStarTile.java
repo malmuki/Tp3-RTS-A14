@@ -2,31 +2,17 @@ package ca.csf.RTS.game.model.pathFinding;
 
   public class AStarTile extends DijkstraTile {
     private AStarTile parent;
-    private int g;
     private int h;
 
     AStarTile(int row, int column) {
       super(row, column);
-      g = 0;
-      h = 0;
+      h = calculateH();
       parent = null;
     }
 
     public void setParent(AStarTile tile) {
       parent = tile;
       g = calculateG();
-      h = calculateH();
-    }
-
-    public int getRow() {
-      return ROW;
-    }
-
-    public int getColumn() {
-      return COLUMN;
-    }
-
-    public void makeOpen() {
       h = calculateH();
     }
 
@@ -53,16 +39,4 @@ package ca.csf.RTS.game.model.pathFinding;
         h += temp;
         return h;
      }
-
-    public int calculateG() {
-      int newG;
-      if (parent == null) {
-        newG = 0;
-      } else if (parent.getRow() != ROW && parent.getColumn() != COLUMN) {
-        newG = 14 + parent.g;
-      } else {
-        newG = 10 + parent.g;
-      }
-      return newG;
-    }
  }
