@@ -1,10 +1,14 @@
 package ca.csf.RTS.game.controller;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.jsfml.graphics.Color;
+import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
@@ -29,25 +33,33 @@ public class GameController implements GameEventHandler {
 	private static final float SENSITIVITY = 250;
 	private static final int SELECTION_THICKNESS = 2;
 	private Game game;
+	private Texture gui;
 
 	public GameController() {
 		game = new Game();
 		game.addEventHandler(this);
+		try {
+			gui = new Texture();
+			gui.loadFromFile(Paths.get("./ressource/GUI.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void newGame() {
 		game.newGame();
 
 		RenderWindow window = new RenderWindow();
-		window.create(VideoMode.getDesktopMode(), Menu.TITLE,
-				WindowStyle.FULLSCREEN);
+		window.create(VideoMode.getDesktopMode(), Menu.TITLE, WindowStyle.FULLSCREEN);
 
 		window.setFramerateLimit(500);
 
 		// declare une nouvelle vue pour pouvoir la deplacer
 		View defaultView = (View) window.getDefaultView();
 		View gameView = new View(defaultView.getCenter(), defaultView.getSize());
+		gameView.setViewport(new FloatRect(0f, 0f, 0.85f, 1f));
 		View guiView = new View(defaultView.getCenter(), defaultView.getSize());
+		guiView.setViewport(new FloatRect(0.85f, 0f, 0.15f, 1f));
 
 		// pour que les movement soit constant
 		Clock frameClock = new Clock();
@@ -63,6 +75,12 @@ public class GameController implements GameEventHandler {
 			// pour obtenir le temps depuis la derniere frame
 			float dt = frameClock.restart().asSeconds();
 
+			window.setView(guiView);
+			// draw the GUI
+			drawGUI(window);
+			// Display what was drawn
+			window.display();
+
 			window.setView(gameView);
 
 			// Fill the window with red
@@ -74,12 +92,6 @@ public class GameController implements GameEventHandler {
 			}
 			window.draw(selection);
 
-			window.setView(guiView);
-			// draw the GUI
-			drawGUI(window);
-			// Display what was drawn
-			window.display();
-
 			if (Keyboard.isKeyPressed(Key.D)) {
 				if (gameView.getCenter().x * 2 < Game.MAP_SIZE * Tile.TILE_SIZE) {
 					gameView.move(dt * SENSITIVITY, 0);
@@ -89,8 +101,7 @@ public class GameController implements GameEventHandler {
 				if (gameView.getCenter().x - gameView.getSize().x / 2 > 0) {
 					gameView.move(dt * -SENSITIVITY, 0);
 				} else {
-					gameView.setCenter(gameView.getSize().x / 2,
-							gameView.getCenter().y);
+					gameView.setCenter(gameView.getSize().x / 2, gameView.getCenter().y);
 				}
 			}
 			if (Keyboard.isKeyPressed(Key.S)) {
@@ -107,16 +118,13 @@ public class GameController implements GameEventHandler {
 			// pour la selection des units et des buildings
 			if (Mouse.isButtonPressed(Button.LEFT)) {
 				if (isLeftButtonPressed) {
-					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(
-							Mouse.getPosition().x, Mouse.getPosition().y));
-					selection.setSize(new Vector2f(mousePos.x
-							- selection.getPosition().x, mousePos.y
+					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
+					selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y
 							- selection.getPosition().y));
 					game.selectEntity(selection.getPosition(), mousePos);
 				} else {
 					isLeftButtonPressed = true;
-					selection.setPosition(window.mapPixelToCoords(new Vector2i(
-							Mouse.getPosition().x, Mouse.getPosition().y)));
+					selection.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
 				}
 			} else {
 				isLeftButtonPressed = false;
@@ -150,12 +158,10 @@ public class GameController implements GameEventHandler {
 	}
 
 	private void drawGUI(RenderWindow window) {
-		RectangleShape ui = new RectangleShape(new Vector2f(
-				(float) (VideoMode.getDesktopMode().width * 0.15),
-				VideoMode.getDesktopMode().height));
-		ui.setPosition((float) (VideoMode.getDesktopMode().width - VideoMode
-				.getDesktopMode().width * 0.15), 0);
-		ui.setFillColor(Color.GREEN);
-		window.draw(ui);
+		RectangleShape gui = new RectangleShape(new Vector2f(VideoMode.getDesktopMode().width, VideoMode.getDesktopMode().height));
+		gui.setTexture(this.gui);
+		// gui.setPosition((float) (VideoMode.getDesktopMode().width -
+		// VideoMode.getDesktopMode().width * 0.15), 0);
+		window.draw(gui);
 	}
 }

@@ -11,7 +11,7 @@ import ca.csf.RTS.entity.Entity;
 public class Soldat extends Entity {
 
 	private static Texture texture;
-	private static final String PATH = "./ressource/allo.jpg";
+	private static final String PATH = "./ressource/GUI.png";
 	
 	static {
 		try {
