@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.Texture;
@@ -34,6 +35,7 @@ public class GameController implements GameEventHandler {
 	private static final int SELECTION_THICKNESS = 2;
 	private Game game;
 	private Texture gui;
+	private Texture gazon;
 
 	public GameController() {
 		game = new Game();
@@ -41,6 +43,10 @@ public class GameController implements GameEventHandler {
 		try {
 			gui = new Texture();
 			gui.loadFromFile(Paths.get("./ressource/GUI.png"));
+			gazon = new Texture();
+			gazon.loadFromFile(Paths.get("./ressource/gazon.jpg"));
+			gazon.setRepeated(true);
+			gazon.setSmooth(true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -70,6 +76,10 @@ public class GameController implements GameEventHandler {
 		selection.setOutlineColor(Color.BLACK);
 		selection.setOutlineThickness(SELECTION_THICKNESS);
 
+		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE*Tile.TILE_SIZE, Game.MAP_SIZE*Tile.TILE_SIZE));
+		map.setTexture(gazon);
+		map.setTextureRect(new IntRect(0,0,(int) (Game.MAP_SIZE*Tile.TILE_SIZE),(int) (Game.MAP_SIZE*Tile.TILE_SIZE)));
+
 		while (window.isOpen()) {
 
 			// pour obtenir le temps depuis la derniere frame
@@ -90,6 +100,8 @@ public class GameController implements GameEventHandler {
 			for (Entity entity : game.getAllEntity()) {
 				entity.draw(window);
 			}
+			
+			window.draw(map);
 			window.draw(selection);
 
 			if (Keyboard.isKeyPressed(Key.D)) {
@@ -158,7 +170,8 @@ public class GameController implements GameEventHandler {
 	}
 
 	private void drawGUI(RenderWindow window) {
-		RectangleShape gui = new RectangleShape(new Vector2f(VideoMode.getDesktopMode().width, VideoMode.getDesktopMode().height));
+		RectangleShape gui = new RectangleShape(new Vector2f(VideoMode.getDesktopMode().width,
+				VideoMode.getDesktopMode().height));
 		gui.setTexture(this.gui);
 		// gui.setPosition((float) (VideoMode.getDesktopMode().width -
 		// VideoMode.getDesktopMode().width * 0.15), 0);
