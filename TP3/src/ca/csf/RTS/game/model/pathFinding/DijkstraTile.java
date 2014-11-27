@@ -1,16 +1,17 @@
 package ca.csf.RTS.game.model.pathFinding;
 
+import ca.csf.RTS.game.model.Tile;
+
 public class DijkstraTile implements Comparable<DijkstraTile> {
   protected DijkstraTile parent;
-  protected final int ROW;
-  protected final int COLUMN;
+  protected final Tile mapTile;
   protected int g;
   protected int h;
 
-  public DijkstraTile(int row, int column) {
+  public DijkstraTile(Tile mapTile, DijkstraTile parent) {
     g = 0;
-    ROW = row;
-    COLUMN = column;
+    this.parent = parent;
+    this.mapTile  = mapTile;
     parent = null;
   }
 
@@ -19,14 +20,10 @@ public class DijkstraTile implements Comparable<DijkstraTile> {
     g = calculateG();
   }
 
-  public int getRow() {
-    return ROW;
+  public Tile getMapTile() {
+    return mapTile;
   }
-
-  public int getColumn() {
-    return COLUMN;
-  }
-
+  
   public DijkstraTile getParent() {
     return parent;
   }
@@ -39,7 +36,7 @@ public class DijkstraTile implements Comparable<DijkstraTile> {
     int newG;
     if (parent == null) {
       newG = 0;
-    } else if (parent.getRow() != ROW && parent.getColumn() != COLUMN) {
+    } else if (parent.getMapTile().getMapLocation().x != mapTile.getMapLocation().x && mapTile.getMapLocation().y != parent.getMapTile().getMapLocation().y) {
       newG = 14 + parent.g;
     } else {
       newG = 10 + parent.g;

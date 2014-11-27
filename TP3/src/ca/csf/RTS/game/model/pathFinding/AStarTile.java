@@ -1,11 +1,13 @@
 package ca.csf.RTS.game.model.pathFinding;
 
+import ca.csf.RTS.game.model.Tile;
+
   public class AStarTile extends DijkstraTile {
     private AStarTile parent;
     private int h;
 
-    AStarTile(int row, int column) {
-      super(row, column);
+    AStarTile(Tile mapTile, DijkstraTile parent) {
+      super(mapTile, parent);
       h = calculateH();
       parent = null;
     }
@@ -25,8 +27,8 @@ package ca.csf.RTS.game.model.pathFinding;
     }
 
     private int calculateH() {
-        int h = (ROW - 8) * 10;
-        int temp = (COLUMN - 8) * 10;
+        int h = (mapTile.getMapLocation().x - 8) * 10; //TODO: replace 8
+        int temp = (mapTile.getMapLocation().y - 8) * 10; //TODO: replace 8
 
         if (h < 0) {
           h *= -1;
