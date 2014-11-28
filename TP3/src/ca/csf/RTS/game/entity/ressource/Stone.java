@@ -1,5 +1,11 @@
 package ca.csf.RTS.game.entity.ressource;
 
-public class Stone extends Ressource {
+import java.util.ArrayList;
 
+import ca.csf.RTS.game.model.Tile;
+
+public class Stone extends Ressource {
+	public Stone(ArrayList<Tile> tiles,String name) {
+		super( tiles, name);
+	}
 }

@@ -1,30 +1,27 @@
 package ca.csf.RTS.game.entity;
 
+import java.util.ArrayList;
+
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 
-import ca.csf.RTS.game.entity.concrete.state.State;
 import ca.csf.RTS.game.model.Tile;
 
-public abstract class GameEntity implements State{
+public abstract class GameEntity{
+	
 	protected Sprite sprite;
-	protected Tile tile;
-	protected State state;
-	protected GameEntity target;
+	protected ArrayList<Tile> tile;
 	protected boolean selected;
+	protected final String name;
+	
+	public GameEntity(ArrayList<Tile> tiles, String name) {
+		this.tile = tiles;
+		this.name = name;
+	}
 	
 	public void draw(RenderTarget target) {
 		sprite.draw(target, RenderStates.DEFAULT);
 	}
 	
-	@Override
-	public void action(GameEntity gameEntity){
-		
-		state.action(this);
-	}
-	
-	public void setState(State nextState){
-		state = nextState;
-	}
 }

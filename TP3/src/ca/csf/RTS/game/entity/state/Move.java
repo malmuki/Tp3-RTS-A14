@@ -1,12 +1,11 @@
-package ca.csf.RTS.game.entity.concrete.state;
+package ca.csf.RTS.game.entity.state;
 
 import ca.csf.RTS.game.entity.GameEntity;
 
-public class Attack implements State {
+public class Move implements State {
 
 	@Override
 	public void action(GameEntity gameEntity) {
-		
 
 	}
 
