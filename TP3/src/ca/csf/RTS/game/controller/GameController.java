@@ -30,7 +30,6 @@ public class GameController implements GameEventHandler {
 	private static final float SENSITIVITY = 250;
 	private static final int SELECTION_THICKNESS = 2;
 	private Game game;
-	private MusicPlayer music = new MusicPlayer();
 
 	public GameController() {
 		game = new Game();
