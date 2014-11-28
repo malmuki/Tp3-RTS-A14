@@ -101,7 +101,7 @@ public class GameController implements GameEventHandler {
 				window.setView(gameView);
 
 				// Fill the window with red
-				window.clear(Color.RED);
+				window.clear(Color.BLACK);
 
 				// dessine toutes les entitys
 				for (GameEntity gameEntity : game.getAllEntity()) {

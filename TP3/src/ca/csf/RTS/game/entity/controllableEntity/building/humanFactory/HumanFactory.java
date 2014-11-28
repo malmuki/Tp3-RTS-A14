@@ -7,7 +7,7 @@ import ca.csf.RTS.game.model.Tile;
 
 public abstract class HumanFactory extends Building {
 
-	public HumanFactory(ArrayList<Tile> tiles, String name) {
-		super(tiles, name);
+	public HumanFactory(ArrayList<Tile> tiles, String name, int maxHealth) {
+		super(tiles, name, maxHealth);
 	}
 }
