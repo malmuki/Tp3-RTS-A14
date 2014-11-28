@@ -15,7 +15,7 @@ public class DijkstraTile implements Comparable<DijkstraTile> {
     parent = null;
   }
 
-  public void setParent(AStarTile tile) {
+  public void setParent(DijkstraTile tile) {
     parent = tile;
     g = calculateG();
   }

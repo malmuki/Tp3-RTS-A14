@@ -12,11 +12,6 @@ import ca.csf.RTS.game.model.Tile;
 public class PathFinder {
   private Tile[][] map;
   
-  private int goalX;
-  private int goalY;
-  private int startX;
-  private int startY;
-  
   ArrayList<DijkstraTile> openList;
   ArrayList<DijkstraTile> closedList;
   
@@ -31,10 +26,6 @@ public class PathFinder {
   }
   
   public void findPath(Tile startLocation, Tile goalLocation) { //TODO: change to return to path
-    startX = startLocation.getMapLocation().x;
-    startY = startLocation.getMapLocation().y;
-    goalX = goalLocation.getMapLocation().x;
-    goalY = goalLocation.getMapLocation().y;
     
     openList.add(new AStarTile(startLocation, null));
     
@@ -53,26 +44,33 @@ public class PathFinder {
       addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
       addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
       addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y, currentTile);
-      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
-
-      
-      //TODO: make the search be complete when the goal has been added to the explored tiles list (closed)
-      //Or when there are no more possibilities to explore 
-    } while (true); //!closedList.get(0).isExit() && !openList.isEmpty());
+      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);      
+    } while (closedList.get(0).mapTile != goalLocation && !openList.isEmpty());
   }
   
   private void addValidTileToOpenList(int row, int column, DijkstraTile tile) {
     if (row >= 0 && column >= 0 && row <= Game.MAP_SIZE && column <= Game.MAP_SIZE) { //Tile exists
-      //TODO: we need to check if a linked tile is in the closed list
-      if (map[row][column].getOnTile() == null && !closedList.contains(map[row][column])) { //It's possible to traverse this Tile and it has not been explored already
-        if (openList.contains(map[row][column])) { //If the Tile is already in the possibilities, check if we found a shorter path
-          if (map[row][column].getParent().calculateG() > tile.calculateG()) { //If the new path is shorter, change the Tile parent
-            map[row][column].setParent(tile);
+      DijkstraTile checkTile = getTile(row, column, closedList);
+      if (map[row][column].getOnTile() == null && checkTile != null) {
+        checkTile = getTile(row, column, openList);
+        if (checkTile != null) {
+          if (checkTile.getParent().calculateG() > tile.calculateG()) {
+            checkTile.setParent(tile);
           }
-        } else { //Otherwise just make it a possibility
+        } else {
           openList.add(new DijkstraTile(map[row][column], tile));
         }
       }
     }
+  }
+  
+  private DijkstraTile getTile(int row, int column, ArrayList<DijkstraTile> list) {
+    DijkstraTile tile = null;
+    for (DijkstraTile i : list) {
+      if (i.getMapTile().getMapLocation().x == row && i.getMapTile().getMapLocation().y == column) {
+        tile = i;
+      }
+    }
+    return tile;
   }
 }
