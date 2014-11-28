@@ -28,6 +28,7 @@ import ca.csf.RTS.entity.Entity;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.model.Game;
 import ca.csf.RTS.game.model.Tile;
+import ca.csf.RTS.game.model.sound.MusicPlayer;
 
 public class GameController implements GameEventHandler {
 
@@ -37,8 +38,10 @@ public class GameController implements GameEventHandler {
 	private Texture gui;
 	private Texture gazon;
 	private boolean isFocused = true;
+	private MusicPlayer music;
 
 	public GameController() {
+		music = new MusicPlayer();
 		game = new Game();
 		game.addEventHandler(this);
 		try {
@@ -81,8 +84,10 @@ public class GameController implements GameEventHandler {
 		map.setTexture(gazon);
 		map.setTextureRect(new IntRect(0, 0, (int) (Game.MAP_SIZE * Tile.TILE_SIZE), (int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
 
+		music.playMusic(1);
 		while (window.isOpen()) {
 
+			music.musicPlaylist();
 			if (isFocused) {
 				// pour obtenir le temps depuis la derniere frame
 				float dt = frameClock.restart().asSeconds();
