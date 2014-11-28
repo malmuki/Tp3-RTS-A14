@@ -1,17 +1,17 @@
-package ca.csf.RTS.entity;
+package ca.csf.RTS.game.entity;
 
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 
-import ca.csf.RTS.entity.concrete.state.State;
+import ca.csf.RTS.game.entity.concrete.state.State;
 import ca.csf.RTS.game.model.Tile;
 
-public abstract class Entity implements State{
+public abstract class GameEntity implements State{
 	protected Sprite sprite;
 	protected Tile tile;
 	protected State state;
-	protected Entity target;
+	protected GameEntity target;
 	protected boolean selected;
 	
 	public void draw(RenderTarget target) {
@@ -19,7 +19,8 @@ public abstract class Entity implements State{
 	}
 	
 	@Override
-	public void action(Entity entity){
+	public void action(GameEntity gameEntity){
+		
 		state.action(this);
 	}
 	

@@ -3,8 +3,6 @@ package ca.csf.RTS.game.model.pathFinding;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.jsfml.system.Vector2i;
-
 import ca.csf.RTS.game.model.Game;
 import ca.csf.RTS.game.model.Tile;
 

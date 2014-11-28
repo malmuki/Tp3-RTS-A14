@@ -16,16 +16,16 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Keyboard.Key;
-import org.jsfml.window.Mouse.Button;
 import org.jsfml.window.Mouse;
+import org.jsfml.window.Mouse.Button;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.WindowStyle;
 import org.jsfml.window.event.Event;
 import org.jsfml.window.event.KeyEvent;
 
 import ca.csf.RTS.Menu.model.Menu;
-import ca.csf.RTS.entity.Entity;
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.entity.GameEntity;
 import ca.csf.RTS.game.model.Game;
 import ca.csf.RTS.game.model.Tile;
 import ca.csf.RTS.game.model.sound.MusicPlayer;
@@ -104,8 +104,8 @@ public class GameController implements GameEventHandler {
 				window.clear(Color.RED);
 
 				// dessine toutes les entitys
-				for (Entity entity : game.getAllEntity()) {
-					entity.draw(window);
+				for (GameEntity gameEntity : game.getAllEntity()) {
+					gameEntity.draw(window);
 				}
 
 				window.draw(map);
@@ -188,7 +188,7 @@ public class GameController implements GameEventHandler {
 	}
 
 	@Override
-	public void highlightSelected(ArrayList<Entity> entity) {
+	public void highlightSelected(ArrayList<GameEntity> gameEntity) {
 
 	}
 
