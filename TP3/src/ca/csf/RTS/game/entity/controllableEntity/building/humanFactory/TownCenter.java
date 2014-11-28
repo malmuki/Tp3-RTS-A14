@@ -8,8 +8,11 @@ import ca.csf.RTS.game.model.Tile;
 
 public class TownCenter extends HumanFactory implements Fighter{
 
-	public TownCenter(ArrayList<Tile> tiles, String name) {
-		super(tiles, name);
+	private static final int MAX_HEALTH = 2000;
+	private static final String NAME = "Town Center";
+
+	public TownCenter(ArrayList<Tile> tiles)  {
+		super(tiles, NAME, MAX_HEALTH);
 	}
 
 	@Override
