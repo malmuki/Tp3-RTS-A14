@@ -48,6 +48,7 @@ public class GameController implements GameEventHandler {
 			gazon.loadFromFile(Paths.get("./ressource/gazon.jpg"));
 			gazon.setRepeated(true);
 			gazon.setSmooth(true);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
