@@ -2,11 +2,10 @@ package ca.csf.RTS.entity.concrete.state;
 
 import ca.csf.RTS.entity.Entity;
 
-public class Alert implements State {
+public class Building implements State {
 
 	@Override
 	public void action(Entity entity) {
-		
 
 	}
 
