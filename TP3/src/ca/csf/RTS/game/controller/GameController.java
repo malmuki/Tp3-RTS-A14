@@ -131,8 +131,16 @@ public class GameController implements GameEventHandler {
 
 				// pour la selection des units et des buildings
 				if (Mouse.isButtonPressed(Button.LEFT)) {
+					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
+
+					if (mousePos.x > gameView.getSize().x && mousePos.x > Game.MAP_SIZE * Tile.TILE_SIZE) {
+						mousePos = new Vector2f(mousePos.x - (gameView.getSize().x/2 - gameView.getCenter().x), mousePos.y);
+					}
+					if (mousePos.y > gameView.getSize().y || mousePos.y > Game.MAP_SIZE * Tile.TILE_SIZE) {
+						mousePos = new Vector2f(mousePos.x, mousePos.y - (gameView.getSize().y/2 - gameView.getCenter().y));
+					}
+
 					if (isLeftButtonPressed) {
-						Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
 						selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y
 								- selection.getPosition().y));
 						game.selectEntity(selection.getPosition(), mousePos);
