@@ -26,6 +26,8 @@ public class PathFinder {
   }
   
   public void findPath(Tile startLocation, Tile goalLocation) { //TODO: change to return to path
+    openList.clear();
+    closedList.clear();
     
     openList.add(new AStarTile(startLocation, null));
     
@@ -37,18 +39,43 @@ public class PathFinder {
       closedList.add(0, currentTile);
       
       //TODO: Add all surrounding tiles to the path possibility if they meet condiitons
-      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y, currentTile);
-      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
-      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
-      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
-      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
-      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
-      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y, currentTile);
-      addValidTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);      
+      addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y, currentTile);
+      addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
+      addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
+      addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
+      addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
+      addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
+      addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y, currentTile);
+      addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);      
     } while (closedList.get(0).mapTile != goalLocation && !openList.isEmpty());
   }
   
-  private void addValidTileToOpenList(int row, int column, DijkstraTile tile) {
+  public void findClosest(Tile startLocation, Object objectToFind) { //TODO: change to return to path
+    openList.clear();
+    closedList.clear();
+    
+    openList.add(new DijkstraTile(startLocation, null));
+    
+    DijkstraTile currentTile;
+    
+    do {
+      currentTile = chooseLowestF();
+      openList.remove(currentTile);
+      closedList.add(0, currentTile);
+      
+      //TODO: Add all surrounding tiles to the path possibility if they meet condiitons
+      addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y, currentTile);
+      addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
+      addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
+      addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
+      addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
+      addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
+      addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y, currentTile);
+      addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);      
+    } while (closedList.get(0).mapTile.getOnTile() != objectToFind && !openList.isEmpty());
+  }
+  
+  private void addValidDijkstraTileToOpenList(int row, int column, DijkstraTile tile) {
     if (row >= 0 && column >= 0 && row <= Game.MAP_SIZE && column <= Game.MAP_SIZE) { //Tile exists
       DijkstraTile checkTile = getTile(row, column, closedList);
       if (map[row][column].getOnTile() == null && checkTile != null) {
@@ -59,6 +86,22 @@ public class PathFinder {
           }
         } else {
           openList.add(new DijkstraTile(map[row][column], tile));
+        }
+      }
+    }
+  }
+  
+  private void addValidAStarTileToOpenList(int row, int column, DijkstraTile tile) {
+    if (row >= 0 && column >= 0 && row <= Game.MAP_SIZE && column <= Game.MAP_SIZE) { //Tile exists
+      DijkstraTile checkTile = getTile(row, column, closedList);
+      if (map[row][column].getOnTile() == null && checkTile != null) {
+        checkTile = getTile(row, column, openList);
+        if (checkTile != null) {
+          if (checkTile.getParent().calculateG() > tile.calculateG()) {
+            checkTile.setParent(tile);
+          }
+        } else {
+          openList.add(new AStarTile(map[row][column], tile));
         }
       }
     }
