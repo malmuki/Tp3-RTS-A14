@@ -38,7 +38,6 @@ public class PathFinder {
       openList.remove(currentTile);
       closedList.add(0, currentTile);
       
-      //TODO: Add all surrounding tiles to the path possibility if they meet condiitons
       addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y, currentTile);
       addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
       addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
@@ -63,7 +62,6 @@ public class PathFinder {
       openList.remove(currentTile);
       closedList.add(0, currentTile);
       
-      //TODO: Add all surrounding tiles to the path possibility if they meet condiitons
       addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y, currentTile);
       addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
       addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
@@ -76,7 +74,7 @@ public class PathFinder {
   }
   
   private void addValidDijkstraTileToOpenList(int row, int column, DijkstraTile tile) {
-    if (row >= 0 && column >= 0 && row <= Game.MAP_SIZE && column <= Game.MAP_SIZE) { //Tile exists
+    if (row >= 0 && column >= 0 && row <= Game.MAP_SIZE && column <= Game.MAP_SIZE) {
       DijkstraTile checkTile = getTile(row, column, closedList);
       if (map[row][column].getOnTile() == null && checkTile != null) {
         checkTile = getTile(row, column, openList);
