@@ -7,7 +7,12 @@ import ca.csf.RTS.game.model.Tile;
 
 public abstract class Ressource extends GameEntity{
 
-	public Ressource(ArrayList<Tile> tiles,String name) {
-		super( tiles, name);
+	protected final int ressourceMax;
+	protected int ressourceLeft;
+	
+	public Ressource(ArrayList<Tile> tiles,String name, int ressourceMax) {
+		super(tiles, name);
+		this.ressourceMax = ressourceMax;
+		this.ressourceLeft = ressourceMax;
 	}
 }
