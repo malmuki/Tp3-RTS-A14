@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
-import ca.csf.RTS.entity.E_Entity;
-import ca.csf.RTS.entity.Entity;
-import ca.csf.RTS.entity.EntityFactory;
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.entity.GameEntity;
 
 public class Game {
 
@@ -16,11 +14,11 @@ public class Game {
 
 	private ArrayList<GameEventHandler> gameEventHandler;
 	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
-	private ArrayList<Entity> entityList;
+	private ArrayList<GameEntity> entityList;
 
 	public Game() {
 		gameEventHandler = new ArrayList<GameEventHandler>();
-		entityList = new ArrayList<Entity>();
+		entityList = new ArrayList<GameEntity>();
 		for (int i = 0; i < MAP_SIZE; i++) {
 			for (int j = 0; j < MAP_SIZE; j++) {
 				map[i][j] = new Tile(new Vector2i(i, j));
@@ -33,15 +31,15 @@ public class Game {
 	}
 
 	public void newGame() {
-		entityList.add(EntityFactory.getInstance().getEntity(E_Entity.SOLDAT));
+		
 	}
 
-	public ArrayList<Entity> getAllEntity() {
+	public ArrayList<GameEntity> getAllEntity() {
 		return entityList;
 	}
 
 	public void selectEntity(Vector2f selection1, Vector2f selection2) {
-		ArrayList<Entity> toHighlight = new ArrayList<Entity>();
+		ArrayList<GameEntity> toHighlight = new ArrayList<GameEntity>();
 
 		for (int i = (int) selection1.x / (int) Tile.TILE_SIZE; i < selection2.x
 				/ (int) Tile.TILE_SIZE; i++) {

@@ -3,7 +3,7 @@ package ca.csf.RTS.game.model;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
-import ca.csf.RTS.entity.Entity;
+import ca.csf.RTS.game.entity.GameEntity;
 
 public class Tile {
 
@@ -11,7 +11,7 @@ public class Tile {
 
 	private final Vector2i mapLocation;
 	private final Vector2f screenLocation;
-	private Entity onTile;
+	private GameEntity onTile;
 
 	public Tile(Vector2i mapLocation) {
 		setOnTile(null);
@@ -28,11 +28,11 @@ public class Tile {
 		return mapLocation;
 	}
 
-	public Entity getOnTile() {
+	public GameEntity getOnTile() {
 		return onTile;
 	}
 
-	public void setOnTile(Entity onTile) {
+	public void setOnTile(GameEntity onTile) {
 		this.onTile = onTile;
 	}
 
