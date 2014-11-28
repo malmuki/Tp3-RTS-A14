@@ -11,8 +11,8 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Keyboard.Key;
-import org.jsfml.window.Mouse.Button;
 import org.jsfml.window.Mouse;
+import org.jsfml.window.Mouse.Button;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.WindowStyle;
 import org.jsfml.window.event.Event;
@@ -23,12 +23,14 @@ import ca.csf.RTS.entity.Entity;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.model.Game;
 import ca.csf.RTS.game.model.Tile;
+import ca.csf.RTS.game.sound.MusicPlayer;
 
 public class GameController implements GameEventHandler {
 
 	private static final float SENSITIVITY = 250;
 	private static final int SELECTION_THICKNESS = 2;
 	private Game game;
+	private MusicPlayer music = new MusicPlayer();
 
 	public GameController() {
 		game = new Game();
@@ -57,8 +59,10 @@ public class GameController implements GameEventHandler {
 		selection.setFillColor(Color.TRANSPARENT);
 		selection.setOutlineColor(Color.BLACK);
 		selection.setOutlineThickness(SELECTION_THICKNESS);
+		music.playMusic(1);
 
 		while (window.isOpen()) {
+			music.musicPlaylist();
 			// pour obtenir le temps depuis la derniere frame
 			float dt = frameClock.restart().asSeconds();
 			// Fill the window with red
@@ -93,6 +97,7 @@ public class GameController implements GameEventHandler {
 					view.move(0, dt * -SENSITIVITY);
 				}
 			}
+			
 
 			// pour la selection des units et des buildings
 			if (Mouse.isButtonPressed(Button.LEFT)) {
