@@ -18,7 +18,8 @@ public class Game {
 	private ArrayList<GameEntity> entityList;
 	private ArrayList<GameEntity> selectedList;
 	// temporaire
-	private FootMan footman;
+	private FootMan footman1;
+	private FootMan footman2;
 
 	public Game() {
 		selectedList = new ArrayList<GameEntity>();
@@ -29,11 +30,6 @@ public class Game {
 				map[i][j] = new Tile(new Vector2i(i, j));
 			}
 		}
-		ArrayList<Tile> allo = new ArrayList<Tile>();
-		allo.add(new Tile(new Vector2i(5, 5)));
-		footman = new FootMan(allo);
-		entityList.add(footman);
-		map[5][5].setOnTile(footman);
 	}
 
 	public void addEventHandler(GameEventHandler handler) {
@@ -41,11 +37,25 @@ public class Game {
 	}
 
 	public void newGame() {
-
+		ArrayList<Tile> allo = new ArrayList<Tile>();
+		allo.add(new Tile(new Vector2i(5, 5)));
+		footman1 = new FootMan(allo);
+		entityList.add(footman1);
+		map[5][5].setOnTile(footman1);
+		
+		allo.clear();
+		allo.add(new Tile(new Vector2i(6, 7)));
+		footman2 = new FootMan(allo);
+		entityList.add(footman2);
+		map[6][7].setOnTile(footman2);
 	}
 
 	public ArrayList<GameEntity> getAllEntity() {
 		return entityList;
+	}
+
+	public ArrayList<GameEntity> getAllSelected() {
+		return selectedList;
 	}
 
 	public void selectEntity(Vector2f selection1, Vector2f selection2) {
@@ -53,6 +63,19 @@ public class Game {
 
 		selection1 = Vector2f.div(selection1, Tile.TILE_SIZE);
 		selection2 = Vector2f.div(selection2, Tile.TILE_SIZE);
+
+
+			if (selection1.x > selection2.x) {
+				Vector2f buffer = selection1;
+				selection1 = new Vector2f(selection2.x, selection1.y);
+				selection2 = new Vector2f(buffer.x, selection2.y);
+			}
+			if (selection1.y > selection2.y) {
+				Vector2f buffer = selection1;
+				selection1 = new Vector2f(selection1.x, selection2.y);
+				selection2 = new Vector2f(selection2.x, buffer.y);
+			}
+			
 
 		for (int i = (int) selection1.x; i < selection2.x; i++) {
 			for (int j = (int) selection1.y; j < selection2.y; j++) {
@@ -81,7 +104,7 @@ public class Game {
 				toUnselect.add(gameEntity);
 			}
 		}
-		//pour eviter les ConcurrentModificationExceptions
+		// pour eviter les ConcurrentModificationExceptions
 		for (GameEntity gameEntity : toUnselect) {
 			selectedList.remove(gameEntity);
 		}

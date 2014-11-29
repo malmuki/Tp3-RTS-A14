@@ -37,13 +37,15 @@ public abstract class ControlableEntity extends GameEntity implements Fightable 
 	public void draw(RenderTarget target) {
 		super.draw(target);
 
-		lifeBar.setPosition(( sprite.getTexture().getSize().x / 2 + sprite.getPosition().x),
+		lifeBar.setPosition(
+				(sprite.getTexture().getSize().x / 2 + sprite.getPosition().x),
 				sprite.getPosition().y - 12);
-		lifeBorder.setPosition(( sprite.getTexture().getSize().x / 2 + sprite.getPosition().x),
+		lifeBorder.setPosition(
+				(sprite.getTexture().getSize().x / 2 + sprite.getPosition().x),
 				sprite.getPosition().y - 12);
 
-		lifeBar.setSize(new Vector2f(healthCurrent/healthMax * 25, 10));
-		
+		lifeBar.setSize(new Vector2f(healthCurrent / healthMax * 25, 10));
+
 		if (selected) {
 			lifeBorder.setOutlineColor(Color.BLUE);
 		} else {
