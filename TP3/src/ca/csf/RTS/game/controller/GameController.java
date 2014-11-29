@@ -61,7 +61,7 @@ public class GameController implements GameEventHandler {
 		RenderWindow window = new RenderWindow();
 		window.create(VideoMode.getDesktopMode(), Menu.TITLE, WindowStyle.FULLSCREEN);
 
-		window.setFramerateLimit(500);
+		window.setFramerateLimit(200);
 
 		// declare une nouvelle vue pour pouvoir la deplacer
 		View defaultView = (View) window.getDefaultView();
