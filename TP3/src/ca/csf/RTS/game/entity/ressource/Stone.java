@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import ca.csf.RTS.game.model.Tile;
 
 public class Stone extends Ressource {
-	public Stone(ArrayList<Tile> tiles,String name) {
-		super( tiles, name);
+	
+	private static final String NAME = "Stone";
+	private static final int RESSOURCE_MAX = 1500;
+	
+	public Stone(ArrayList<Tile> tiles) {
+		super( tiles, NAME, RESSOURCE_MAX);
 	}
 }

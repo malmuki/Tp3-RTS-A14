@@ -2,8 +2,6 @@ package ca.csf.RTS.game.controller;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.IntRect;
@@ -96,21 +94,20 @@ public class GameController implements GameEventHandler {
 				window.setView(guiView);
 				// draw the GUI
 				drawGUI(window);
-				// Display what was drawn
-				window.display();
 
 				window.setView(gameView);
 
-				// Fill the window with red
-				window.clear(Color.BLACK);
-
+				window.draw(map);
+				
 				// dessine toutes les entitys
 				for (GameEntity gameEntity : game.getAllEntity()) {
 					gameEntity.draw(window);
 				}
-
-				window.draw(map);
+				
 				window.draw(selection);
+				
+				// Display what was drawn
+				window.display();
 
 				if (Keyboard.isKeyPressed(Key.D)) {
 					if (gameView.getCenter().x * 2 < Game.MAP_SIZE * Tile.TILE_SIZE) {
@@ -139,10 +136,11 @@ public class GameController implements GameEventHandler {
 				if (Mouse.isButtonPressed(Button.LEFT)) {
 					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
 
+					//pour empecher que la selection depasse de la vue
 					if (mousePos.x > gameView.getSize().x && mousePos.x > Game.MAP_SIZE * Tile.TILE_SIZE) {
 						mousePos = new Vector2f(mousePos.x - (gameView.getSize().x/2 - gameView.getCenter().x), mousePos.y);
 					}
-					if (mousePos.y > gameView.getSize().y || mousePos.y > Game.MAP_SIZE * Tile.TILE_SIZE) {
+					if (mousePos.y > gameView.getSize().y && mousePos.y > Game.MAP_SIZE * Tile.TILE_SIZE) {
 						mousePos = new Vector2f(mousePos.x, mousePos.y - (gameView.getSize().y/2 - gameView.getCenter().y));
 					}
 
@@ -186,11 +184,6 @@ public class GameController implements GameEventHandler {
 				break;
 			}
 		}
-	}
-
-	@Override
-	public void highlightSelected(ArrayList<GameEntity> gameEntity) {
-
 	}
 
 	private void drawGUI(RenderWindow window) {
