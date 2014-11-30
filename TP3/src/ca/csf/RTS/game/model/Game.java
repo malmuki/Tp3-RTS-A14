@@ -64,7 +64,6 @@ public class Game {
 		selection1 = Vector2f.div(selection1, Tile.TILE_SIZE);
 		selection2 = Vector2f.div(selection2, Tile.TILE_SIZE);
 
-
 			if (selection1.x > selection2.x) {
 				Vector2f buffer = selection1;
 				selection1 = new Vector2f(selection2.x, selection1.y);

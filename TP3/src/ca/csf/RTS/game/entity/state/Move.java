@@ -8,5 +8,4 @@ public class Move implements State {
 	public void action(GameEntity gameEntity) {
 
 	}
-
 }
