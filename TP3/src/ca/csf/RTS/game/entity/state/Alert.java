@@ -6,7 +6,6 @@ public class Alert implements State {
 
 	@Override
 	public void action(GameEntity gameEntity) {
-		
 
 	}
 

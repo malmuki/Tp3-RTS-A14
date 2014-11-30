@@ -1,7 +1,8 @@
-package ca.csf.RTS.game.controller;
+package ca.csf.RTS.game;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.IntRect;
@@ -24,9 +25,8 @@ import org.jsfml.window.event.KeyEvent;
 import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.GameEntity;
-import ca.csf.RTS.game.model.Game;
-import ca.csf.RTS.game.model.Tile;
-import ca.csf.RTS.game.model.sound.MusicPlayer;
+import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.sound.MusicPlayer;
 
 public class GameController implements GameEventHandler {
 

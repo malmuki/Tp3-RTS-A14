@@ -1,10 +1,10 @@
-package ca.csf.RTS.game.model.pathFinding;
+package ca.csf.RTS.game.pathFinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import ca.csf.RTS.game.model.Game;
-import ca.csf.RTS.game.model.Tile;
+import ca.csf.RTS.game.Game;
+import ca.csf.RTS.game.entity.Tile;
 
 // http://www.policyalmanac.org/games/binaryHeaps.htm
 public class PathFinder {

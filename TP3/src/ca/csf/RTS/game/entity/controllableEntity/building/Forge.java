@@ -2,7 +2,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building;
 
 import java.util.ArrayList;
 
-import ca.csf.RTS.game.model.Tile;
+import ca.csf.RTS.game.entity.Tile;
 
 public class Forge extends Building {
 

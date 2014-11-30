@@ -6,8 +6,6 @@ public class Attack implements State {
 
 	@Override
 	public void action(GameEntity gameEntity) {
-		
 
 	}
-
 }

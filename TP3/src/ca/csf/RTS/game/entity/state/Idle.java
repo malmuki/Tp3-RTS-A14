@@ -8,7 +8,5 @@ public class Idle implements State {
 	@Override
 	public void action(GameEntity gameEntity) {
 		
-
 	}
-
 }

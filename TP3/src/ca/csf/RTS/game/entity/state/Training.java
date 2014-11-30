@@ -6,7 +6,6 @@ public class Training implements State {
 
 	@Override
 	public void action(GameEntity gameEntity) {
-		// TODO Auto-generated method stub
 		
 	}
 

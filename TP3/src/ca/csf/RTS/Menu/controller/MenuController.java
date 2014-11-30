@@ -1,7 +1,7 @@
 package ca.csf.RTS.Menu.controller;
 
 import ca.csf.RTS.eventHandler.MenuEventHandler;
-import ca.csf.RTS.game.controller.GameController;
+import ca.csf.RTS.game.GameController;
 import ca.csf.simpleFx.SimpleFXController;
 import javafx.fxml.FXML;
 
