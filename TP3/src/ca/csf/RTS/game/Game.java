@@ -1,4 +1,4 @@
-package ca.csf.RTS.game.model;
+package ca.csf.RTS.game;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,7 @@ import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.GameEntity;
+import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 
 public class Game {
@@ -37,15 +38,15 @@ public class Game {
 	}
 
 	public void newGame() {
-		ArrayList<Tile> allo = new ArrayList<Tile>();
-		allo.add(new Tile(new Vector2i(5, 5)));
-		footman1 = new FootMan(allo);
+		ArrayList<Tile> temp = new ArrayList<Tile>();
+		temp.add(new Tile(new Vector2i(5, 5)));
+		footman1 = new FootMan(temp);
 		entityList.add(footman1);
 		map[5][5].setOnTile(footman1);
 		
-		allo.clear();
-		allo.add(new Tile(new Vector2i(6, 7)));
-		footman2 = new FootMan(allo);
+		temp.clear();
+		temp.add(new Tile(new Vector2i(6, 7)));
+		footman2 = new FootMan(temp);
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
 	}

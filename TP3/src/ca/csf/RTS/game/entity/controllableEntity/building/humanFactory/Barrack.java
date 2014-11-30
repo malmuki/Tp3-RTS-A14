@@ -2,7 +2,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building.humanFactory;
 
 import java.util.ArrayList;
 
-import ca.csf.RTS.game.model.Tile;
+import ca.csf.RTS.game.entity.Tile;
 
 public class Barrack extends HumanFactory {
 	

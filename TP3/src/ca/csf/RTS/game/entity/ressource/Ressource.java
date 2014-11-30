@@ -2,10 +2,10 @@ package ca.csf.RTS.game.entity.ressource;
 
 import java.util.ArrayList;
 
-import ca.csf.RTS.game.entity.GameEntity;
-import ca.csf.RTS.game.model.Tile;
+import ca.csf.RTS.game.entity.OnTileEntity;
+import ca.csf.RTS.game.entity.Tile;
 
-public abstract class Ressource extends GameEntity{
+public abstract class Ressource extends OnTileEntity{
 
 	protected final int ressourceMax;
 	protected int ressourceLeft;

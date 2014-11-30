@@ -2,7 +2,7 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 
 import java.util.ArrayList;
 
-import ca.csf.RTS.game.model.Tile;
+import ca.csf.RTS.game.entity.Tile;
 
 public class Worker extends Humans {
 	private static final int MAX_HEALTH = 100;
