@@ -24,7 +24,7 @@ import org.jsfml.window.event.KeyEvent;
 
 import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.eventHandler.GameEventHandler;
-import ca.csf.RTS.game.entity.GameEntity;
+import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.sound.MusicPlayer;
 
@@ -78,6 +78,11 @@ public class GameController implements GameEventHandler {
 		selection.setFillColor(Color.TRANSPARENT);
 		selection.setOutlineColor(Color.BLACK);
 		selection.setOutlineThickness(SELECTION_THICKNESS);
+		
+		RectangleShape rectTest = new RectangleShape();
+		rectTest.setSize(new Vector2f(0.0f,  0.0f));
+        rectTest.setPosition(20.0f, 20.0f);
+        rectTest.setFillColor(Color.RED);
 
 		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE * Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
 		map.setTexture(gazon);
@@ -88,6 +93,8 @@ public class GameController implements GameEventHandler {
 
 			music.musicPlaylist();
 			if (isFocused) {
+			  
+			  game.doTasks();
 				// pour obtenir le temps depuis la derniere frame
 				float dt = frameClock.restart().asSeconds();
 
@@ -100,12 +107,12 @@ public class GameController implements GameEventHandler {
 				window.draw(map);
 				
 				// dessine toutes les entitys
-				for (GameEntity gameEntity : game.getAllEntity()) {
-					gameEntity.draw(window);
+				for (GameObject gameObject : game.getAllEntity()) {
+					gameObject.draw(window);
 				}
 				
 				window.draw(selection);
-				
+				window.draw(rectTest);
 				// Display what was drawn
 				window.display();
 
@@ -133,9 +140,8 @@ public class GameController implements GameEventHandler {
 				}
 
 				// pour la selection des units et des buildings
+				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
 				if (Mouse.isButtonPressed(Button.LEFT)) {
-					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
-
 					//pour empecher que la selection depasse de la vue
 					if (mousePos.x > gameView.getSize().x && mousePos.x > Game.MAP_SIZE * Tile.TILE_SIZE) {
 						mousePos = new Vector2f(mousePos.x - (gameView.getSize().x/2 - gameView.getCenter().x), mousePos.y);
@@ -153,16 +159,14 @@ public class GameController implements GameEventHandler {
 						selection
 								.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
 					}
-				} else if (Mouse.isButtonPressed(Button.RIGHT)) {
-				  Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
-				  game.giveOrder(mousePos);
 				} else {
 					isLeftButtonPressed = false;
 					selection.setSize(new Vector2f(0, 0));
 				}
-
+				
 				if (Mouse.isButtonPressed(Button.RIGHT)) {
-
+				  
+                  game.giveOrder(mousePos);
 				}
 			}
 

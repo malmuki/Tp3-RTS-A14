@@ -6,7 +6,8 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
-import ca.csf.RTS.game.entity.GameEntity;
+import ca.csf.RTS.game.entity.GameObject;
+import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
@@ -17,21 +18,27 @@ public class Game {
 
 	private ArrayList<GameEventHandler> gameEventHandler;
 	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
-	private ArrayList<GameEntity> entityList;
-	private ArrayList<ControlableEntity> selectedList;
+	private ArrayList<Entity> entityList;
+	private ArrayList<Entity> selectedList;
 	// temporaire
 	private FootMan footman1;
 	private FootMan footman2;
 
 	public Game() {
-		selectedList = new ArrayList<ControlableEntity>();
+		selectedList = new ArrayList<Entity>();
 		gameEventHandler = new ArrayList<GameEventHandler>();
-		entityList = new ArrayList<GameEntity>();
+		entityList = new ArrayList<Entity>();
 		for (int i = 0; i < MAP_SIZE; i++) {
 			for (int j = 0; j < MAP_SIZE; j++) {
 				map[i][j] = new Tile(new Vector2i(i, j));
 			}
 		}
+	}
+	
+	public void doTasks() {
+	  for (Entity object : entityList) {
+	    object.doTasks();
+	  }
 	}
 
 	public void addEventHandler(GameEventHandler handler) {
@@ -52,11 +59,11 @@ public class Game {
 		map[6][7].setOnTile(footman2);
 	}
 
-	public ArrayList<GameEntity> getAllEntity() {
+	public ArrayList<Entity> getAllEntity() {
 		return entityList;
 	}
 
-	public ArrayList<ControlableEntity> getAllSelected() {
+	public ArrayList<Entity> getAllSelected() {
 		return selectedList;
 	}
 
@@ -91,34 +98,35 @@ public class Game {
 			selectedList.add(controlableEntity);
 		}
 
-		ArrayList<GameEntity> toUnselect = new ArrayList<GameEntity>();
+		ArrayList<Entity> toUnselect = new ArrayList<Entity>();
 		// to deselect les entity qui ne sont plus selectionner
-		for (GameEntity gameEntity : selectedList) {
+		for (Entity entity : selectedList) {
 			boolean isSelected = false;
-			for (GameEntity gameEntitySelection : toHighlight) {
-				if (gameEntity == gameEntitySelection) {
+			for (Entity gameEntitySelection : toHighlight) {
+				if (entity == gameEntitySelection) {
 					isSelected = true;
 				}
 			}
 			if (!isSelected) {
-				gameEntity.deSelect();
-				toUnselect.add(gameEntity);
+			  entity.deSelect();
+				toUnselect.add(entity);
 			}
 		}
 		// pour eviter les ConcurrentModificationExceptions
-		for (GameEntity gameEntity : toUnselect) {
-			selectedList.remove(gameEntity);
+		for (Entity entity : toUnselect) {
+			selectedList.remove(entity);
 		}
 	}
 
   public void giveOrder(Vector2f mousePos) {
     mousePos = Vector2f.div(mousePos, Tile.TILE_SIZE);
     Tile target = map[(int) mousePos.x][(int) mousePos.y];
-    for (ControlableEntity currentSelected : getAllSelected()) {
+    //TODO: check if not ressource
+    for (Entity entity : getAllSelected()) {
       if (target.getOnTile() != null) {
-        currentSelected.order(target.getOnTile());
+        entity.order(target.getOnTile());
       } else {
-        currentSelected.order(target);
+        entity.order(target);
       }
     }
   }

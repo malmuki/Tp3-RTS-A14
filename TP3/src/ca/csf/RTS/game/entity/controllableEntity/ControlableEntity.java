@@ -9,11 +9,11 @@ import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
-import ca.csf.RTS.game.entity.OnTileEntity;
+import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.State;
 
-public abstract class ControlableEntity extends OnTileEntity implements Fightable {
+public abstract class ControlableEntity extends Entity implements Fightable {
 
 	protected final int healthMax;
 	protected int healthCurrent;
@@ -25,6 +25,7 @@ public abstract class ControlableEntity extends OnTileEntity implements Fightabl
 		super(tiles, name);
 		this.healthMax = healthMax;
 		healthCurrent = healthMax;
+		stateStack = new Stack<State>();
 
 		lifeBar = new RectangleShape(new Vector2f(25, 10));
 		lifeBar.setFillColor(Color.GREEN);
@@ -55,11 +56,13 @@ public abstract class ControlableEntity extends OnTileEntity implements Fightabl
 		lifeBorder.draw(target, RenderStates.DEFAULT);
 	}
 	
-	public void order(Tile target) {
-	  
+	public void doTasks() {
+	  if (!stateStack.isEmpty()) {
+        stateStack.pop().action();
+      } 
 	}
 	
-	public void order(OnTileEntity target) {
-      
-    }
+	public Stack<State> getStateStack() {
+	  return stateStack;
+	}
 }
