@@ -28,7 +28,6 @@ public class Menu extends SimpleFXApplication {
 			SimpleFXScene simpleFXScene = new SimpleFXScene(MenuController.class.getResource(MENUWINDOW_PATH),
 					MenuController.class.getResource(CSS_PATH), new MenuController());
 			SimpleFXStage simpleFXStage = new SimpleFXStage(TITLE, StageStyle.DECORATED, simpleFXScene, this);
-			simpleFXStage.setResizable(false);
 			simpleFXStage.show();
 		} catch (Exception ex) {
 			ex.printStackTrace();
