@@ -1,4 +1,4 @@
-package ca.csf.RTS.game.model.sound;
+package ca.csf.RTS.game.sound;
 
 import java.nio.file.Paths;
 

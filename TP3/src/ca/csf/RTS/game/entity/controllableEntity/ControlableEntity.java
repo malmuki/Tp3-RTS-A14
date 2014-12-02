@@ -9,11 +9,11 @@ import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
-import ca.csf.RTS.game.entity.GameEntity;
+import ca.csf.RTS.game.entity.OnTileEntity;
+import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.State;
-import ca.csf.RTS.game.model.Tile;
 
-public abstract class ControlableEntity extends GameEntity implements Fightable {
+public abstract class ControlableEntity extends OnTileEntity implements Fightable {
 
 	protected final int healthMax;
 	protected int healthCurrent;

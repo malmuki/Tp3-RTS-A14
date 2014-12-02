@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import org.jsfml.graphics.Texture;
 
+import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
-import ca.csf.RTS.game.model.Tile;
 
 public class FootMan extends Humans implements Fighter{
 	
