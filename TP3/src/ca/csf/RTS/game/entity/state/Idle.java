@@ -1,12 +1,16 @@
 
 package ca.csf.RTS.game.entity.state;
 
-import ca.csf.RTS.game.entity.GameEntity;
+import ca.csf.RTS.game.entity.controllableEntity.human.Human;
 
 public class Idle implements State {
 
-	@Override
-	public void action(GameEntity gameEntity) {
+	public Idle(Human human) {
+    // TODO Auto-generated constructor stub
+  }
+
+  @Override
+	public void action() {
 		
 	}
 }

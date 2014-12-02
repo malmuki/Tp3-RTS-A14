@@ -6,16 +6,19 @@ import java.util.ArrayList;
 
 import org.jsfml.graphics.Texture;
 
+import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
+import ca.csf.RTS.game.entity.state.Alert;
+import ca.csf.RTS.game.entity.state.State;
 
-public class FootMan extends Humans implements Fighter{
+public class FootMan extends Human implements Fighter{
 	
 	static{
 		try {
 			texture = new Texture();
-			texture.loadFromFile(Paths.get("./ressource/button_texture.jpg"));
+			texture.loadFromFile(Paths.get("./ressource/soldat.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -33,4 +36,15 @@ public class FootMan extends Humans implements Fighter{
 	public void attack(Fightable target) {
 		
 	}
+	
+	@Override
+    public void order(Entity target) {
+      
+    }
+
+  @Override
+  public State getDefaultState() {
+    return new Alert(this);
+  }
+	
 }

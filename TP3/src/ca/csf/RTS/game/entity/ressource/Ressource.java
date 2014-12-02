@@ -2,10 +2,10 @@ package ca.csf.RTS.game.entity.ressource;
 
 import java.util.ArrayList;
 
-import ca.csf.RTS.game.entity.OnTileEntity;
+import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 
-public abstract class Ressource extends OnTileEntity{
+public abstract class Ressource extends Entity{
 
 	protected final int ressourceMax;
 	protected int ressourceLeft;
@@ -15,4 +15,10 @@ public abstract class Ressource extends OnTileEntity{
 		this.ressourceMax = ressourceMax;
 		this.ressourceLeft = ressourceMax;
 	}
+	
+	public void order(Entity onTile) {}
+
+    public void order(Tile target) {}
+    
+    public void doTasks() {}
 }
