@@ -192,4 +192,8 @@ public class GameController implements GameEventHandler {
 		gui.setTexture(this.gui);
 		window.draw(gui);
 	}
+	
+	public MusicPlayer getMusic() {
+		return music;
+	}
 }

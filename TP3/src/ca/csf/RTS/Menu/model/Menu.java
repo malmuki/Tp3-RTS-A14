@@ -13,7 +13,7 @@ import javafx.stage.StageStyle;
 public class Menu extends SimpleFXApplication {
 
 	public static final String MENUWINDOW_PATH = "../vue/MenuWindow.fxml";
-	public static final String CSS_PATH = "../vue/MenuWindow.fxml";
+	public static final String CSS_PATH = "../vue/menu.css";
 	public static final String TITLE = "RTS TP3 2014";
 
 	private ArrayList<MenuEventHandler> menuEventHandler;

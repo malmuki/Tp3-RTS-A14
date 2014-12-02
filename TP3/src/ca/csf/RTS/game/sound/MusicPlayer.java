@@ -10,6 +10,7 @@ public class MusicPlayer {
 	
 	Music music = new Music();
 	Music[] musicList = new Music[10];
+	int volume = 100;
 	
 	public MusicPlayer(){
 		//Music list
@@ -32,10 +33,14 @@ public class MusicPlayer {
 
 	music = musicList[song];
 	// Change some parameters
-	music.setVolume(50);
+	music.setVolume(volume);
 	
 	// Play it
 	music.play();
+	}
+	
+	public void setVolume(int volume) {
+		this.volume = volume;
 	}
 	
 	public void musicPlaylist(){
