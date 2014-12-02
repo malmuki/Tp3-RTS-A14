@@ -2,6 +2,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building;
 
 import java.util.ArrayList;
 
+import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
@@ -19,4 +20,10 @@ public class WatchTower extends Building implements Fighter {
 	public void attack(Fightable target) {
 
 	}
+	
+	public void order(Entity onTile) {
+	  
+	}
+
+    public void order(Tile target) {}
 }
