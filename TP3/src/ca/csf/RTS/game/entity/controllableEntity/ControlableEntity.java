@@ -54,4 +54,12 @@ public abstract class ControlableEntity extends OnTileEntity implements Fightabl
 		lifeBar.draw(target, RenderStates.DEFAULT);
 		lifeBorder.draw(target, RenderStates.DEFAULT);
 	}
+	
+	public void order(Tile target) {
+	  
+	}
+	
+	public void order(OnTileEntity target) {
+      
+    }
 }

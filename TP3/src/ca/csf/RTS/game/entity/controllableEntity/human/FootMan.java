@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.jsfml.graphics.Texture;
 
+import ca.csf.RTS.game.entity.OnTileEntity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
@@ -33,4 +34,10 @@ public class FootMan extends Humans implements Fighter{
 	public void attack(Fightable target) {
 		
 	}
+	
+	@Override
+    public void order(OnTileEntity target) {
+      
+    }
+	
 }

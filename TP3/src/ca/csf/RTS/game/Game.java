@@ -8,6 +8,7 @@ import org.jsfml.system.Vector2i;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.GameEntity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 
 public class Game {
@@ -17,13 +18,13 @@ public class Game {
 	private ArrayList<GameEventHandler> gameEventHandler;
 	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
 	private ArrayList<GameEntity> entityList;
-	private ArrayList<GameEntity> selectedList;
+	private ArrayList<ControlableEntity> selectedList;
 	// temporaire
 	private FootMan footman1;
 	private FootMan footman2;
 
 	public Game() {
-		selectedList = new ArrayList<GameEntity>();
+		selectedList = new ArrayList<ControlableEntity>();
 		gameEventHandler = new ArrayList<GameEventHandler>();
 		entityList = new ArrayList<GameEntity>();
 		for (int i = 0; i < MAP_SIZE; i++) {
@@ -55,12 +56,12 @@ public class Game {
 		return entityList;
 	}
 
-	public ArrayList<GameEntity> getAllSelected() {
+	public ArrayList<ControlableEntity> getAllSelected() {
 		return selectedList;
 	}
 
 	public void selectEntity(Vector2f selection1, Vector2f selection2) {
-		ArrayList<GameEntity> toHighlight = new ArrayList<GameEntity>();
+		ArrayList<ControlableEntity> toHighlight = new ArrayList<ControlableEntity>();
 
 		selection1 = Vector2f.div(selection1, Tile.TILE_SIZE);
 		selection2 = Vector2f.div(selection2, Tile.TILE_SIZE);
@@ -80,14 +81,14 @@ public class Game {
 		for (int i = (int) selection1.x; i < selection2.x; i++) {
 			for (int j = (int) selection1.y; j < selection2.y; j++) {
 				if (map[i][j].getOnTile() != null) {
-					toHighlight.add(map[i][j].getOnTile());
+					toHighlight.add((ControlableEntity)map[i][j].getOnTile());//TODO: this will create errors on ressources
 				}
 			}
 		}
 
-		for (GameEntity gameEntity : toHighlight) {
-			gameEntity.select();
-			selectedList.add(gameEntity);
+		for (ControlableEntity controlableEntity : toHighlight) {
+		    controlableEntity.select();
+			selectedList.add(controlableEntity);
 		}
 
 		ArrayList<GameEntity> toUnselect = new ArrayList<GameEntity>();
@@ -110,4 +111,15 @@ public class Game {
 		}
 	}
 
+  public void giveOrder(Vector2f mousePos) {
+    mousePos = Vector2f.div(mousePos, Tile.TILE_SIZE);
+    Tile target = map[(int) mousePos.x][(int) mousePos.y];
+    for (ControlableEntity currentSelected : getAllSelected()) {
+      if (target.getOnTile() != null) {
+        currentSelected.order(target.getOnTile());
+      } else {
+        currentSelected.order(target);
+      }
+    }
+  }
 }

@@ -28,7 +28,7 @@ public class Tile extends GameEntity {
 		return mapLocation;
 	}
 
-	public GameEntity getOnTile() {
+	public OnTileEntity getOnTile() {
 		return onTile;
 	}
 

@@ -153,6 +153,9 @@ public class GameController implements GameEventHandler {
 						selection
 								.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
 					}
+				} else if (Mouse.isButtonPressed(Button.RIGHT)) {
+				  Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
+				  game.giveOrder(mousePos);
 				} else {
 					isLeftButtonPressed = false;
 					selection.setSize(new Vector2f(0, 0));
