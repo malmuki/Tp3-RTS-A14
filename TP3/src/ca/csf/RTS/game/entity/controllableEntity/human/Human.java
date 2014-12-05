@@ -27,7 +27,7 @@ public abstract class Human extends ControlableEntity {
 	
 	public void moveToTile(Tile targetTile){
 	  currentTiles.get(0).setOnTile(null);
-	  currentTiles.clear();
+	  currentTiles.clear(); 
 	  currentTiles.add(targetTile);
 	  targetTile.setOnTile(this);
 	  sprite.setPosition(targetTile.getScreenLocation());
