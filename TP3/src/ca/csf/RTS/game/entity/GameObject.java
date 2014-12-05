@@ -20,6 +20,7 @@ public abstract class GameObject {
   protected abstract void setSpritePos();
 
   public void draw(RenderTarget target) {
+    sprite.setOrigin(0, 0);
     sprite.draw(target, RenderStates.DEFAULT);
   }
 

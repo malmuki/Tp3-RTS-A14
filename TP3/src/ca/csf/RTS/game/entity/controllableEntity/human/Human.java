@@ -25,11 +25,12 @@ public abstract class Human extends ControlableEntity {
       //TODO: STUFF
     }
 	
-	public void move(Tile tile){
+	public void moveToTile(Tile targetTile){
 	  currentTiles.get(0).setOnTile(null);
 	  currentTiles.clear();
-	  currentTiles.add(tile);
-	  tile.setOnTile(this);
+	  currentTiles.add(targetTile);
+	  targetTile.setOnTile(this);
+	  sprite.setPosition(targetTile.getScreenLocation());
 	}
 	
 	 public abstract State getDefaultState();

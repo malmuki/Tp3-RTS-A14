@@ -3,13 +3,13 @@ package ca.csf.RTS.game.pathFinding;
 import ca.csf.RTS.game.entity.Tile;
 
   public class AStarTile extends DijkstraTile {
-    private AStarTile parent;
+    //private AStarTile parent;
     private int h;
 
     AStarTile(Tile mapTile, DijkstraTile parent) {
       super(mapTile, parent);
       h = calculateH();
-      parent = null;
+      //parent = null;
     }
 
     public void setParent(AStarTile tile) {
@@ -18,9 +18,9 @@ import ca.csf.RTS.game.entity.Tile;
       h = calculateH();
     }
 
-    public AStarTile getParent() {
-      return parent;
-    }
+//    public AStarTile getParent() {
+//      return parent;
+//    }
 
     public int calculateF() {
       return g + h;
