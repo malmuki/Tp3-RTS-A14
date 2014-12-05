@@ -49,7 +49,7 @@ public class GameController implements GameEventHandler {
 			gazon.loadFromFile(Paths.get("./ressource/gazon.jpg"));
 			gazon.setRepeated(true);
 			gazon.setSmooth(true);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -59,7 +59,8 @@ public class GameController implements GameEventHandler {
 		game.newGame();
 
 		RenderWindow window = new RenderWindow();
-		window.create(VideoMode.getDesktopMode(), Menu.TITLE, WindowStyle.FULLSCREEN);
+		window.create(VideoMode.getDesktopMode(), Menu.TITLE,
+				WindowStyle.FULLSCREEN);
 
 		window.setFramerateLimit(200);
 
@@ -79,21 +80,24 @@ public class GameController implements GameEventHandler {
 		selection.setOutlineColor(Color.BLACK);
 		selection.setOutlineThickness(SELECTION_THICKNESS);
 
-RectangleShape rectTest = new RectangleShape();
-		rectTest.setSize(new Vector2f(0.0f,  0.0f));
-        rectTest.setPosition(20.0f, 20.0f);
-        rectTest.setFillColor(Color.RED);
+		RectangleShape rectTest = new RectangleShape();
+		rectTest.setSize(new Vector2f(0.0f, 0.0f));
+		rectTest.setPosition(20.0f, 20.0f);
+		rectTest.setFillColor(Color.RED);
 
-		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE * Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
+		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE
+				* Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
 		map.setTexture(gazon);
-		map.setTextureRect(new IntRect(0, 0, (int) (Game.MAP_SIZE * Tile.TILE_SIZE), (int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
+		map.setTextureRect(new IntRect(0, 0,
+				(int) (Game.MAP_SIZE * Tile.TILE_SIZE),
+				(int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
 
 		music.playMusic(1);
 		while (window.isOpen()) {
 
 			music.musicPlaylist();
 			if (isFocused) {
-			
+
 				game.doTasks();
 				// pour obtenir le temps depuis la derniere frame
 				float dt = frameClock.restart().asSeconds();
@@ -105,19 +109,20 @@ RectangleShape rectTest = new RectangleShape();
 				window.setView(gameView);
 
 				window.draw(map);
-				
+
 				// dessine toutes les entitys
 				for (GameObject gameObject : game.getAllEntity()) {
 					gameObject.draw(window);
 				}
-				
+
 				window.draw(selection);
 				window.draw(rectTest);
 				// Display what was drawn
 				window.display();
 
 				if (Keyboard.isKeyPressed(Key.D)) {
-					if (gameView.getCenter().x * 2 < Game.MAP_SIZE * Tile.TILE_SIZE) {
+					if (gameView.getCenter().x * 2 < Game.MAP_SIZE
+							* Tile.TILE_SIZE) {
 						gameView.move(dt * SENSITIVITY, 0);
 					}
 				}
@@ -125,11 +130,13 @@ RectangleShape rectTest = new RectangleShape();
 					if (gameView.getCenter().x - gameView.getSize().x / 2 > 0) {
 						gameView.move(dt * -SENSITIVITY, 0);
 					} else {
-						gameView.setCenter(gameView.getSize().x / 2, gameView.getCenter().y);
+						gameView.setCenter(gameView.getSize().x / 2,
+								gameView.getCenter().y);
 					}
 				}
 				if (Keyboard.isKeyPressed(Key.S)) {
-					if (gameView.getCenter().y * 2 < Game.MAP_SIZE * Tile.TILE_SIZE) {
+					if (gameView.getCenter().y * 2 < Game.MAP_SIZE
+							* Tile.TILE_SIZE) {
 						gameView.move(0, dt * SENSITIVITY);
 					}
 				}
@@ -140,25 +147,39 @@ RectangleShape rectTest = new RectangleShape();
 				}
 
 				// pour la selection des units et des buildings
-				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
+				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse
+						.getPosition().x, Mouse.getPosition().y));
 				if (Mouse.isButtonPressed(Button.LEFT)) {
 
-					//pour empecher que la selection depasse de la vue
-					if (mousePos.x > gameView.getSize().x && mousePos.x > Game.MAP_SIZE * Tile.TILE_SIZE) {
-						mousePos = new Vector2f(mousePos.x - (gameView.getSize().x/2 - gameView.getCenter().x), mousePos.y);
+					// pour empecher que la selection depasse de la vue
+					if (mousePos.x > gameView.getSize().x
+							&& mousePos.x > Game.MAP_SIZE * Tile.TILE_SIZE) {
+						mousePos = new Vector2f(
+								mousePos.x
+										- (gameView.getSize().x / 2 - gameView
+												.getCenter().x),
+								mousePos.y);
 					}
-					if (mousePos.y > gameView.getSize().y && mousePos.y > Game.MAP_SIZE * Tile.TILE_SIZE) {
-						mousePos = new Vector2f(mousePos.x, mousePos.y - (gameView.getSize().y/2 - gameView.getCenter().y));
+					if (mousePos.y > gameView.getSize().y
+							&& mousePos.y > Game.MAP_SIZE * Tile.TILE_SIZE) {
+						mousePos = new Vector2f(mousePos.x,
+								mousePos.y
+										- (gameView.getSize().y / 2 - gameView
+												.getCenter().y));
 					}
 
 					if (isLeftButtonPressed) {
-						selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y
+						selection.setSize(new Vector2f(mousePos.x
+								- selection.getPosition().x, mousePos.y
 								- selection.getPosition().y));
 						game.selectEntity(selection.getPosition(), mousePos);
 					} else {
 						isLeftButtonPressed = true;
 						selection
-								.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
+								.setPosition(window
+										.mapPixelToCoords(new Vector2i(Mouse
+												.getPosition().x, Mouse
+												.getPosition().y)));
 					}
 				} else {
 					isLeftButtonPressed = false;
@@ -166,7 +187,7 @@ RectangleShape rectTest = new RectangleShape();
 				}
 
 				if (Mouse.isButtonPressed(Button.RIGHT)) {
-					
+
 					game.giveOrder(mousePos);
 				}
 			}
@@ -195,12 +216,13 @@ RectangleShape rectTest = new RectangleShape();
 	}
 
 	private void drawGUI(RenderWindow window) {
-		RectangleShape gui = new RectangleShape(new Vector2f(VideoMode.getDesktopMode().width,
+		RectangleShape gui = new RectangleShape(new Vector2f(
+				VideoMode.getDesktopMode().width,
 				VideoMode.getDesktopMode().height));
 		gui.setTexture(this.gui);
 		window.draw(gui);
 	}
-	
+
 	public MusicPlayer getMusic() {
 		return music;
 	}

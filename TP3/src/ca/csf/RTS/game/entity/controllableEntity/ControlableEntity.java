@@ -56,12 +56,6 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		lifeBorder.draw(target, RenderStates.DEFAULT);
 	}
 	
-	public void doTasks() {
-	  if (!stateStack.isEmpty()) {
-        stateStack.pop().action();
-      } 
-	}
-	
 	public Stack<State> getStateStack() {
 	  return stateStack;
 	}

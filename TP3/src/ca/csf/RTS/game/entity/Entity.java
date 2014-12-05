@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.game.Game;
-import ca.csf.RTS.game.entity.state.State;
 
 public abstract class Entity extends GameObject {
 

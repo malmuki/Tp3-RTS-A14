@@ -2,6 +2,7 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 
 import java.util.ArrayList;
 
+import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.State;
@@ -14,8 +15,19 @@ public class Worker extends Human {
 		super(tiles, NAME, MAX_HEALTH);
 	}
 
-  @Override
-  public State getDefaultState() {
-    return new Idle(this);
-  }
+	@Override
+	public State getDefaultState() {
+		return new Idle(this);
+	}
+
+	@Override
+	public void order(Entity target) {
+		
+	}
+
+	@Override
+	public void doTasks() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -6,7 +6,6 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
-import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;

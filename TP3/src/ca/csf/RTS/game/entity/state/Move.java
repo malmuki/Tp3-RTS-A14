@@ -1,8 +1,5 @@
 package ca.csf.RTS.game.entity.state;
 
-import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
-
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.human.Human;
 import ca.csf.RTS.game.pathFinding.PathFinder;
@@ -39,8 +36,6 @@ public class Move implements State {
         PathFinder.findPath(human, finalDestination);
       } else { //else just move to the next
         human.moveToTile(next);
-        //TODO: need to remove the current "next" and make it the next
-        //TODO: 
         //TODO: text if the next has stuff on it
       }
       
