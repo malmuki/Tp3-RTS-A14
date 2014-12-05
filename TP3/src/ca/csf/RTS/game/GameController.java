@@ -140,8 +140,8 @@ RectangleShape rectTest = new RectangleShape();
 				}
 
 				// pour la selection des units et des buildings
+				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
 				if (Mouse.isButtonPressed(Button.LEFT)) {
-					Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
 
 					//pour empecher que la selection depasse de la vue
 					if (mousePos.x > gameView.getSize().x && mousePos.x > Game.MAP_SIZE * Tile.TILE_SIZE) {
