@@ -11,6 +11,7 @@ import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
+import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Game {
 
@@ -20,7 +21,8 @@ public class Game {
 	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
 	private ArrayList<Entity> entityList;
 	private ArrayList<Entity> selectedList;
-	// temporaire
+	
+	// TODO: temporaire, à enlever
 	private FootMan footman1;
 	private FootMan footman2;
 
@@ -46,17 +48,22 @@ public class Game {
 	}
 
 	public void newGame() {
+	  PathFinder.setMap(map);
+	  
+	  //TODO: temporary, remove this
 		ArrayList<Tile> temp = new ArrayList<Tile>();
 		temp.add(new Tile(new Vector2i(5, 5)));
 		footman1 = new FootMan(temp);
 		entityList.add(footman1);
 		map[5][5].setOnTile(footman1);
+		footman1.getStateStack().add(footman1.getDefaultState());
 		
 		temp.clear();
 		temp.add(new Tile(new Vector2i(6, 7)));
 		footman2 = new FootMan(temp);
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
+		footman2.getStateStack().add(footman2.getDefaultState());
 	}
 
 	public ArrayList<Entity> getAllEntity() {
