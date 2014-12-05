@@ -9,17 +9,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="ca.csf.RTS.Menu.controller.MenuController">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.csf.RTS.Menu.controller.MenuController">
 	<center>
 		<VBox alignment="CENTER" prefHeight="333.0" prefWidth="450.0">
    <children>
             <Pane prefHeight="335.0" prefWidth="450.0">
                <children>
          			<Button alignment="CENTER" layoutX="307.0" layoutY="142.0" onAction="#startGame" text="Start Game!" />
-         			<Button alignment="CENTER" layoutX="317.0" layoutY="192.0" onAction="#options" text="Options" />
+         			<Button fx:id="btnOptions" alignment="CENTER" layoutX="317.0" layoutY="192.0" onAction="#optionsClick" text="Options" />
                   <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="50.0" layoutY="67.0">
                      <image>
-                        <Image url="@../../../../../../../../../Desktop/knightFight~.gif" />
+                        <Image url="knightFight~.gif" />
                      </image>
                   </ImageView>
                   <Label layoutX="293.0" layoutY="84.0" text="TP3_RTS">
