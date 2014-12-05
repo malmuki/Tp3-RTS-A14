@@ -11,6 +11,7 @@ import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
+import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Game {
 
@@ -33,6 +34,7 @@ public class Game {
 				map[i][j] = new Tile(new Vector2i(i, j));
 			}
 		}
+		PathFinder.setMap(map);
 	}
 	
 	public void doTasks() {
