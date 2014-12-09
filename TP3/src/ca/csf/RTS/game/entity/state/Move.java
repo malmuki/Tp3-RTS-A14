@@ -37,7 +37,6 @@ public class Move implements State {
         PathFinder.findPath(human, finalDestination);
       } else { //else just move to the next
         human.moveToTile(next);
-        //TODO: text if the next has stuff on it
         //TODO: test if the next has stuff on it, if so, repathfind...
       }
     }
