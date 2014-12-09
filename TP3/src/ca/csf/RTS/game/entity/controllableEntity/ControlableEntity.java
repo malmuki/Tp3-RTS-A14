@@ -9,6 +9,7 @@ import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
+import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
@@ -23,8 +24,8 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	protected RectangleShape lifeBar;
 	protected RectangleShape lifeBorder;
 
-	public ControlableEntity(ArrayList<Tile> tiles, String name, int healthMax , Team team) {
-		super(tiles, name , team);
+	public ControlableEntity(ArrayList<Tile> tiles, String name, int healthMax , Team team, GameEventHandler game) {
+		super(tiles, name , team, game);
 		this.healthMax = healthMax;
 		healthCurrent = healthMax;
 		stateStack = new Stack<State>();
@@ -66,7 +67,13 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	public void loseLife(int damage) {
 		healthCurrent -= damage;
 		if (healthCurrent <= 0) {
+			stateStack.clear();
 			stateStack.push(new Dead());
 		}
+	}
+	
+	@Override
+	public int getHP() {
+		return healthCurrent;
 	}
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.jsfml.graphics.Texture;
 
+import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
@@ -32,8 +33,9 @@ public class FootMan extends Human implements Fighter {
 	private static final int RANGE = 14;
 	private static final int DAMAGE = 10;
 
-	public FootMan(ArrayList<Tile> tiles, Team team) {
-		super(tiles, NAME, MAX_HEALTH, team);
+	public FootMan(ArrayList<Tile> tiles, Team team, GameEventHandler game) {
+		super(tiles, NAME, MAX_HEALTH, team, game);
+		//stateStack.push(getDefaultState());
 		sprite.setTexture(texture);
 	}
 
@@ -74,10 +76,13 @@ public class FootMan extends Human implements Fighter {
 						((Fightable) ((Alert) stateStack.peek())
 								.getFutureTarget()), this));
 				break;
-			case targetToFar:
+			case targetTooFar:
 				Tile temp = ((Entity) ((Attack) stateStack.peek()).getTarget())
 						.getCurrentTiles().get(0);
 				stateStack.push(new Move(temp, this));
+				break;
+			case dead:
+				game.remove(this);
 				break;
 			default:
 				break;

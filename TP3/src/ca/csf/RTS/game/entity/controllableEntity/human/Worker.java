@@ -2,6 +2,7 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 
 import java.util.ArrayList;
 
+import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
@@ -12,8 +13,8 @@ public class Worker extends Human {
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Worker";
 
-	public Worker(ArrayList<Tile> tiles, Team team) {
-		super(tiles, NAME, MAX_HEALTH ,team);
+	public Worker(ArrayList<Tile> tiles, Team team, GameEventHandler game) {
+		super(tiles, NAME, MAX_HEALTH, team, game);
 	}
 
 	@Override
@@ -34,9 +35,9 @@ public class Worker extends Human {
 			if (stateStack.isEmpty()) {
 				stateStack.push(getDefaultState());
 			}
-			
+
 			break;
-		case targetToFar:
+		case targetTooFar:
 
 			break;
 		case notEnoughRessources:

@@ -3,6 +3,8 @@ package ca.csf.RTS.game.entity;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
+import ca.csf.RTS.eventHandler.GameEventHandler;
+
 public class Tile extends GameObject {
 
 	public static final float TILE_SIZE = 20;
@@ -13,8 +15,8 @@ public class Tile extends GameObject {
 	private final Vector2f screenLocation;
 	private Entity onTile;
 
-	public Tile(Vector2i mapLocation) {
-		super(NAME);
+	public Tile(Vector2i mapLocation, GameEventHandler game) {
+		super(NAME, game);
 		setOnTile(null);
 		this.mapLocation = mapLocation;
 		this.screenLocation = new Vector2f(mapLocation.x * TILE_SIZE, mapLocation.y * TILE_SIZE);

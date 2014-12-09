@@ -2,6 +2,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building;
 
 import java.util.ArrayList;
 
+import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
@@ -16,8 +17,8 @@ public class WatchTower extends Building implements Fighter,Watcher {
 	private static final int RANGE = 112;
 	private static final int DAMAGE = 10;
 	
-	public WatchTower(ArrayList<Tile> tiles,Team team) {
-		super(tiles, NAME, MAX_HEALTH, team);
+	public WatchTower(ArrayList<Tile> tiles,Team team, GameEventHandler game) {
+		super(tiles, NAME, MAX_HEALTH, team, game);
 	}
 
 	@Override

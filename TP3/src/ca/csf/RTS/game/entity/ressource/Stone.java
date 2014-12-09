@@ -2,6 +2,7 @@ package ca.csf.RTS.game.entity.ressource;
 
 import java.util.ArrayList;
 
+import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Tile;
 
 public class Stone extends Ressource {
@@ -9,7 +10,7 @@ public class Stone extends Ressource {
 	private static final String NAME = "Stone";
 	private static final int RESSOURCE_MAX = 1500;
 	
-	public Stone(ArrayList<Tile> tiles) {
-		super( tiles, NAME, RESSOURCE_MAX);
+	public Stone(ArrayList<Tile> tiles , GameEventHandler game) {
+		super( tiles, NAME, RESSOURCE_MAX, game);
 	}
 }

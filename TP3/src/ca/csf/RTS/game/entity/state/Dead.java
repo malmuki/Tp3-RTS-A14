@@ -5,7 +5,7 @@ public class Dead implements State {
 	@Override
 	public StateInteraction action() {
 		
-		return StateInteraction.ended;
+		return StateInteraction.dead;
 	}
 
 }

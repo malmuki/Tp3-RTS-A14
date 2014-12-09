@@ -16,14 +16,20 @@ public class Attack implements State {
 
 	@Override
 	public StateInteraction action() {
-		if (((ControlableEntity) target)
+		if (((ControlableEntity) source)
 				.getCurrentTiles()
 				.get(0)
 				.getDistance(
-						((ControlableEntity) source).getCurrentTiles().get(0)) <= 14) {
+						((ControlableEntity) target).getCurrentTiles().get(0)) <= source.getRange()) {
 			source.attack(target);
+			if (target.getHP() <= 0) {
+				return StateInteraction.ended;
+			}else {
+				return StateInteraction.notFinished;
+			}
+		}else {
+			return StateInteraction.targetTooFar;
 		}
-		return null;
 	}
 
 	public Fightable getTarget() {
