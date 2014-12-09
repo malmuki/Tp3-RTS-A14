@@ -48,7 +48,7 @@ public class MenuController extends SimpleFXController implements MenuEventHandl
 	
 	@FXML
 	private void dragRelease() {
-		gameController.getMusic().setVolume(((int) volumeMusicSlider.getValue()));
+		//gameController.getMusic().setVolume(((int) volumeMusicSlider.getValue()));
 	}
 
 }
