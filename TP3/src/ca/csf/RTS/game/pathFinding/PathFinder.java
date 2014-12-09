@@ -8,6 +8,8 @@ import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.human.Human;
 import ca.csf.RTS.game.entity.state.Move;
 
+//TODO: faire un pop sur la stack quand le pathfinder est appeller(enlever le move qui l'appele)
+
 // http://www.policyalmanac.org/games/binaryHeaps.htm
 public class PathFinder {
   private static Tile[][] map;
@@ -100,7 +102,7 @@ public class PathFinder {
   }
   
   private static void addValidAStarTileToOpenList(int row, int column, DijkstraTile tile) {
-    if (row >= 0 && column >= 0 && row <= Game.MAP_SIZE && column <= Game.MAP_SIZE) { //Tile exists
+    if (row >= 0 && column >= 0 && row < Game.MAP_SIZE && column < Game.MAP_SIZE) { //Tile exists
       DijkstraTile checkTile = getTile(row, column, closedList);
       if (map[row][column].getOnTile() == null && checkTile == null) {
         checkTile = getTile(row, column, openList);

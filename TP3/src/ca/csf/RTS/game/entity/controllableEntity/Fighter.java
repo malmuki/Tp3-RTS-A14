@@ -2,5 +2,9 @@ package ca.csf.RTS.game.entity.controllableEntity;
 
 public interface Fighter {
 	
-	void attack(Fightable target);
+	public void attack(Fightable target);
+	
+	public int getRange();
+	
+	public int getDamage();
 }

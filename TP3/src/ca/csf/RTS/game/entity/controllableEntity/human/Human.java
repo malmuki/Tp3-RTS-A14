@@ -3,15 +3,17 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 import java.util.ArrayList;
 
 import ca.csf.RTS.game.entity.Entity;
+import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
+import ca.csf.RTS.game.entity.controllableEntity.Watcher;
 import ca.csf.RTS.game.entity.state.Move;
 import ca.csf.RTS.game.entity.state.State;
 
-public abstract class Human extends ControlableEntity {
+public abstract class Human extends ControlableEntity implements Watcher {
 
-	public Human(ArrayList<Tile> tiles, String name, int maxHealth) {
-		super(tiles, name, maxHealth);
+	public Human(ArrayList<Tile> tiles, String name, int maxHealth, Team team) {
+		super(tiles, name, maxHealth , team);
 	}
 
 	public void order(Tile target) {

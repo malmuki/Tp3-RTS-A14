@@ -7,12 +7,13 @@ import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
+import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
-public class Game {
+public class Game implements GameEventHandler{
 
 	public static final int MAP_SIZE = 150;
 
@@ -52,14 +53,14 @@ public class Game {
 	  //TODO: temporary, remove this
 		ArrayList<Tile> temp = new ArrayList<Tile>();
 		temp.add(new Tile(new Vector2i(5, 5)));
-		footman1 = new FootMan(temp);
+		footman1 = new FootMan(temp, Team.PLAYER);
 		entityList.add(footman1);
 		map[5][5].setOnTile(footman1);
 		footman1.getStateStack().add(footman1.getDefaultState());
 		
 		temp.clear();
 		temp.add(new Tile(new Vector2i(6, 7)));
-		footman2 = new FootMan(temp);
+		footman2 = new FootMan(temp, Team.PLAYER);
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
 		footman2.getStateStack().add(footman2.getDefaultState());
