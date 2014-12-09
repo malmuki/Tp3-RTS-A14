@@ -20,6 +20,7 @@ public class Game implements GameEventHandler {
 	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
 	private ArrayList<Entity> entityList;
 	private ArrayList<Entity> selectedList;
+	private ArrayList<Entity> toBeDeleted;
 
 	// TODO: temporaire, à enlever
 	private FootMan footman1;
@@ -28,6 +29,7 @@ public class Game implements GameEventHandler {
 	public Game() {
 		selectedList = new ArrayList<Entity>();
 		entityList = new ArrayList<Entity>();
+		toBeDeleted = new ArrayList<Entity>();
 		for (int i = 0; i < MAP_SIZE; i++) {
 			for (int j = 0; j < MAP_SIZE; j++) {
 				map[i][j] = new Tile(new Vector2i(i, j), this);
@@ -39,22 +41,26 @@ public class Game implements GameEventHandler {
 		for (Entity object : entityList) {
 			object.doTasks();
 		}
+		for (Entity entity : toBeDeleted) {
+			entityList.remove(entity);
+		}
 	}
 
 	public void newGame() {
 		PathFinder.setMap(map);
 
 		// TODO: temporary, remove this
-		ArrayList<Tile> temp = new ArrayList<Tile>();
-		temp.add(new Tile(new Vector2i(5, 5), this));
-		footman1 = new FootMan(temp, Team.AI, this);
+		ArrayList<Tile> temp1 = new ArrayList<Tile>();
+		ArrayList<Tile> temp2 = new ArrayList<Tile>();
+		
+		temp1.add(map[5][5]);
+		footman1 = new FootMan(temp1, Team.AI, this);
 		entityList.add(footman1);
 		map[5][5].setOnTile(footman1);
 		footman1.getStateStack().add(footman1.getDefaultState());
 
-		temp.clear();
-		temp.add(new Tile(new Vector2i(6, 7), this));
-		footman2 = new FootMan(temp, Team.PLAYER, this);
+		temp2.add(map[6][7]);
+		footman2 = new FootMan(temp2, Team.PLAYER, this);
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
 		footman2.getStateStack().add(footman2.getDefaultState());
@@ -125,7 +131,7 @@ public class Game implements GameEventHandler {
 	}
 
 	public void giveOrder(Vector2f mousePos) {
-		mousePos = Vector2f.div(mousePos, Tile.TILE_SIZE);
+			mousePos = Vector2f.div(mousePos, Tile.TILE_SIZE);
 		Tile target = map[(int) mousePos.x][(int) mousePos.y];
 		// TODO: check if not ressource
 		for (Entity entity : getAllSelected()) {
@@ -139,7 +145,7 @@ public class Game implements GameEventHandler {
 
 	@Override
 	public void remove(Entity entity) {
-		entityList.remove(entity);
+		toBeDeleted.add(entity);
 		selectedList.remove(entity);
 		for (Tile tile : entity.getCurrentTiles()) {
 			tile.setOnTile(null);

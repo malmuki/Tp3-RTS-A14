@@ -29,7 +29,4 @@ public class Alert implements State {
 	public void setFutureTarget(Fightable futurTarget) {
 		this.futureTarget = futurTarget;
 	}
-
-	
-	
 }

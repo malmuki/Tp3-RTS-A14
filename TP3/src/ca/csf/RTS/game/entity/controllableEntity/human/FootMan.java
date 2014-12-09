@@ -46,7 +46,7 @@ public class FootMan extends Human implements Fighter {
 
 	@Override
 	public void order(Entity target) {
-		if (target.getTeam() == Team.AI) {
+		if (target.getTeam() != Team.NATURE && target.getTeam() != this.team) {
 			stateStack.push(new Attack((Fightable) target, this));
 		}else {
 			stateStack.push(new Move(target.getCurrentTiles().get(0), this));

@@ -29,7 +29,8 @@ public class MenuController extends SimpleFXController implements MenuEventHandl
 	public void startGame() {
 		getSimpleFxStage().close();
 		// Create the window
-		gameController.newGame();
+			gameController.newGame();
+		
 	}
 
 	@FXML
