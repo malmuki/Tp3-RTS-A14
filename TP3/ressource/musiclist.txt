@@ -1,0 +1,3 @@
+./ressource/wc2intro.ogg
+./ressource/wc2all1.ogg
+./ressource/wc2all2.ogg

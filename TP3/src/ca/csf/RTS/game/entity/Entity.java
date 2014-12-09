@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.jsfml.system.Vector2i;
 
+import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Game;
 
 public abstract class Entity extends GameObject {
@@ -12,8 +13,8 @@ public abstract class Entity extends GameObject {
   protected boolean selected;
   protected Team team;
 
-  public Entity(ArrayList<Tile> tiles, String name, Team team) {
-    super(name);
+  public Entity(ArrayList<Tile> tiles, String name, Team team, GameEventHandler game) {
+    super(name, game);
     selected = false;
     this.currentTiles = tiles;
     this.team = team;

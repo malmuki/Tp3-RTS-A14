@@ -23,12 +23,11 @@ import org.jsfml.window.event.Event;
 import org.jsfml.window.event.KeyEvent;
 
 import ca.csf.RTS.Menu.model.Menu;
-import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.sound.MusicPlayer;
 
-public class GameController implements GameEventHandler {
+public class GameController {
 
 	private static final float SENSITIVITY = 250;
 	private static final int SELECTION_THICKNESS = 2;
@@ -41,7 +40,6 @@ public class GameController implements GameEventHandler {
 	public GameController() {
 		music = new MusicPlayer();
 		game = new Game();
-		game.addEventHandler(this);
 		try {
 			gui = new Texture();
 			gui.loadFromFile(Paths.get("./ressource/GUI.png"));
@@ -79,7 +77,7 @@ public class GameController implements GameEventHandler {
 		selection.setOutlineColor(Color.BLACK);
 		selection.setOutlineThickness(SELECTION_THICKNESS);
 
-RectangleShape rectTest = new RectangleShape();
+		RectangleShape rectTest = new RectangleShape();
 		rectTest.setSize(new Vector2f(0.0f,  0.0f));
         rectTest.setPosition(20.0f, 20.0f);
         rectTest.setFillColor(Color.RED);

@@ -29,7 +29,8 @@ public class MenuController extends SimpleFXController implements MenuEventHandl
 	public void startGame() {
 		getSimpleFxStage().close();
 		// Create the window
-		gameController.newGame();
+			gameController.newGame();
+		
 	}
 
 	@FXML
@@ -47,7 +48,7 @@ public class MenuController extends SimpleFXController implements MenuEventHandl
 	
 	@FXML
 	private void dragRelease() {
-		gameController.getMusic().setVolume(((int) volumeMusicSlider.getValue()));
+		//gameController.getMusic().setVolume(((int) volumeMusicSlider.getValue()));
 	}
 
 }

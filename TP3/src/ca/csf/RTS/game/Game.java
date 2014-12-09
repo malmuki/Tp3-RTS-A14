@@ -13,54 +13,54 @@ import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
-public class Game implements GameEventHandler{
+public class Game implements GameEventHandler {
 
 	public static final int MAP_SIZE = 150;
 
-	private ArrayList<GameEventHandler> gameEventHandler;
 	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
 	private ArrayList<Entity> entityList;
 	private ArrayList<Entity> selectedList;
-	
+	private ArrayList<Entity> toBeDeleted;
+
 	// TODO: temporaire, à enlever
 	private FootMan footman1;
 	private FootMan footman2;
 
 	public Game() {
 		selectedList = new ArrayList<Entity>();
-		gameEventHandler = new ArrayList<GameEventHandler>();
 		entityList = new ArrayList<Entity>();
+		toBeDeleted = new ArrayList<Entity>();
 		for (int i = 0; i < MAP_SIZE; i++) {
 			for (int j = 0; j < MAP_SIZE; j++) {
-				map[i][j] = new Tile(new Vector2i(i, j));
+				map[i][j] = new Tile(new Vector2i(i, j), this);
 			}
 		}
 	}
-	
-	public void doTasks() {
-	  for (Entity object : entityList) {
-	    object.doTasks();
-	  }
-	}
 
-	public void addEventHandler(GameEventHandler handler) {
-		gameEventHandler.add(handler);
+	public void doTasks() {
+		for (Entity object : entityList) {
+			object.doTasks();
+		}
+		for (Entity entity : toBeDeleted) {
+			entityList.remove(entity);
+		}
 	}
 
 	public void newGame() {
-	  PathFinder.setMap(map);
-	  
-	  //TODO: temporary, remove this
-		ArrayList<Tile> temp = new ArrayList<Tile>();
-		temp.add(new Tile(new Vector2i(5, 5)));
-		footman1 = new FootMan(temp, Team.PLAYER);
+		PathFinder.setMap(map);
+
+		// TODO: temporary, remove this
+		ArrayList<Tile> temp1 = new ArrayList<Tile>();
+		ArrayList<Tile> temp2 = new ArrayList<Tile>();
+		
+		temp1.add(map[5][5]);
+		footman1 = new FootMan(temp1, Team.AI, this);
 		entityList.add(footman1);
 		map[5][5].setOnTile(footman1);
 		footman1.getStateStack().add(footman1.getDefaultState());
-		
-		temp.clear();
-		temp.add(new Tile(new Vector2i(6, 7)));
-		footman2 = new FootMan(temp, Team.PLAYER);
+
+		temp2.add(map[6][7]);
+		footman2 = new FootMan(temp2, Team.PLAYER, this);
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
 		footman2.getStateStack().add(footman2.getDefaultState());
@@ -80,28 +80,33 @@ public class Game implements GameEventHandler{
 		selection1 = Vector2f.div(selection1, Tile.TILE_SIZE);
 		selection2 = Vector2f.div(selection2, Tile.TILE_SIZE);
 
-			if (selection1.x > selection2.x) {
-				Vector2f buffer = selection1;
-				selection1 = new Vector2f(selection2.x, selection1.y);
-				selection2 = new Vector2f(buffer.x, selection2.y);
-			}
-			if (selection1.y > selection2.y) {
-				Vector2f buffer = selection1;
-				selection1 = new Vector2f(selection1.x, selection2.y);
-				selection2 = new Vector2f(selection2.x, buffer.y);
-			}
-			
+		if (selection1.x > selection2.x) {
+			Vector2f buffer = selection1;
+			selection1 = new Vector2f(selection2.x, selection1.y);
+			selection2 = new Vector2f(buffer.x, selection2.y);
+		}
+		if (selection1.y > selection2.y) {
+			Vector2f buffer = selection1;
+			selection1 = new Vector2f(selection1.x, selection2.y);
+			selection2 = new Vector2f(selection2.x, buffer.y);
+		}
 
 		for (int i = (int) selection1.x; i < selection2.x; i++) {
 			for (int j = (int) selection1.y; j < selection2.y; j++) {
 				if (map[i][j].getOnTile() != null) {
-					toHighlight.add((ControlableEntity)map[i][j].getOnTile());//TODO: this will create errors on ressources
+					toHighlight.add((ControlableEntity) map[i][j].getOnTile());// TODO:
+																				// this
+																				// will
+																				// create
+																				// errors
+																				// on
+																				// ressources
 				}
 			}
 		}
 
 		for (ControlableEntity controlableEntity : toHighlight) {
-		    controlableEntity.select();
+			controlableEntity.select();
 			selectedList.add(controlableEntity);
 		}
 
@@ -115,7 +120,7 @@ public class Game implements GameEventHandler{
 				}
 			}
 			if (!isSelected) {
-			  entity.deSelect();
+				entity.deSelect();
 				toUnselect.add(entity);
 			}
 		}
@@ -125,16 +130,25 @@ public class Game implements GameEventHandler{
 		}
 	}
 
-  public void giveOrder(Vector2f mousePos) {
-    mousePos = Vector2f.div(mousePos, Tile.TILE_SIZE);
-    Tile target = map[(int) mousePos.x][(int) mousePos.y];
-    //TODO: check if not ressource
-    for (Entity entity : getAllSelected()) {
-      if (target.getOnTile() != null) {
-        entity.order(target.getOnTile());
-      } else {
-        entity.order(target);
-      }
-    }
-  }
+	public void giveOrder(Vector2f mousePos) {
+			mousePos = Vector2f.div(mousePos, Tile.TILE_SIZE);
+		Tile target = map[(int) mousePos.x][(int) mousePos.y];
+		// TODO: check if not ressource
+		for (Entity entity : getAllSelected()) {
+			if (target.getOnTile() != null) {
+				entity.order(target.getOnTile());
+			} else {
+				entity.order(target);
+			}
+		}
+	}
+
+	@Override
+	public void remove(Entity entity) {
+		toBeDeleted.add(entity);
+		selectedList.remove(entity);
+		for (Tile tile : entity.getCurrentTiles()) {
+			tile.setOnTile(null);
+		}
+	}
 }
