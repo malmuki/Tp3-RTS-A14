@@ -12,4 +12,9 @@ public class Barrack extends HumanFactory {
 	public Barrack(ArrayList<Tile> tiles) {
 		super(tiles, NAME, MAX_HEALTH);
 	}
+
+	@Override
+	public void doTasks() {
+		
+	}
 }

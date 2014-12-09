@@ -4,7 +4,7 @@ import ca.csf.RTS.game.entity.Tile;
 
 public class DijkstraTile implements Comparable<DijkstraTile> {
   protected DijkstraTile parent;
-  protected final Tile mapTile;
+  protected Tile mapTile;
   protected int g;
   protected int h;
 

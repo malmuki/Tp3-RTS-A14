@@ -55,8 +55,13 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		lifeBar.draw(target, RenderStates.DEFAULT);
 		lifeBorder.draw(target, RenderStates.DEFAULT);
 	}
-	
+
 	public Stack<State> getStateStack() {
-	  return stateStack;
+		return stateStack;
+	}
+
+	@Override
+	public void loseLife(int damage) {
+		healthCurrent -= damage;
 	}
 }

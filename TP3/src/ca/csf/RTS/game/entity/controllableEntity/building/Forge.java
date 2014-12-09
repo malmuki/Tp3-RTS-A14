@@ -17,4 +17,9 @@ public class Forge extends Building {
 	public void order(Entity onTile) {}
 
     public void order(Tile target) {}
+
+	@Override
+	public void doTasks() {
+		
+	}
 }

@@ -26,4 +26,9 @@ public class WatchTower extends Building implements Fighter {
 	}
 
     public void order(Tile target) {}
+
+	@Override
+	public void doTasks() {
+		
+	}
 }

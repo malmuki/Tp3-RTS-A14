@@ -17,16 +17,18 @@ public class Tile extends GameObject {
 		super(NAME);
 		setOnTile(null);
 		this.mapLocation = mapLocation;
-		this.screenLocation = new Vector2f(mapLocation.x * TILE_SIZE + TILE_SIZE / 2, mapLocation.y * TILE_SIZE + TILE_SIZE / 2);
+		this.screenLocation = new Vector2f(mapLocation.x * TILE_SIZE, mapLocation.y * TILE_SIZE);
 	}
 	
 	public int getDistance(Tile tile) {
 	  int x;
 	  int y;
 	  x = mapLocation.x - tile.getMapLocation().x;
-	  x *= x * 10;
+	  x *= 10;
+	  x *= x;
 	  y = mapLocation.y - tile.getMapLocation().y;
-	  y *= y * 10;
+	  y *= y;
+	  y *= y;
 	  return (int)Math.sqrt(x + y);
 	}
 

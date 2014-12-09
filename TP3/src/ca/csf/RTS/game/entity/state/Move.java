@@ -23,10 +23,11 @@ public class Move implements State {
   }
 
   @Override
-  public void action() {
+  public StateInteraction action() {
     if (human.getCurrentTiles().get(0).getDistance(finalDestination) <= 14) {
       if (finalDestination.getOnTile() == null) {
         human.moveToTile(finalDestination);
+        return StateInteraction.ended;
       } else {
         human.getStateStack().clear();
         human.getStateStack().add(human.getDefaultState());
@@ -37,9 +38,10 @@ public class Move implements State {
       } else { //else just move to the next
         human.moveToTile(next);
         //TODO: text if the next has stuff on it
+        //TODO: test if the next has stuff on it, if so, repathfind...
       }
-      
     }
+	
   }
 
 }

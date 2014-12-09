@@ -18,13 +18,13 @@ public abstract class Human extends ControlableEntity {
 		stateStack.clear();
 		stateStack.add(new Move(target, this));
 	}
-
-	public void moveToTile(Tile targetTile) {
-		currentTiles.get(0).setOnTile(null);
-		currentTiles.clear();
-		currentTiles.add(targetTile);
-		targetTile.setOnTile(this);
-		sprite.setPosition(targetTile.getScreenLocation());
+	
+	public void moveToTile(Tile targetTile){
+	  currentTiles.get(0).setOnTile(null);
+	  currentTiles.clear(); 
+	  currentTiles.add(targetTile);
+	  targetTile.setOnTile(this);
+	  sprite.setPosition(targetTile.getScreenLocation());
 	}
 
 	public abstract void order(Entity target);

@@ -17,17 +17,38 @@ public class Worker extends Human {
 
 	@Override
 	public State getDefaultState() {
-		return new Idle(this);
+		return new Idle();
 	}
 
 	@Override
 	public void order(Entity target) {
-		
+
 	}
 
 	@Override
 	public void doTasks() {
-		// TODO Auto-generated method stub
-		
+		switch (stateStack.peek().action()) {
+		case ended:
+			stateStack.pop();
+			if (stateStack.isEmpty()) {
+				stateStack.push(getDefaultState());
+			}
+			
+			break;
+		case targetToFar:
+
+			break;
+		case notEnoughRessources:
+
+			break;
+		case spaceIsOccupied:
+
+			break;
+		case targetUnreachable:
+
+			break;
+		default:
+			break;
+		}
 	}
 }

@@ -7,7 +7,15 @@ public class Alert implements State {
   }
 
   @Override
-	public void action() {
+	public StateInteraction action() {
+	  if (true) {
+			return StateInteraction.targetSighted;
+	}else {
+		return StateInteraction.noTargetSighted;
+	}
+	
+		
+		
 
 	}
 
