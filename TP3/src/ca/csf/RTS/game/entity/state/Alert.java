@@ -1,16 +1,35 @@
 package ca.csf.RTS.game.entity.state;
 
-import ca.csf.RTS.game.entity.controllableEntity.human.Human;
+import ca.csf.RTS.game.entity.controllableEntity.Fightable;
+import ca.csf.RTS.game.entity.controllableEntity.Watcher;
 
 public class Alert implements State {
 
-	public Alert(Human human) {
-    // TODO Auto-generated constructor stub
-  }
+	private Fightable futureTarget;
+	private Watcher watcher;
 
-  @Override
-	public void action() {
-
+	public Alert(Watcher watcher) {
+		this.watcher = watcher;
 	}
 
+	@Override
+	public StateInteraction action() {
+		setFutureTarget((Fightable) watcher.search());
+		if (getFutureTarget() != null) {
+			return StateInteraction.targetSighted;
+		} else {
+			return StateInteraction.noTargetSighted;
+		}
+	}
+	
+	public Fightable getFutureTarget() {
+		return futureTarget;
+	}
+
+	public void setFutureTarget(Fightable futurTarget) {
+		this.futureTarget = futurTarget;
+	}
+
+	
+	
 }

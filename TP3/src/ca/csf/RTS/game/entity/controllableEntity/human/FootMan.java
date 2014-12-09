@@ -7,15 +7,18 @@ import java.util.ArrayList;
 import org.jsfml.graphics.Texture;
 
 import ca.csf.RTS.game.entity.Entity;
+import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
 import ca.csf.RTS.game.entity.state.Alert;
+import ca.csf.RTS.game.entity.state.Attack;
+import ca.csf.RTS.game.entity.state.Move;
 import ca.csf.RTS.game.entity.state.State;
 
-public class FootMan extends Human implements Fighter{
-	
-	static{
+public class FootMan extends Human implements Fighter {
+
+	static {
 		try {
 			texture = new Texture();
 			texture.loadFromFile(Paths.get("./ressource/soldat.png"));
@@ -23,28 +26,78 @@ public class FootMan extends Human implements Fighter{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Footman";
-	
-	public FootMan(ArrayList<Tile> tiles) {
-		super(tiles, NAME , MAX_HEALTH);
+	private static final int RANGE = 14;
+	private static final int DAMAGE = 10;
+
+	public FootMan(ArrayList<Tile> tiles, Team team) {
+		super(tiles, NAME, MAX_HEALTH, team);
 		sprite.setTexture(texture);
 	}
 
 	@Override
 	public void attack(Fightable target) {
-		
+		target.loseLife(DAMAGE);
 	}
-	
-	@Override
-    public void order(Entity target) {
-      
-    }
 
-  @Override
-  public State getDefaultState() {
-    return new Alert(this);
-  }
-	
+	@Override
+	public void order(Entity target) {
+		if (target.getTeam() == Team.AI) {
+			stateStack.push(new Attack((Fightable) target, this));
+		}else {
+			stateStack.push(new Move(target.getCurrentTiles().get(0), this));
+		}
+	}
+
+	@Override
+	public State getDefaultState() {
+		return new Alert(this);
+	}
+
+	@Override
+	public void doTasks() {
+		if (!stateStack.isEmpty()) {
+			switch (stateStack.peek().action()) {
+			case notFinished:
+			case noTargetSighted:
+				break;
+			case ended:
+				stateStack.pop();
+				if (stateStack.isEmpty()) {
+					stateStack.push(getDefaultState());
+				}
+				break;
+			case targetSighted:
+				stateStack.push(new Attack(
+						((Fightable) ((Alert) stateStack.peek())
+								.getFutureTarget()), this));
+				break;
+			case targetToFar:
+				Tile temp = ((Entity) ((Attack) stateStack.peek()).getTarget())
+						.getCurrentTiles().get(0);
+				stateStack.push(new Move(temp, this));
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	@Override
+	public Entity search() {
+		// TODO: dijktras
+		return null;
+	}
+
+	@Override
+	public int getRange() {
+		return RANGE;
+	}
+
+	@Override
+	public int getDamage() {
+		return DAMAGE;
+	}
 }

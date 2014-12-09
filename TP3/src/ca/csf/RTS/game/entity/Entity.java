@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.game.Game;
-import ca.csf.RTS.game.entity.state.State;
 
 public abstract class Entity extends GameObject {
 
   protected ArrayList<Tile> currentTiles;
   protected boolean selected;
+  protected Team team;
 
-  public Entity(ArrayList<Tile> tiles, String name) {
+  public Entity(ArrayList<Tile> tiles, String name, Team team) {
     super(name);
     selected = false;
     this.currentTiles = tiles;
+    this.team = team;
     setSpritePos();
   }
 
@@ -47,4 +48,8 @@ public abstract class Entity extends GameObject {
   public abstract void order(Tile target);
 
   public abstract void doTasks();
+
+public Team getTeam() {
+	return team;
+}
 }

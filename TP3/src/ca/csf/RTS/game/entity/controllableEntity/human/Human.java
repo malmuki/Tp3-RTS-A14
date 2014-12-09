@@ -2,28 +2,24 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 
 import java.util.ArrayList;
 
-import org.jsfml.system.Vector2i;
-
 import ca.csf.RTS.game.entity.Entity;
+import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
+import ca.csf.RTS.game.entity.controllableEntity.Watcher;
 import ca.csf.RTS.game.entity.state.Move;
 import ca.csf.RTS.game.entity.state.State;
 
-public abstract class Human extends ControlableEntity {
-	
-	public Human(ArrayList<Tile> tiles,String name, int maxHealth) {
-		super( tiles, name, maxHealth );
+public abstract class Human extends ControlableEntity implements Watcher {
+
+	public Human(ArrayList<Tile> tiles, String name, int maxHealth, Team team) {
+		super(tiles, name, maxHealth , team);
 	}
-	
+
 	public void order(Tile target) {
-	  stateStack.clear();
-	  stateStack.add(new Move(target, this));
+		stateStack.clear();
+		stateStack.add(new Move(target, this));
 	}
-	
-	public void order(Entity target) {
-      //TODO: STUFF
-    }
 	
 	public void moveToTile(Tile targetTile){
 	  currentTiles.get(0).setOnTile(null);
@@ -32,6 +28,8 @@ public abstract class Human extends ControlableEntity {
 	  targetTile.setOnTile(this);
 	  sprite.setPosition(targetTile.getScreenLocation());
 	}
-	
-	 public abstract State getDefaultState();
+
+	public abstract void order(Entity target);
+
+	public abstract State getDefaultState();
 }

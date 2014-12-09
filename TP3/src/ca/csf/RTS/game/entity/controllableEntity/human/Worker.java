@@ -2,6 +2,8 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 
 import java.util.ArrayList;
 
+import ca.csf.RTS.game.entity.Entity;
+import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.State;
@@ -10,12 +12,50 @@ public class Worker extends Human {
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Worker";
 
-	public Worker(ArrayList<Tile> tiles) {
-		super(tiles, NAME, MAX_HEALTH);
+	public Worker(ArrayList<Tile> tiles, Team team) {
+		super(tiles, NAME, MAX_HEALTH ,team);
 	}
 
-  @Override
-  public State getDefaultState() {
-    return new Idle(this);
-  }
+	@Override
+	public State getDefaultState() {
+		return new Idle();
+	}
+
+	@Override
+	public void order(Entity target) {
+
+	}
+
+	@Override
+	public void doTasks() {
+		switch (stateStack.peek().action()) {
+		case ended:
+			stateStack.pop();
+			if (stateStack.isEmpty()) {
+				stateStack.push(getDefaultState());
+			}
+			
+			break;
+		case targetToFar:
+
+			break;
+		case notEnoughRessources:
+
+			break;
+		case spaceIsOccupied:
+
+			break;
+		case targetUnreachable:
+
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public Entity search() {
+		// TODO: dijitre
+		return null;
+	}
 }
