@@ -39,9 +39,9 @@ public class Game implements GameEventHandler {
 		}
 	}
 
-	public void doTasks() {
+	public void doTasks(float deltaTime) {
 		for (Entity object : entityList) {
-			object.doTasks();
+			object.doTasks(deltaTime);
 		}
 		for (Entity entity : toBeDeleted) {
 			entityList.remove(entity);

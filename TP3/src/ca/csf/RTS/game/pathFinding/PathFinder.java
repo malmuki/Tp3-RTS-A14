@@ -68,8 +68,6 @@ public class PathFinder {
 		} while (closedList.get(0).getMapTile() != goal
 				&& !openList.isEmpty());
 
-		movingHuman.getStateStack().pop();
-
 		// if (closedList.get(0).mapTile != goalLocation) {
 		// movingHuman.getStateStack().add(movingHuman.getDefaultState());
 		// } else {
@@ -92,8 +90,7 @@ public class PathFinder {
 		// }
 		boolean temp = true;
 		while (temp) {
-			movingHuman.getStateStack().add(
-					0,
+			movingHuman.getStateStack().push(
 					new Move(goal, lastTileAdded.getMapTile(),
 							movingHuman));
 			if (lastTileAdded.getParent() == null) {
@@ -102,6 +99,7 @@ public class PathFinder {
 				lastTileAdded = (AStarTile) lastTileAdded.getParent();
 			}
 		}
+		movingHuman.getStateStack().pop();
 	}
 
 	// public void findClosest(Tile startLocation, Object objectToFind) {

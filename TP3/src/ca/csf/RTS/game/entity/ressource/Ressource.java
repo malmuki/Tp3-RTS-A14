@@ -27,7 +27,7 @@ public abstract class Ressource extends Entity {
 	public void order(Tile target) {
 	}
 
-	public void doTasks() {
+	public void doTasks(float deltaTime) {
 	}
 	@Override
 	public boolean isObstacle() {

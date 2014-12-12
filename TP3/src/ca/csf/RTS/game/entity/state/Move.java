@@ -9,6 +9,7 @@ public class Move implements State {
 	private Tile finalDestination;
 	private Tile next;
 	private Human human;
+	private float moveProgression = 0;
 
 	public Move(Tile target, Human human) { // Use this constructor for the
 											// initial order giving
@@ -27,21 +28,33 @@ public class Move implements State {
 	}
 
 	@Override
-	public StateInteraction action() {
+	public StateInteraction action(float deltaTime) {
 		if (human.getCurrentTiles().get(0).getDistance(finalDestination) <= 14) {
-			if (finalDestination.getOnTile() == null) {
-				human.moveToTile(finalDestination);
+			
+			moveProgression += deltaTime;
+			if (finalDestination.getOnTile() == null && human.moveToTile(finalDestination, moveProgression)) {
+					return StateInteraction.ended;
 			}
-			return StateInteraction.ended;
+
+			return StateInteraction.notFinished;
+
 		} else {
 			if (next == null) { // If there is no next, pathfind to the end
+				human.getStateStack().clear();
 				PathFinder.findPath(human, finalDestination);
 				return StateInteraction.notFinished;
 			} else { // else just move to the next
 				if (next.getOnTile() == null) {
-					human.moveToTile(next);
-					return StateInteraction.ended;
+					moveProgression += deltaTime;
+
+					if (human.moveToTile(next, moveProgression)) {
+						return StateInteraction.ended;
+					} else {
+						return StateInteraction.notFinished;
+					}
+
 				} else {
+					human.getStateStack().clear();
 					PathFinder.findPath(human, finalDestination);
 					return StateInteraction.notFinished;
 				}

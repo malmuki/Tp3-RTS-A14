@@ -91,10 +91,10 @@ public class GameController {
 
 			music.musicPlaylist();
 			if (isFocused) {
-			
-				game.doTasks();
-				// pour obtenir le temps depuis la derniere frame
+				
 				float dt = frameClock.restart().asSeconds();
+				game.doTasks(dt);
+				// pour obtenir le temps depuis la derniere frame
 
 				window.setView(guiView);
 				// draw the GUI

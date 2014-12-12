@@ -58,9 +58,9 @@ public class FootMan extends Human implements Fighter {
 	}
 
 	@Override
-	public void doTasks() {
+	public void doTasks(float deltaTime) {
 		if (!stateStack.isEmpty()) {
-			switch (stateStack.peek().action()) {
+			switch (stateStack.peek().action(deltaTime)) {
 			case notFinished:
 			case noTargetSighted:
 				break;
