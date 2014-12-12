@@ -33,7 +33,12 @@ public abstract class Entity extends GameObject {
         mostTopLeftTile = tile.getMapLocation();
       }
     }
-    sprite.setPosition(mostTopLeftTile.x * Tile.TILE_SIZE, mostTopLeftTile.y * Tile.TILE_SIZE);
+    if (sprite.getTexture().getSize().y > Tile.TILE_SIZE) {
+		sprite.setPosition(mostTopLeftTile.x * Tile.TILE_SIZE, mostTopLeftTile.y * Tile.TILE_SIZE - sprite.getTexture().getSize().y + Tile.TILE_SIZE);
+	}else {
+		sprite.setPosition(mostTopLeftTile.x * Tile.TILE_SIZE, mostTopLeftTile.y * Tile.TILE_SIZE);
+	}
+    
   }
 
   public void select() {

@@ -91,7 +91,7 @@ public class PathFinder {
 		boolean temp = true;
 		while (temp) {
 			movingHuman.getStateStack().push(
-					new Move(goal, lastTileAdded.getMapTile(),
+					new Move(lastTileAdded.getMapTile(),
 							movingHuman));
 			if (lastTileAdded.getParent() == null) {
 				temp = false;

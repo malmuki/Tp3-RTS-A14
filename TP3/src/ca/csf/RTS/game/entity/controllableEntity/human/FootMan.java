@@ -46,7 +46,8 @@ public class FootMan extends Human implements Fighter {
 	@Override
 	public void order(Entity target) {
 		if (target.getTeam() != Team.NATURE && target.getTeam() != this.team) {
-			stateStack.push(new Attack((Fightable) target, this));
+			setTarget(target);
+			stateStack.push(new Attack(this));
 		}else {
 			stateStack.push(new Move(target.getCurrentTiles().get(0), this));
 		}
@@ -71,14 +72,11 @@ public class FootMan extends Human implements Fighter {
 				}
 				break;
 			case targetSighted:
-				stateStack.push(new Attack(
-						((Fightable) ((Alert) stateStack.peek())
-								.getFutureTarget()), this));
+				stateStack.push(new Attack(this));
+					
 				break;
 			case targetTooFar:
-				Tile temp = ((Entity) ((Attack) stateStack.peek()).getTarget())
-						.getCurrentTiles().get(0);
-				stateStack.push(new Move(temp, this));
+				stateStack.push(new Move(((Entity) this.getTarget()).getCurrentTiles().get(0), this));
 				break;
 			case dead:
 				game.remove(this);

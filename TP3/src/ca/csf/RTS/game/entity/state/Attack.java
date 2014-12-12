@@ -6,11 +6,9 @@ import ca.csf.RTS.game.entity.controllableEntity.Fighter;
 
 public class Attack implements State {
 
-	private Fightable target;
 	private Fighter source;
 
-	public Attack(Fightable target, Fighter source) {
-		this.target = target;
+	public Attack(Fighter source) {
 		this.source = source;
 	}
 
@@ -20,9 +18,9 @@ public class Attack implements State {
 				.getCurrentTiles()
 				.get(0)
 				.getDistance(
-						((ControlableEntity) target).getCurrentTiles().get(0)) <= source.getRange()) {
-			source.attack(target);
-			if (target.getHP() <= 0) {
+						((ControlableEntity) source).getCurrentTiles().get(0)) <= source.getRange()) {
+			source.attack((Fightable) ((ControlableEntity) source).getTarget());
+			if (((ControlableEntity) source).getHP() <= 0) {
 				return StateInteraction.ended;
 			}else {
 				return StateInteraction.notFinished;
@@ -30,10 +28,6 @@ public class Attack implements State {
 		}else {
 			return StateInteraction.targetTooFar;
 		}
-	}
-
-	public Fightable getTarget() {
-		return target;
 	}
 
 }
