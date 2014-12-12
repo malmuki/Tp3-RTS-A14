@@ -48,7 +48,7 @@ public abstract class Entity extends GameObject {
 
   public abstract void order(Tile target);
 
-  public abstract void doTasks();
+  public abstract void doTasks(float deltaTime);
 
 public Team getTeam() {
 	return team;

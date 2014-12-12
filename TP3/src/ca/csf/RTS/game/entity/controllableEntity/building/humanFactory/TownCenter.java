@@ -16,7 +16,7 @@ public class TownCenter extends HumanFactory {
 	}
 
 	@Override
-	public void doTasks() {
+	public void doTasks(float deltaTime) {
 		
 	}
 }

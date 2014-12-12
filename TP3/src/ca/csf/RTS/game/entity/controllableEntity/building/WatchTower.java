@@ -33,7 +33,7 @@ public class WatchTower extends Building implements Fighter,Watcher {
     public void order(Tile target) {}
 
 	@Override
-	public void doTasks() {
+	public void doTasks(float deltaTime) {
 		
 	}
 
