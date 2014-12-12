@@ -28,8 +28,8 @@ public class Worker extends Human {
 	}
 
 	@Override
-	public void doTasks() {
-		switch (stateStack.peek().action()) {
+	public void doTasks(float deltaTime) {
+		switch (stateStack.peek().action(deltaTime)) {
 		case ended:
 			stateStack.pop();
 			if (stateStack.isEmpty()) {

@@ -21,7 +21,7 @@ public class Forge extends Building {
     public void order(Tile target) {}
 
 	@Override
-	public void doTasks() {
+	public void doTasks(float deltaTime) {
 		
 	}
 }

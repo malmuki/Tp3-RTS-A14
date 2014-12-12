@@ -13,7 +13,7 @@ public class Alert implements State {
 	}
 
 	@Override
-	public StateInteraction action() {
+	public StateInteraction action(float deltaTime) {
 		setFutureTarget((Fightable) watcher.search());
 		if (getFutureTarget() != null) {
 			return StateInteraction.targetSighted;

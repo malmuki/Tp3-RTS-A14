@@ -12,9 +12,12 @@ import ca.csf.RTS.game.entity.state.Move;
 import ca.csf.RTS.game.entity.state.State;
 
 public abstract class Human extends ControlableEntity implements Watcher {
+	
+	private static final float MOVE_DELAY = 0.18f;
 
-	public Human(ArrayList<Tile> tiles, String name, int maxHealth, Team team, GameEventHandler game) {
-		super(tiles, name, maxHealth , team, game);
+	public Human(ArrayList<Tile> tiles, String name, int maxHealth, Team team,
+			GameEventHandler game) {
+		super(tiles, name, maxHealth, team, game);
 	}
 
 	public void order(Tile target) {
@@ -22,12 +25,23 @@ public abstract class Human extends ControlableEntity implements Watcher {
 		stateStack.add(new Move(target, this));
 	}
 	
-	public void moveToTile(Tile targetTile){
-	  currentTiles.remove(0).setOnTile(null);
-	  currentTiles.add(targetTile);
-	  targetTile.setOnTile(this);
-	  sprite.setPosition(targetTile.getScreenLocation());
+	public boolean moveToTile(Tile targetTile, float moveProgression) {
+		sprite.setPosition(
+				currentTiles.get(0).getScreenLocation().x
+						+ (targetTile.getScreenLocation().x - currentTiles.get(
+								0).getScreenLocation().x) * moveProgression / MOVE_DELAY,
+				currentTiles.get(0).getScreenLocation().y
+						+ (targetTile.getScreenLocation().y - currentTiles.get(
+								0).getScreenLocation().y) * moveProgression / MOVE_DELAY);
+		if (moveProgression >= MOVE_DELAY) {
+			currentTiles.remove(0).setOnTile(null);
+			currentTiles.add(targetTile);
+			targetTile.setOnTile(this);
+			return true;
+		}
+		return false;
 	}
+
 	@Override
 	public boolean isObstacle() {
 		return false;

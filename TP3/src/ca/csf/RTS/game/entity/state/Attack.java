@@ -15,7 +15,7 @@ public class Attack implements State {
 	}
 
 	@Override
-	public StateInteraction action() {
+	public StateInteraction action(float deltaTime) {
 		if (((ControlableEntity) source)
 				.getCurrentTiles()
 				.get(0)
