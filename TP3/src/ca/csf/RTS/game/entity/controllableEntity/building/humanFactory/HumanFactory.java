@@ -12,8 +12,8 @@ import ca.csf.RTS.game.entity.controllableEntity.building.Building;
 public abstract class HumanFactory extends Building {
     protected GameObject rallyPoint;
 
-	public HumanFactory(ArrayList<Tile> tiles, String name, int maxHealth , Team team, GameEventHandler game) {
-		super(tiles, name, maxHealth, team, game);
+	public HumanFactory(ArrayList<Tile> tiles, int maxHealth , Team team, GameEventHandler game) {
+		super(tiles, maxHealth, team, game);
 		rallyPoint = null;
 	}
 	

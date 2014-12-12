@@ -12,11 +12,15 @@ public class TownCenter extends HumanFactory {
 	private static final String NAME = "Town Center";
 
 	public TownCenter(ArrayList<Tile> tiles,Team team, GameEventHandler game)  {
-		super(tiles, NAME, MAX_HEALTH , team, game);
+		super(tiles, MAX_HEALTH , team, game);
 	}
 
 	@Override
 	public void doTasks() {
 		
+	}
+	@Override
+	public String getName() {
+		return NAME;
 	}
 }

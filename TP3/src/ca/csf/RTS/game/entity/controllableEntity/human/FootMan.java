@@ -34,9 +34,8 @@ public class FootMan extends Human implements Fighter {
 	private static final int DAMAGE = 10;
 
 	public FootMan(ArrayList<Tile> tiles, Team team, GameEventHandler game) {
-		super(tiles, NAME, MAX_HEALTH, team, game);
+		super(tiles, MAX_HEALTH, team, game);
 		//stateStack.push(getDefaultState());
-		sprite.setTexture(texture);
 	}
 
 	@Override
@@ -104,5 +103,10 @@ public class FootMan extends Human implements Fighter {
 	@Override
 	public int getDamage() {
 		return DAMAGE;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 }
