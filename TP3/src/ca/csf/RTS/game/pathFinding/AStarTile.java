@@ -27,8 +27,8 @@ import ca.csf.RTS.game.entity.Tile;
     }
 
     private int calculateH() {
-        int h = (mapTile.getMapLocation().x - 8) * 10; //TODO: replace 8
-        int temp = (mapTile.getMapLocation().y - 8) * 10; //TODO: replace 8
+        int h = (mapTile.getMapLocation().x - PathFinder.getGoal().getMapLocation().x) * 10;
+        int temp = (mapTile.getMapLocation().y - PathFinder.getGoal().getMapLocation().y) * 10;
 
         if (h < 0) {
           h *= -1;

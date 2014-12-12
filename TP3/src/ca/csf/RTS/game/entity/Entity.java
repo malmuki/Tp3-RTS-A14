@@ -12,7 +12,7 @@ public abstract class Entity extends GameObject {
   protected ArrayList<Tile> currentTiles;
   protected boolean selected;
   protected Team team;
-
+//TODO: fuck le NAME!!!!!!!!!!!!!!! FEU!!!!!!!!!!
   public Entity(ArrayList<Tile> tiles, String name, Team team, GameEventHandler game) {
     super(name, game);
     selected = false;
@@ -53,4 +53,6 @@ public abstract class Entity extends GameObject {
 public Team getTeam() {
 	return team;
 }
+
+public abstract boolean isObstacle();
 }
