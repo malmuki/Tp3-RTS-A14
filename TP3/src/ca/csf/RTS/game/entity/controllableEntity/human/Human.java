@@ -15,9 +15,8 @@ public abstract class Human extends ControlableEntity implements Watcher {
 	
 	private static final float MOVE_DELAY = 0.18f;
 
-	public Human(ArrayList<Tile> tiles, String name, int maxHealth, Team team,
-			GameEventHandler game) {
-		super(tiles, name, maxHealth, team, game);
+	public Human(ArrayList<Tile> tiles, int maxHealth, Team team, GameEventHandler game) {
+		super(tiles, maxHealth , team, game);
 	}
 
 	public void order(Tile target) {

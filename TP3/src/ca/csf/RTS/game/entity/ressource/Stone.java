@@ -11,6 +11,11 @@ public class Stone extends Ressource {
 	private static final int RESSOURCE_MAX = 1500;
 	
 	public Stone(ArrayList<Tile> tiles , GameEventHandler game) {
-		super( tiles, NAME, RESSOURCE_MAX, game);
+		super( tiles, RESSOURCE_MAX, game);
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 }

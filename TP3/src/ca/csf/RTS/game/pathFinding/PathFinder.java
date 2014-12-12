@@ -8,8 +8,6 @@ import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.human.Human;
 import ca.csf.RTS.game.entity.state.Move;
 
-//TODO: faire un pop sur la stack quand le pathfinder est appeller(enlever le move qui l'appele)
-
 // http://www.policyalmanac.org/games/binaryHeaps.htm
 public class PathFinder {
 	private static Tile goal;

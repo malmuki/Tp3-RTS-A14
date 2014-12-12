@@ -11,6 +11,7 @@ import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
+import ca.csf.RTS.game.entity.ressource.Tree;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Game implements GameEventHandler {
@@ -22,9 +23,10 @@ public class Game implements GameEventHandler {
 	private ArrayList<Entity> selectedList;
 	private ArrayList<Entity> toBeDeleted;
 
-	// TODO: temporaire, à enlever
+	//TEST: temporaire, à enlever
 	private FootMan footman1;
 	private FootMan footman2;
+	private Tree tree;
 
 	public Game() {
 		selectedList = new ArrayList<Entity>();
@@ -49,9 +51,10 @@ public class Game implements GameEventHandler {
 	public void newGame() {
 		PathFinder.setMap(map);
 
-		// TODO: temporary, remove this
+		// TEST: temporary, remove this
 		ArrayList<Tile> temp1 = new ArrayList<Tile>();
 		ArrayList<Tile> temp2 = new ArrayList<Tile>();
+		ArrayList<Tile> temp3 = new ArrayList<Tile>();
 		
 		temp1.add(map[5][5]);
 		footman1 = new FootMan(temp1, Team.AI, this);
@@ -64,6 +67,11 @@ public class Game implements GameEventHandler {
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
 		footman2.getStateStack().add(footman2.getDefaultState());
+		
+		temp3.add(map[8][8]);
+		tree = new Tree(temp3, this);
+		entityList.add(tree);
+		map[8][8].setOnTile(tree);
 	}
 
 	public ArrayList<Entity> getAllEntity() {
@@ -75,7 +83,7 @@ public class Game implements GameEventHandler {
 	}
 
 	public void selectEntity(Vector2f selection1, Vector2f selection2) {
-		ArrayList<ControlableEntity> toHighlight = new ArrayList<ControlableEntity>();
+		ArrayList<Entity> toHighlight = new ArrayList<Entity>();
 
 		selection1 = Vector2f.div(selection1, Tile.TILE_SIZE);
 		selection2 = Vector2f.div(selection2, Tile.TILE_SIZE);
@@ -94,7 +102,7 @@ public class Game implements GameEventHandler {
 		for (int i = (int) selection1.x; i < selection2.x; i++) {
 			for (int j = (int) selection1.y; j < selection2.y; j++) {
 				if (map[i][j].getOnTile() != null) {
-					toHighlight.add((ControlableEntity) map[i][j].getOnTile());// TODO:
+					toHighlight.add(map[i][j].getOnTile());// TODO:
 																				// this
 																				// will
 																				// create
@@ -105,9 +113,9 @@ public class Game implements GameEventHandler {
 			}
 		}
 
-		for (ControlableEntity controlableEntity : toHighlight) {
-			controlableEntity.select();
-			selectedList.add(controlableEntity);
+		for (Entity entity : toHighlight) {
+			entity.select();
+			selectedList.add(entity);
 		}
 
 		ArrayList<Entity> toUnselect = new ArrayList<Entity>();

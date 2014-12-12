@@ -16,7 +16,7 @@ public class Tile extends GameObject {
 	private Entity onTile;
 
 	public Tile(Vector2i mapLocation, GameEventHandler game) {
-		super(NAME, game);
+		super(game);
 		setOnTile(null);
 		this.mapLocation = mapLocation;
 		this.screenLocation = new Vector2f(mapLocation.x * TILE_SIZE, mapLocation.y * TILE_SIZE);
@@ -63,4 +63,8 @@ public class Tile extends GameObject {
 		}
 	}
 
+	@Override
+	public String getName() {
+		return NAME;
+	}
 }

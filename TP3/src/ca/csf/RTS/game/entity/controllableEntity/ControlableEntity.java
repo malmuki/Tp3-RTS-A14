@@ -11,6 +11,7 @@ import org.jsfml.system.Vector2f;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
+import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.Dead;
@@ -23,9 +24,10 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	protected Stack<State> stateStack;
 	protected RectangleShape lifeBar;
 	protected RectangleShape lifeBorder;
+	protected GameObject target;
 
-	public ControlableEntity(ArrayList<Tile> tiles, String name, int healthMax , Team team, GameEventHandler game) {
-		super(tiles, name , team, game);
+	public ControlableEntity(ArrayList<Tile> tiles, int healthMax , Team team, GameEventHandler game) {
+		super(tiles, team, game);
 		this.healthMax = healthMax;
 		healthCurrent = healthMax;
 		stateStack = new Stack<State>();

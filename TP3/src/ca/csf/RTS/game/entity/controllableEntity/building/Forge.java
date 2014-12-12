@@ -13,7 +13,7 @@ public class Forge extends Building {
 	private static final String NAME = "Forge";
 	
 	public Forge(ArrayList<Tile> tiles , Team team, GameEventHandler game) {
-		super( tiles, NAME, MAX_HEALTH, team, game);
+		super( tiles, MAX_HEALTH, team, game);
 	}
 	
 	public void order(Entity onTile) {}
@@ -23,5 +23,10 @@ public class Forge extends Building {
 	@Override
 	public void doTasks(float deltaTime) {
 		
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 }

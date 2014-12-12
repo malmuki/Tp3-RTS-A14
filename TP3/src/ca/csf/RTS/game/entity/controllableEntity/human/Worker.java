@@ -14,7 +14,7 @@ public class Worker extends Human {
 	private static final String NAME = "Worker";
 
 	public Worker(ArrayList<Tile> tiles, Team team, GameEventHandler game) {
-		super(tiles, NAME, MAX_HEALTH, team, game);
+		super(tiles, MAX_HEALTH, team, game);
 	}
 
 	@Override
@@ -58,5 +58,9 @@ public class Worker extends Human {
 	public Entity search() {
 		// TODO: dijitre
 		return null;
+	}
+	@Override
+	public String getName() {
+		return NAME;
 	}
 }
