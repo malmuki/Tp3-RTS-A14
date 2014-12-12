@@ -11,4 +11,9 @@ public abstract class Building extends ControlableEntity {
 	public Building(ArrayList<Tile> tiles, String name, int maxHealth, Team team, GameEventHandler game) {
 		super(tiles, name, maxHealth, team, game);
 	}
+	
+	@Override
+	public boolean isObstacle() {
+		return true;
+	}
 }

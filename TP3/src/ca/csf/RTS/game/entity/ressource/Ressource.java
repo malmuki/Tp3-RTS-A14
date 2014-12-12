@@ -29,4 +29,8 @@ public abstract class Ressource extends Entity {
 
 	public void doTasks() {
 	}
+	@Override
+	public boolean isObstacle() {
+		return true;
+	}
 }

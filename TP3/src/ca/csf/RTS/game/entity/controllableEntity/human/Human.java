@@ -28,6 +28,10 @@ public abstract class Human extends ControlableEntity implements Watcher {
 	  targetTile.setOnTile(this);
 	  sprite.setPosition(targetTile.getScreenLocation());
 	}
+	@Override
+	public boolean isObstacle() {
+		return false;
+	}
 
 	public abstract void order(Entity target);
 

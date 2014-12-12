@@ -55,4 +55,12 @@ public class Tile extends GameObject {
 		sprite.setPosition(screenLocation);	
 	}
 
+	public boolean hasObstacle() {
+		if (onTile == null) {
+			return false;
+		}else {
+			return onTile.isObstacle();
+		}
+	}
+
 }
