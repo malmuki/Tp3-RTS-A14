@@ -18,18 +18,28 @@ public class Gathering implements State {
 			switch (worker.getTarget().getName()) {
 			// 1/sec
 			case "Stone":
-					worker.getTeam().addStone(((Ressource) worker.getTarget()).removeRessources(1));
+				worker.getTeam().addStone(((Ressource) worker.getTarget()).removeRessources(1));
+				if (((Ressource) worker.getTarget()).getRessources() <= 0) {
+					worker.setTarget(null);
+					worker.getGame().remove(worker.getTarget());
+					return StateInteraction.ressourceDepleted;
+				}
 				break;
 			case "Tree":
-					worker.getTeam().addWood(((Ressource) worker.getTarget()).removeRessources(1));
-				break;
-
+				worker.getTeam().addWood(((Ressource) worker.getTarget()).removeRessources(1));
+				if (((Ressource) worker.getTarget()).getRessources() <= 0) {
+					worker.setTarget(null);
+					worker.getGame().remove(worker.getTarget());
+					return StateInteraction.ressourceDepleted;
+				}
 			default:
 				break;
 			}
 
+		} else {
+			return StateInteraction.targetTooFar;
 		}
+		return StateInteraction.notFinished;
 
-		return StateInteraction.ressourceDepleted;
 	}
 }

@@ -26,5 +26,8 @@ public abstract class GameObject {
 		sprite.setOrigin(0, 0);
 		sprite.draw(target, RenderStates.DEFAULT);
 	}
-
+	
+	public GameEventHandler getGame(){
+		return game;
+	}
 }
