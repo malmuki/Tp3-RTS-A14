@@ -45,7 +45,7 @@ public class MusicPlayer {
 
 	music = musicList[song];
 	// Change some parameters
-	music.setVolume(50);
+	music.setVolume(10);
 	music.setPlayingOffset(Time.getSeconds(120));
 	music.setLoop(false);
 	
