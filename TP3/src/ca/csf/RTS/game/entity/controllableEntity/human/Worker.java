@@ -4,7 +4,9 @@ import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.state.Gathering;
 import ca.csf.RTS.game.entity.state.Idle;
+import ca.csf.RTS.game.entity.state.Move;
 import ca.csf.RTS.game.entity.state.State;
 
 public class Worker extends Human {
@@ -22,7 +24,12 @@ public class Worker extends Human {
 
 	@Override
 	public void order(Entity target) {
-
+		if (target.getTeam().getName() == "Nature") {
+			setTarget(target);
+			stateStack.push(new Gathering(this));
+		} else {
+			stateStack.push(new Move(target.getTilesOrigin(), this));
+		}
 	}
 
 	@Override
@@ -57,6 +64,7 @@ public class Worker extends Human {
 		// TODO: dijitre
 		return null;
 	}
+
 	@Override
 	public String getName() {
 		return NAME;

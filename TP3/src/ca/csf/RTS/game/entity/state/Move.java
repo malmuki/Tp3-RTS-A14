@@ -17,7 +17,10 @@ public class Move implements State {
 		next = null;
 	}
 
-	public Move(Tile target, Tile nextMove, Human human) { // Use this constructor to add extra moves in the stack
+	public Move(Tile target, Tile nextMove, Human human) { // Use this
+															// constructor to
+															// add extra moves
+															// in the stack
 		finalDestination = target;
 		this.human = human;
 		next = nextMove;
@@ -25,17 +28,14 @@ public class Move implements State {
 
 	@Override
 	public StateInteraction action(float deltaTime) {
-		
 		if (human.getTilesOrigin().getDistance(finalDestination) <= 14) {
-
+			
 			moveProgression += deltaTime;
 			if (finalDestination.getOnTile() == null && human.moveToTile(finalDestination, moveProgression)) {
 				return StateInteraction.ended;
 			}
-			
 			return StateInteraction.notFinished;
 		} else {
-			
 			if (next == null) { // If there is no next, pathfind to the end
 				
 				human.getStateStack().clear();
@@ -43,10 +43,9 @@ public class Move implements State {
 				PathFinder.findPath(human, finalDestination);				
 				return StateInteraction.notFinished;
 			} else { // else just move to the next
-				
-				if (next.getOnTile() == null) { //if there is nothing on the next tile
-					
+				if (next.getOnTile() == null) {
 					moveProgression += deltaTime;
+
 					if (human.moveToTile(next, moveProgression)) {
 						return StateInteraction.ended;
 					} else {
@@ -64,6 +63,7 @@ public class Move implements State {
 						return StateInteraction.notFinished;
 					}
 				}
+				// TODO: test if the next has stuff on it, if so, repathfind...
 			}
 		}
 	}
