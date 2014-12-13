@@ -44,7 +44,7 @@ public class Move implements State {
 				return StateInteraction.notFinished;
 			} else { // else just move to the next
 				
-				if (next.getOnTile() == null) {
+				if (next.getOnTile() == null) { //if there is nothing on the next tile
 					
 					moveProgression += deltaTime;
 					if (human.moveToTile(next, moveProgression)) {
@@ -53,13 +53,13 @@ public class Move implements State {
 						return StateInteraction.notFinished;
 					}
 
-				} else {
+				} else { //if there is something on the next tile, either repathfind to the end OR repathfind to the target
 					
 					human.getStateStack().clear();
 					
 					if (human.getTarget() != null) {
 						human.getStateStack().push(new Move(human.getTarget().getTilesOrigin(), human));
-						return StateInteraction.notFinished;
+						return StateInteraction.ended;
 					} else {
 						PathFinder.findPath(human, finalDestination);
 						return StateInteraction.notFinished;
