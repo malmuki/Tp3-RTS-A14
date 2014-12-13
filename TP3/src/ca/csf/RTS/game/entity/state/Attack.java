@@ -16,11 +16,6 @@ public class Attack implements State {
 	@Override
 	public StateInteraction action(float deltaTime) {
 
-		if (((ControlableEntity) ((ControlableEntity) source).getTarget()).getHP() <= 0) {
-			((ControlableEntity) source).setTarget(null);
-			return StateInteraction.ended;
-		}
-
 		if (((ControlableEntity) source).getTilesOrigin().getDistance(
 				((Entity) ((ControlableEntity) source).getTarget()).getTilesOrigin()) <= source.getRange()) { // TODO:fix
 																												// the
