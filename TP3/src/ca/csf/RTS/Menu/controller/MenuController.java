@@ -1,14 +1,14 @@
 package ca.csf.RTS.Menu.controller;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.stage.StageStyle;
 import ca.csf.RTS.eventHandler.MenuEventHandler;
 import ca.csf.RTS.game.GameController;
 import ca.csf.simpleFx.SimpleFXController;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.stage.StageStyle;
 
 public class MenuController extends SimpleFXController implements MenuEventHandler{
 	@FXML

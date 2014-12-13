@@ -1,6 +1,7 @@
 package ca.csf.RTS.game;
 
 import java.util.ArrayList;
+
 import ca.csf.RTS.game.entity.Entity;
 
 public class Team {

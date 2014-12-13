@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Paths;
 
-import org.jsfml.audio.*;
+import org.jsfml.audio.Music;
 import org.jsfml.audio.SoundSource.Status;
 import org.jsfml.system.Time;
 

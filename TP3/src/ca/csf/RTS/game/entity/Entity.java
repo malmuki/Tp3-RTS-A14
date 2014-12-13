@@ -1,11 +1,6 @@
 package ca.csf.RTS.game.entity;
 
-import java.util.ArrayList;
-
-import org.jsfml.system.Vector2i;
-
 import ca.csf.RTS.eventHandler.GameEventHandler;
-import ca.csf.RTS.game.Game;
 import ca.csf.RTS.game.Team;
 
 public abstract class Entity extends GameObject {
@@ -42,6 +37,14 @@ public abstract class Entity extends GameObject {
 //		}
 		
 		sprite.setPosition(tilesOrigin.getMapLocation().x * Tile.TILE_SIZE, tilesOrigin.getMapLocation().y * Tile.TILE_SIZE);
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getWidth() {
+		return width;
 	}
 
 	public void select() {

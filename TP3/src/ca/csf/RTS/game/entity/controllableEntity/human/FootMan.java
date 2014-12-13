@@ -2,7 +2,6 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 import org.jsfml.graphics.Texture;
 
@@ -35,7 +34,6 @@ public class FootMan extends Human implements Fighter {
 
 	public FootMan(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, MAX_HEALTH, team, game);
-		//stateStack.push(getDefaultState());
 	}
 
 	@Override
@@ -71,9 +69,7 @@ public class FootMan extends Human implements Fighter {
 				}
 				break;
 			case targetSighted:
-				stateStack.push(new Attack(
-						((Fightable) ((Alert) stateStack.peek())
-								.getFutureTarget()), this));
+				stateStack.push(new Attack(((Fightable) ((Alert) stateStack.peek()).getFutureTarget()), this));
 				break;
 			case targetTooFar:
 				Tile temp = ((Entity) ((Attack) stateStack.peek()).getTarget()).getTilesOrigin();
@@ -85,6 +81,8 @@ public class FootMan extends Human implements Fighter {
 			default:
 				break;
 			}
+		} else {
+			stateStack.push(getDefaultState());
 		}
 	}
 
