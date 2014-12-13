@@ -72,9 +72,18 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 			stateStack.push(new Dead());
 		}
 	}
-	
+
 	@Override
 	public int getHP() {
 		return healthCurrent;
 	}
+
+	public GameObject getTarget() {
+		return target;
+	}
+
+	public void setTarget(GameObject target) {
+		this.target = target;
+	}
+
 }

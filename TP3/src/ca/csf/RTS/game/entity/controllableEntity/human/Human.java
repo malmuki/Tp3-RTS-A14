@@ -19,6 +19,7 @@ public abstract class Human extends ControlableEntity implements Watcher {
 
 	public void order(Tile target) {
 		stateStack.clear();
+		setTarget(target);
 		stateStack.add(new Move(target, this));
 	}
 	

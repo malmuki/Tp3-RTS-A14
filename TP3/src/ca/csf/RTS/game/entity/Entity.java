@@ -27,22 +27,30 @@ public abstract class Entity extends GameObject {
 
 	@Override
 	protected void setSpritePos() {
-		
-		//TODO: figure out what this did
-//		Vector2i mostTopLeftTile = new Vector2i(Game.MAP_SIZE, Game.MAP_SIZE);
-//		for (Tile tile : tilesOrigin) {
-//			if (tile.getMapLocation().x < mostTopLeftTile.x	&& tile.getMapLocation().y < mostTopLeftTile.y) {
-//				mostTopLeftTile = tile.getMapLocation();
-//			}
-//		}
-		
-		sprite.setPosition(tilesOrigin.getMapLocation().x * Tile.TILE_SIZE, tilesOrigin.getMapLocation().y * Tile.TILE_SIZE);
+
+		// TODO: figure out what this did
+		// Vector2i mostTopLeftTile = new Vector2i(Game.MAP_SIZE,
+		// Game.MAP_SIZE);
+		// for (Tile tile : tilesOrigin) {
+		// if (tile.getMapLocation().x < mostTopLeftTile.x &&
+		// tile.getMapLocation().y < mostTopLeftTile.y) {
+		// mostTopLeftTile = tile.getMapLocation();
+		// }
+		// }
+		if (sprite.getTexture().getSize().y > Tile.TILE_SIZE) {
+			sprite.setPosition(mostTopLeftTile.x * Tile.TILE_SIZE,
+					mostTopLeftTile.y * Tile.TILE_SIZE
+							- sprite.getTexture().getSize().y + Tile.TILE_SIZE);
+		} else {
+			sprite.setPosition(tilesOrigin.getMapLocation().x * Tile.TILE_SIZE,
+					tilesOrigin.getMapLocation().y * Tile.TILE_SIZE);
+		}
 	}
-	
+
 	public int getHeight() {
 		return height;
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}

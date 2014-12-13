@@ -29,7 +29,7 @@ public class FootMan extends Human implements Fighter {
 
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Footman";
-	private static final int RANGE = 14;
+	private static final int RANGE = 15;
 	private static final int DAMAGE = 10;
 
 	public FootMan(Tile originTile, Team team, GameEventHandler game) {
@@ -43,9 +43,11 @@ public class FootMan extends Human implements Fighter {
 
 	@Override
 	public void order(Entity target) {
-		if (target.getTeam().getName() != "Nature" && target.getTeam() != this.team) {
-			stateStack.push(new Attack((Fightable) target, this));
-		}else {
+		if (target.getTeam().getName() != "Nature"
+				&& target.getTeam() != this.team) {
+			setTarget(target);
+			stateStack.push(new Attack(this));
+		} else {
 			stateStack.push(new Move(target.getTilesOrigin(), this));
 		}
 	}
@@ -64,16 +66,20 @@ public class FootMan extends Human implements Fighter {
 				break;
 			case ended:
 				stateStack.pop();
+
 				if (stateStack.isEmpty()) {
+					if (target != null) {
+
+					}
 					stateStack.push(getDefaultState());
 				}
 				break;
 			case targetSighted:
-				stateStack.push(new Attack(((Fightable) ((Alert) stateStack.peek()).getFutureTarget()), this));
+				stateStack.push(new Attack(this));
 				break;
 			case targetTooFar:
-				Tile temp = ((Entity) ((Attack) stateStack.peek()).getTarget()).getTilesOrigin();
-				stateStack.push(new Move(temp, this));
+				stateStack.push(new Move(((Entity) this.getTarget())
+						.getTilesOrigin(), this));
 				break;
 			case dead:
 				game.remove(this);
