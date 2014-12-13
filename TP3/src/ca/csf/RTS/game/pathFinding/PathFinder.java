@@ -35,8 +35,7 @@ public class PathFinder {
 		AStarTile currentTile;
 
 		do {
-			currentTile = (AStarTile) Collections.min(openList); // Get lowest F
-																	// cost tile
+			currentTile = (AStarTile) Collections.min(openList); // Get lowest F cost tile
 
 			openList.remove(currentTile);
 			closedList.add(0, currentTile);
@@ -51,26 +50,12 @@ public class PathFinder {
 			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
 		} while (closedList.get(0).getMapTile() != goal && !openList.isEmpty());
 
-		// if (closedList.get(0).mapTile != goalLocation) {
-		// movingHuman.getStateStack().add(movingHuman.getDefaultState());
-		// } else {
-		// AStarTile lastTileAdded = (AStarTile) closedList.get(0);
-		// do {
-		// movingHuman.getStateStack().add(0, new Move(goalLocation,
-		// lastTileAdded.getMapTile(), movingHuman));
-		// if (lastTileAdded.getParent() == null) {
-		// break;
-		// } else {
-		// lastTileAdded = (AStarTile) lastTileAdded.getParent();
-		// }
-		// } while (true);
-		// }
-
 		AStarTile lastTileAdded = (AStarTile) closedList.get(0);
-		// if (attackMove) { //if we are moving to attack, we must not add the
-		// final tile
-		// lastTileAdded = (AStarTile) lastTileAdded.getParent();
-		// }
+		if (movingHuman.getTarget() != null) { // if we are moving to attack, we
+												// must not add the final tile
+			lastTileAdded = (AStarTile) lastTileAdded.getParent();
+		}
+
 		boolean temp = true;
 		while (temp) {
 			movingHuman.getStateStack().push(new Move(goal, lastTileAdded.getMapTile(), movingHuman));

@@ -43,8 +43,7 @@ public class FootMan extends Human implements Fighter {
 
 	@Override
 	public void order(Entity target) {
-		if (target.getTeam().getName() != "Nature"
-				&& target.getTeam() != this.team) {
+		if (target.getTeam().getName() != "Nature" && target.getTeam() != this.team) {
 			setTarget(target);
 			stateStack.push(new Attack(this));
 		} else {
@@ -61,30 +60,38 @@ public class FootMan extends Human implements Fighter {
 	@Override
 	public void doTasks(float deltaTime) {
 		if (!stateStack.isEmpty()) {
+
 			switch (stateStack.peek().action(deltaTime)) {
+
 			case notFinished:
 			case noTargetSighted:
 				break;
+
 			case ended:
 				stateStack.pop();
 
 				if (stateStack.isEmpty()) {
 					if (target != null) {
-
+						stateStack.push(new Attack(this));
+					} else {
+						stateStack.push(getDefaultState());
 					}
-					stateStack.push(getDefaultState());
 				}
 				break;
+
 			case targetSighted:
 				stateStack.push(new Attack(this));
 				break;
+
 			case targetTooFar:
-				stateStack.push(new Move(((Entity) this.getTarget())
-						.getTilesOrigin(), this));
+				stateStack.push(new Move(((Entity) this.getTarget()).getTilesOrigin(), this));
 				break;
+
 			case dead:
 				game.remove(this);
+				team.removeUnit(this);
 				break;
+
 			default:
 				break;
 			}

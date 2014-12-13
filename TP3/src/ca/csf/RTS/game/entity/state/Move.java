@@ -38,8 +38,10 @@ public class Move implements State {
 			return StateInteraction.notFinished;
 		} else {
 			if (next == null) { // If there is no next, pathfind to the end
+				
 				human.getStateStack().clear();
-				PathFinder.findPath(human, finalDestination);
+				
+				PathFinder.findPath(human, finalDestination);				
 				return StateInteraction.notFinished;
 			} else { // else just move to the next
 				if (next.getOnTile() == null) {
@@ -51,11 +53,17 @@ public class Move implements State {
 						return StateInteraction.notFinished;
 					}
 
-				} else {
-					 human.getStateStack().clear();
-
-					PathFinder.findPath(human, finalDestination);
-					return StateInteraction.notFinished;
+				} else { //if there is something on the next tile, either repathfind to the end OR repathfind to the target
+					
+					human.getStateStack().clear();
+					
+					if (human.getTarget() != null) {
+						human.getStateStack().push(new Move(human.getTarget().getTilesOrigin(), human));
+						return StateInteraction.ended;
+					} else {
+						PathFinder.findPath(human, finalDestination);
+						return StateInteraction.notFinished;
+					}
 				}
 				// TODO: test if the next has stuff on it, if so, repathfind...
 			}
