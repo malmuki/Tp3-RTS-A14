@@ -11,7 +11,7 @@ import ca.csf.RTS.game.entity.state.Move;
 // http://www.policyalmanac.org/games/binaryHeaps.htm
 public class PathFinder {
 	private static Tile goal;
-	
+
 	public static Tile getGoal() {
 		return goal;
 	}
@@ -26,7 +26,7 @@ public class PathFinder {
 
 	public static void findPath(Human movingHuman, Tile _goal) {
 		goal = _goal;
-		
+
 		openList.clear();
 		closedList.clear();
 
@@ -41,32 +41,15 @@ public class PathFinder {
 			openList.remove(currentTile);
 			closedList.add(0, currentTile);
 
-			addValidAStarTileToOpenList(currentTile.getMapTile()
-					.getMapLocation().x - 1, currentTile.getMapTile()
-					.getMapLocation().y, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile()
-					.getMapLocation().x - 1, currentTile.getMapTile()
-					.getMapLocation().y - 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile()
-					.getMapLocation().x - 1, currentTile.getMapTile()
-					.getMapLocation().y + 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile()
-					.getMapLocation().x, currentTile.getMapTile()
-					.getMapLocation().y - 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile()
-					.getMapLocation().x, currentTile.getMapTile()
-					.getMapLocation().y + 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile()
-					.getMapLocation().x + 1, currentTile.getMapTile()
-					.getMapLocation().y - 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile()
-					.getMapLocation().x + 1, currentTile.getMapTile()
-					.getMapLocation().y, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile()
-					.getMapLocation().x + 1, currentTile.getMapTile()
-					.getMapLocation().y + 1, currentTile);
-		} while (closedList.get(0).getMapTile() != goal
-				&& !openList.isEmpty());
+			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y, currentTile);
+			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
+			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
+			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
+			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
+			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
+			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y, currentTile);
+			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
+		} while (closedList.get(0).getMapTile() != goal && !openList.isEmpty());
 
 		// if (closedList.get(0).mapTile != goalLocation) {
 		// movingHuman.getStateStack().add(movingHuman.getDefaultState());
@@ -90,8 +73,7 @@ public class PathFinder {
 		// }
 		boolean temp = true;
 		while (temp) {
-			movingHuman.getStateStack().push(
-					new Move(goal, lastTileAdded.getMapTile(), movingHuman));
+			movingHuman.getStateStack().push(new Move(goal, lastTileAdded.getMapTile(), movingHuman));
 			if (lastTileAdded.getParent() == null) {
 				temp = false;
 			} else {
@@ -135,17 +117,14 @@ public class PathFinder {
 	// }
 
 	@SuppressWarnings("unused")
-	private static void addValidDijkstraTileToOpenList(int row, int column,
-			DijkstraTile tile) {
-		if (row >= 0 && column >= 0 && row <= Game.MAP_SIZE
-				&& column <= Game.MAP_SIZE) {
+	private static void addValidDijkstraTileToOpenList(int row, int column, DijkstraTile tile) {
+		if (row >= 0 && column >= 0 && row <= Game.MAP_SIZE && column <= Game.MAP_SIZE) {
 			DijkstraTile checkTile = getTile(row, column, closedList);
-			if ((map[row][column].getOnTile() == null || map[row][column]
-					.getOnTile() instanceof Human) && checkTile != null) { // if
-																			// there
-																			// is
-																			// nothing
-																			// on
+			if ((map[row][column].getOnTile() == null || map[row][column].getOnTile() instanceof Human) && checkTile != null) { // if
+																																// there
+																																// is
+																																// nothing
+																																// on
 				checkTile = getTile(row, column, openList);
 				if (checkTile != null) {
 					if (checkTile.getParent().calculateG() > tile.calculateG()) {
@@ -158,10 +137,9 @@ public class PathFinder {
 		}
 	}
 
-	private static void addValidAStarTileToOpenList(int row, int column,
-			DijkstraTile tile) {
-		if (row >= 0 && column >= 0 && row < Game.MAP_SIZE
-				&& column < Game.MAP_SIZE) { // Tile exists
+	private static void addValidAStarTileToOpenList(int row, int column, DijkstraTile tile) {
+		if (row >= 0 && column >= 0 && row < Game.MAP_SIZE && column < Game.MAP_SIZE) { // Tile
+																						// exists
 			DijkstraTile checkTile = getTile(row, column, closedList);
 			if (!map[row][column].hasObstacle() && checkTile == null) {
 				checkTile = getTile(row, column, openList);
@@ -176,12 +154,10 @@ public class PathFinder {
 		}
 	}
 
-	private static DijkstraTile getTile(int row, int column,
-			ArrayList<DijkstraTile> list) {
+	private static DijkstraTile getTile(int row, int column, ArrayList<DijkstraTile> list) {
 		DijkstraTile tile = null;
 		for (DijkstraTile i : list) {
-			if (i.getMapTile().getMapLocation().x == row
-					&& i.getMapTile().getMapLocation().y == column) {
+			if (i.getMapTile().getMapLocation().x == row && i.getMapTile().getMapLocation().y == column) {
 				tile = i;
 				break;
 			}

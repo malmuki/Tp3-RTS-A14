@@ -33,9 +33,6 @@ public class Move implements State {
 			
 			moveProgression += deltaTime;
 			if (finalDestination.getOnTile() == null && human.moveToTile(finalDestination, moveProgression)) {
-				if (finalDestination == human.getTarget()) {
-					human.setTarget(null);
-				}
 				return StateInteraction.ended;
 			}
 			return StateInteraction.notFinished;
