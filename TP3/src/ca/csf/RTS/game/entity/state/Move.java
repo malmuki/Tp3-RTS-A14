@@ -30,17 +30,16 @@ public class Move implements State {
 	@Override
 	public StateInteraction action(float deltaTime) {
 		if (human.getCurrentTiles().get(0).getDistance(finalDestination) <= 14) {
-			
+
 			moveProgression += deltaTime;
-			if (finalDestination.getOnTile() == null && human.moveToTile(finalDestination, moveProgression)) {
-					return StateInteraction.ended;
+			if (finalDestination.getOnTile() == null
+					&& human.moveToTile(finalDestination, moveProgression)) {
+				return StateInteraction.ended;
 			}
-
 			return StateInteraction.notFinished;
-
 		} else {
 			if (next == null) { // If there is no next, pathfind to the end
-				human.getStateStack().clear();
+				clearUnusedMove();
 				PathFinder.findPath(human, finalDestination);
 				return StateInteraction.notFinished;
 			} else { // else just move to the next
@@ -54,15 +53,21 @@ public class Move implements State {
 					}
 
 				} else {
-					human.getStateStack().clear();
+					// human.getStateStack().clear();
+					clearUnusedMove();
+
 					PathFinder.findPath(human, finalDestination);
 					return StateInteraction.notFinished;
 				}
-
 				// TODO: test if the next has stuff on it, if so, repathfind...
 			}
 		}
+	}
 
+	private void clearUnusedMove() {
+		while (human.getStateStack().peek() != this && !human.getStateStack().isEmpty() ) {
+			human.getStateStack().pop();
+		}
 	}
 
 }

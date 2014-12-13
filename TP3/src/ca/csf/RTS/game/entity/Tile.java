@@ -29,7 +29,7 @@ public class Tile extends GameObject {
 	  x *= 10;
 	  x *= x;
 	  y = mapLocation.y - tile.getMapLocation().y;
-	  y *= y;
+	  y *= 10;
 	  y *= y;
 	  return (int)Math.sqrt(x + y);
 	}

@@ -1,5 +1,6 @@
 package ca.csf.RTS.game.entity.state;
 
+import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
@@ -18,14 +19,17 @@ public class Attack implements State {
 				.getCurrentTiles()
 				.get(0)
 				.getDistance(
-						((ControlableEntity) source).getCurrentTiles().get(0)) <= source.getRange()) {
+						((Entity) ((ControlableEntity) source).getTarget()).getCurrentTiles().get(0)) <= source.getRange()) {
+								
 			source.attack((Fightable) ((ControlableEntity) source).getTarget());
-			if (((ControlableEntity) source).getHP() <= 0) {
+			
+			if (((ControlableEntity) ((ControlableEntity) source).getTarget()).getHP() <= 0) {
+				((ControlableEntity) source).setTarget(null);
 				return StateInteraction.ended;
-			}else {
+			} else {
 				return StateInteraction.notFinished;
 			}
-		}else {
+		} else {
 			return StateInteraction.targetTooFar;
 		}
 	}

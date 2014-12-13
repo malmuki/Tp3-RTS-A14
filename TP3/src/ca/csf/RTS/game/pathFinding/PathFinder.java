@@ -135,6 +135,7 @@ public class PathFinder {
 	// !openList.isEmpty());
 	// }
 
+	@SuppressWarnings("unused")
 	private static void addValidDijkstraTileToOpenList(int row, int column,
 			DijkstraTile tile) {
 		if (row >= 0 && column >= 0 && row <= Game.MAP_SIZE
