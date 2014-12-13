@@ -58,8 +58,7 @@ public class Move implements State {
 					human.getStateStack().clear();
 					
 					if (human.getTarget() != null) {
-						human.getStateStack().push(new Move(human.getTarget().getTilesOrigin(), human));
-						return StateInteraction.ended;
+						return StateInteraction.blocked;
 					} else {
 						PathFinder.findPath(human, finalDestination);
 						return StateInteraction.notFinished;
@@ -68,5 +67,4 @@ public class Move implements State {
 			}
 		}
 	}
-
 }

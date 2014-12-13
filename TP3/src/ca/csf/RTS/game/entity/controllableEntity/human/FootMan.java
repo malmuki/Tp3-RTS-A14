@@ -77,7 +77,11 @@ public class FootMan extends Human implements Fighter {
 					}
 				}
 				break;
-
+				
+			case blocked:
+				stateStack.push(new Attack(this));
+				break;
+				
 			case targetSighted:
 				stateStack.push(new Attack(this));
 				break;
