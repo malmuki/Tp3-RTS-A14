@@ -2,13 +2,13 @@ package ca.csf.RTS.Menu.model;
 
 import java.util.ArrayList;
 
+import javafx.stage.StageStyle;
 import ca.csf.RTS.Menu.controller.MenuController;
 import ca.csf.RTS.eventHandler.MenuEventHandler;
 import ca.csf.simpleFx.SimpleFXApplication;
 import ca.csf.simpleFx.SimpleFXApplicationLauncher;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
-import javafx.stage.StageStyle;
 
 public class Menu extends SimpleFXApplication {
 

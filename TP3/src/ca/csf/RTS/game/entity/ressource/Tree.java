@@ -2,11 +2,11 @@ package ca.csf.RTS.game.entity.ressource;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 import org.jsfml.graphics.Texture;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Tile;
 
 public class Tree extends Ressource {
@@ -23,8 +23,8 @@ public class Tree extends Ressource {
 	private static final String NAME = "Tree";
 	private static final int RESSOURCE_MAX = 1500;
 	
-	public Tree(ArrayList<Tile> tiles, GameEventHandler game) {
-		super( tiles, RESSOURCE_MAX, game);
+	public Tree(Tile originTile, GameEventHandler game, Team team) {
+		super(originTile, RESSOURCE_MAX, game, team);
 	}
 	@Override
 	public String getName() {

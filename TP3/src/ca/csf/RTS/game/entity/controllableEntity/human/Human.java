@@ -1,10 +1,8 @@
 package ca.csf.RTS.game.entity.controllableEntity.human;
 
-import java.util.ArrayList;
-
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
-import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.Watcher;
@@ -15,8 +13,8 @@ public abstract class Human extends ControlableEntity implements Watcher {
 	
 	private static final float MOVE_DELAY = 0.18f;
 
-	public Human(ArrayList<Tile> tiles, int maxHealth, Team team, GameEventHandler game) {
-		super(tiles, maxHealth , team, game);
+	public Human(Tile originTile, int maxHealth, Team team, GameEventHandler game) {
+		super(originTile, maxHealth , team, game);
 	}
 
 	public void order(Tile target) {
@@ -26,16 +24,10 @@ public abstract class Human extends ControlableEntity implements Watcher {
 	}
 	
 	public boolean moveToTile(Tile targetTile, float moveProgression) {
-		sprite.setPosition(
-				currentTiles.get(0).getScreenLocation().x
-						+ (targetTile.getScreenLocation().x - currentTiles.get(
-								0).getScreenLocation().x) * moveProgression / MOVE_DELAY,
-				currentTiles.get(0).getScreenLocation().y
-						+ (targetTile.getScreenLocation().y - currentTiles.get(
-								0).getScreenLocation().y) * moveProgression / MOVE_DELAY);
+		sprite.setPosition(tilesOrigin.getScreenLocation().x + (targetTile.getScreenLocation().x - tilesOrigin.getScreenLocation().x) * moveProgression / MOVE_DELAY,	tilesOrigin.getScreenLocation().y + (targetTile.getScreenLocation().y - tilesOrigin.getScreenLocation().y) * moveProgression / MOVE_DELAY);
 		if (moveProgression >= MOVE_DELAY) {
-			currentTiles.remove(0).setOnTile(null);
-			currentTiles.add(targetTile);
+			tilesOrigin.setOnTile(null);
+			tilesOrigin = targetTile;
 			targetTile.setOnTile(this);
 			return true;
 		}

@@ -2,13 +2,12 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 import org.jsfml.graphics.Texture;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
-import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
@@ -33,9 +32,8 @@ public class FootMan extends Human implements Fighter {
 	private static final int RANGE = 15;
 	private static final int DAMAGE = 10;
 
-	public FootMan(ArrayList<Tile> tiles, Team team, GameEventHandler game) {
-		super(tiles, MAX_HEALTH, team, game);
-		// stateStack.push(getDefaultState());
+	public FootMan(Tile originTile, Team team, GameEventHandler game) {
+		super(originTile, MAX_HEALTH, team, game);
 	}
 
 	@Override
@@ -45,11 +43,12 @@ public class FootMan extends Human implements Fighter {
 
 	@Override
 	public void order(Entity target) {
-		if (target.getTeam() != Team.NATURE && target.getTeam() != this.team) {
+		if (target.getTeam().getName() != "Nature"
+				&& target.getTeam() != this.team) {
 			setTarget(target);
 			stateStack.push(new Attack(this));
 		} else {
-			stateStack.push(new Move(target.getCurrentTiles().get(0), this));
+			stateStack.push(new Move(target.getTilesOrigin(), this));
 		}
 	}
 
@@ -70,7 +69,7 @@ public class FootMan extends Human implements Fighter {
 
 				if (stateStack.isEmpty()) {
 					if (target != null) {
-						
+
 					}
 					stateStack.push(getDefaultState());
 				}
@@ -80,7 +79,7 @@ public class FootMan extends Human implements Fighter {
 				break;
 			case targetTooFar:
 				stateStack.push(new Move(((Entity) this.getTarget())
-						.getCurrentTiles().get(0), this));
+						.getTilesOrigin(), this));
 				break;
 			case dead:
 				game.remove(this);
@@ -88,6 +87,8 @@ public class FootMan extends Human implements Fighter {
 			default:
 				break;
 			}
+		} else {
+			stateStack.push(getDefaultState());
 		}
 	}
 

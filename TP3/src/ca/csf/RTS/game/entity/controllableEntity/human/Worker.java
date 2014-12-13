@@ -1,10 +1,8 @@
 package ca.csf.RTS.game.entity.controllableEntity.human;
 
-import java.util.ArrayList;
-
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
-import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.State;
@@ -13,8 +11,8 @@ public class Worker extends Human {
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Worker";
 
-	public Worker(ArrayList<Tile> tiles, Team team, GameEventHandler game) {
-		super(tiles, MAX_HEALTH, team, game);
+	public Worker(Tile originTile, Team team, GameEventHandler game) {
+		super(originTile, MAX_HEALTH, team, game);
 	}
 
 	@Override

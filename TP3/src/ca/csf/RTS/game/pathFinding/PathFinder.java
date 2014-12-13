@@ -30,7 +30,7 @@ public class PathFinder {
 		openList.clear();
 		closedList.clear();
 
-		openList.add(new AStarTile(movingHuman.getCurrentTiles().get(0), null));
+		openList.add(new AStarTile(movingHuman.getTilesOrigin(), null));
 
 		AStarTile currentTile;
 
@@ -91,8 +91,7 @@ public class PathFinder {
 		boolean temp = true;
 		while (temp) {
 			movingHuman.getStateStack().push(
-					new Move(lastTileAdded.getMapTile(),
-							movingHuman));
+					new Move(goal, lastTileAdded.getMapTile(), movingHuman));
 			if (lastTileAdded.getParent() == null) {
 				temp = false;
 			} else {

@@ -1,6 +1,5 @@
 package ca.csf.RTS.game.entity.controllableEntity;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 import org.jsfml.graphics.Color;
@@ -10,9 +9,9 @@ import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.GameObject;
-import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.Dead;
 import ca.csf.RTS.game.entity.state.State;
@@ -26,9 +25,8 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	protected RectangleShape lifeBorder;
 	protected GameObject target;
 
-	public ControlableEntity(ArrayList<Tile> tiles, int healthMax, Team team,
-			GameEventHandler game) {
-		super(tiles, team, game);
+	public ControlableEntity(Tile originTile, int healthMax, Team team, GameEventHandler game) {
+		super(originTile, team, game);
 		this.healthMax = healthMax;
 		healthCurrent = healthMax;
 		stateStack = new Stack<State>();

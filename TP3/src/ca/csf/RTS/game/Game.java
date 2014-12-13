@@ -7,7 +7,6 @@ import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
-import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.ressource.Tree;
@@ -21,6 +20,9 @@ public class Game implements GameEventHandler {
 	private ArrayList<Entity> entityList;
 	private ArrayList<Entity> selectedList;
 	private ArrayList<Entity> toBeDeleted;
+	private Team player;
+	private Team computer;
+	private Team nature;
 
 	//TEST: temporaire, à enlever
 	private FootMan footman1;
@@ -49,26 +51,23 @@ public class Game implements GameEventHandler {
 
 	public void newGame() {
 		PathFinder.setMap(map);
-
-		// TEST: temporary, remove this
-		ArrayList<Tile> temp1 = new ArrayList<Tile>();
-		ArrayList<Tile> temp2 = new ArrayList<Tile>();
-		ArrayList<Tile> temp3 = new ArrayList<Tile>();
 		
-		temp1.add(map[5][5]);
-		footman1 = new FootMan(temp1, Team.AI, this);
+		player = new Team("Idiot");
+		computer = new Team("Ennemy");
+		nature = new Team("Nature");
+		
+		// TEST: temporary, remove this
+		footman1 = new FootMan(map[5][5], computer, this);
 		entityList.add(footman1);
 		map[5][5].setOnTile(footman1);
 		footman1.getStateStack().add(footman1.getDefaultState());
 
-		temp2.add(map[6][7]);
-		footman2 = new FootMan(temp2, Team.PLAYER, this);
+		footman2 = new FootMan(map[6][7], player, this);
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
 		footman2.getStateStack().add(footman2.getDefaultState());
-		
-		temp3.add(map[8][8]);
-		tree = new Tree(temp3, this);
+
+		tree = new Tree(map[8][8], this, nature);
 		entityList.add(tree);
 		map[8][8].setOnTile(tree);
 	}
@@ -101,13 +100,7 @@ public class Game implements GameEventHandler {
 		for (int i = (int) selection1.x; i < selection2.x; i++) {
 			for (int j = (int) selection1.y; j < selection2.y; j++) {
 				if (map[i][j].getOnTile() != null) {
-					toHighlight.add(map[i][j].getOnTile());// TODO:
-																				// this
-																				// will
-																				// create
-																				// errors
-																				// on
-																				// ressources
+					toHighlight.add(map[i][j].getOnTile());
 				}
 			}
 		}
@@ -154,8 +147,7 @@ public class Game implements GameEventHandler {
 	public void remove(Entity entity) {
 		toBeDeleted.add(entity);
 		selectedList.remove(entity);
-		for (Tile tile : entity.getCurrentTiles()) {
-			tile.setOnTile(null);
-		}
+		//TODO: fix this so it works with all the tiles of a building
+		entity.getTilesOrigin().setOnTile(null);
 	}
 }
