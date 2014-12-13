@@ -47,7 +47,6 @@ public class FootMan extends Human implements Fighter {
 			setTarget(target);
 			stateStack.push(new Attack(this));
 		} else {
-			setTarget(target.getTilesOrigin());
 			stateStack.push(new Move(target.getTilesOrigin(), this));
 		}
 	}
