@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import ca.csf.RTS.game.entity.Entity;
 
 public class Team {
-	private int wood;
-	private int stone;
+	private int wood = 0;
+	private int stone = 0;
 	private ArrayList<Entity> units;
 	private String name;
 	

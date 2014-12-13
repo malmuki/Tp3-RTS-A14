@@ -55,7 +55,7 @@ public class Game implements GameEventHandler {
 		
 		player = new Team("Idiot");
 		computer = new Team("Ennemy");
-		nature = new Team("the great outdoors");
+		nature = new Team("Nature");
 		
 		// TEST: temporary, remove this
 		ArrayList<Tile> temp1 = new ArrayList<Tile>();
