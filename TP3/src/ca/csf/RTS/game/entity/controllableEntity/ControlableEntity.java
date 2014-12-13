@@ -23,7 +23,7 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	protected Stack<State> stateStack;
 	protected RectangleShape lifeBar;
 	protected RectangleShape lifeBorder;
-	protected GameObject target;
+	protected Entity target;
 
 	public ControlableEntity(Tile originTile, int healthMax, Team team, GameEventHandler game) {
 		super(originTile, team, game);
@@ -78,11 +78,11 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		return healthCurrent;
 	}
 
-	public GameObject getTarget() {
+	public Entity getTarget() {
 		return target;
 	}
 
-	public void setTarget(GameObject target) {
+	public void setTarget(Entity target) {
 		this.target = target;
 	}
 
