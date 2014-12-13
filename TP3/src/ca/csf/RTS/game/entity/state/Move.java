@@ -11,8 +11,7 @@ public class Move implements State {
 	private Human human;
 	private float moveProgression = 0;
 
-	public Move(Tile target, Human human) { // Use this constructor for the
-											// initial order giving
+	public Move(Tile target, Human human) { // Use this constructor for the initial order giving
 		finalDestination = target;
 		this.human = human;
 		next = null;
@@ -58,8 +57,7 @@ public class Move implements State {
 					human.getStateStack().clear();
 					
 					if (human.getTarget() != null) {
-						human.getStateStack().push(new Move(human.getTarget().getTilesOrigin(), human));
-						return StateInteraction.ended;
+						return StateInteraction.blocked;
 					} else {
 						PathFinder.findPath(human, finalDestination);
 						return StateInteraction.notFinished;
@@ -69,5 +67,4 @@ public class Move implements State {
 			}
 		}
 	}
-
 }
