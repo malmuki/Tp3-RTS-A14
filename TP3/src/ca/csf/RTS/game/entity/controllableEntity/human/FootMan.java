@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import org.jsfml.graphics.Texture;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
-import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
@@ -45,7 +45,7 @@ public class FootMan extends Human implements Fighter {
 
 	@Override
 	public void order(Entity target) {
-		if (target.getTeam() != Team.NATURE && target.getTeam() != this.team) {
+		if (target.getTeam().getName() != "Nature" && target.getTeam() != this.team) {
 			stateStack.push(new Attack((Fightable) target, this));
 		}else {
 			stateStack.push(new Move(target.getCurrentTiles().get(0), this));

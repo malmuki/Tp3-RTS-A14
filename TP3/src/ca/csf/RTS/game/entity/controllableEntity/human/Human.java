@@ -3,8 +3,8 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 import java.util.ArrayList;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
-import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.Watcher;

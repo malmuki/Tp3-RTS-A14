@@ -6,12 +6,14 @@ import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Game;
+import ca.csf.RTS.game.Team;
 
 public abstract class Entity extends GameObject {
 
   protected ArrayList<Tile> currentTiles;
   protected boolean selected;
   protected Team team;
+  
   public Entity(ArrayList<Tile> tiles, Team team, GameEventHandler game) {
     super(game);
     selected = false;
@@ -19,6 +21,7 @@ public abstract class Entity extends GameObject {
     this.team = team;
     sprite.setTexture(texture);
     setSpritePos();
+    team.addUnit(this);
   }
 
   public ArrayList<Tile> getCurrentTiles() {

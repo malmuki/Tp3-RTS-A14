@@ -7,7 +7,6 @@ import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
-import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
@@ -22,6 +21,9 @@ public class Game implements GameEventHandler {
 	private ArrayList<Entity> entityList;
 	private ArrayList<Entity> selectedList;
 	private ArrayList<Entity> toBeDeleted;
+	private Team player;
+	private Team computer;
+	private Team nature;
 
 	//TEST: temporaire, à enlever
 	private FootMan footman1;
@@ -50,26 +52,30 @@ public class Game implements GameEventHandler {
 
 	public void newGame() {
 		PathFinder.setMap(map);
-
+		
+		player = new Team("Idiot");
+		computer = new Team("Ennemy");
+		nature = new Team("the great outdoors");
+		
 		// TEST: temporary, remove this
 		ArrayList<Tile> temp1 = new ArrayList<Tile>();
 		ArrayList<Tile> temp2 = new ArrayList<Tile>();
 		ArrayList<Tile> temp3 = new ArrayList<Tile>();
 		
 		temp1.add(map[5][5]);
-		footman1 = new FootMan(temp1, Team.AI, this);
+		footman1 = new FootMan(temp1, computer, this);
 		entityList.add(footman1);
 		map[5][5].setOnTile(footman1);
 		footman1.getStateStack().add(footman1.getDefaultState());
 
 		temp2.add(map[6][7]);
-		footman2 = new FootMan(temp2, Team.PLAYER, this);
+		footman2 = new FootMan(temp2, player, this);
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
 		footman2.getStateStack().add(footman2.getDefaultState());
 		
 		temp3.add(map[8][8]);
-		tree = new Tree(temp3, this);
+		tree = new Tree(temp3, this, nature);
 		entityList.add(tree);
 		map[8][8].setOnTile(tree);
 	}

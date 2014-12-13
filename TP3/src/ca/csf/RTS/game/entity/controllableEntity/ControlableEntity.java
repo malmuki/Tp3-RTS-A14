@@ -10,9 +10,9 @@ import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.GameObject;
-import ca.csf.RTS.game.entity.Team;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.Dead;
 import ca.csf.RTS.game.entity.state.State;
