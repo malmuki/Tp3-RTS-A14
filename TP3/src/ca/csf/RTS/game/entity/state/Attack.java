@@ -16,6 +16,7 @@ public class Attack implements State {
 	@Override
 	public StateInteraction action(float deltaTime) {
 
+
 		if (source.getTarget() != null && ((ControlableEntity) source.getTarget()).getHP() <= 0) {
 			((ControlableEntity) source).setTarget(null);
 			return StateInteraction.ended;
