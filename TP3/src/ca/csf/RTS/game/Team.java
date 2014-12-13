@@ -25,12 +25,22 @@ public class Team {
 		stone += amountGained;
 	}
 	
-	public void substractWood(int amountLost) {
-		wood -= amountLost;
+	public boolean substractWood(int amountLost) {
+		if (amountLost <= wood) {
+			wood -= amountLost;
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
-	public void substractStone(int amountLost) {
-		stone -= amountLost;
+	public boolean substractStone(int amountLost) {
+		if (amountLost <= stone) {
+			stone -= amountLost;
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	public int getWood() {
