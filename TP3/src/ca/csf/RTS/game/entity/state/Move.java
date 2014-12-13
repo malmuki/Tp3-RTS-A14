@@ -11,17 +11,13 @@ public class Move implements State {
 	private Human human;
 	private float moveProgression = 0;
 
-	public Move(Tile target, Human human) { // Use this constructor for the
-											// initial order giving
+	public Move(Tile target, Human human) { // Use this constructor for the initial order giving
 		finalDestination = target;
 		this.human = human;
 		next = null;
 	}
 
-	public Move(Tile target, Tile nextMove, Human human) { // Use this
-															// constructor to
-															// add extra moves
-															// in the stack
+	public Move(Tile target, Tile nextMove, Human human) { // Use this constructor to add extra moves in the stack
 		finalDestination = target;
 		this.human = human;
 		next = nextMove;
@@ -29,23 +25,28 @@ public class Move implements State {
 
 	@Override
 	public StateInteraction action(float deltaTime) {
+		
 		if (human.getTilesOrigin().getDistance(finalDestination) <= 14) {
 
 			moveProgression += deltaTime;
-			if (finalDestination.getOnTile() == null
-					&& human.moveToTile(finalDestination, moveProgression)) {
+			if (finalDestination.getOnTile() == null && human.moveToTile(finalDestination, moveProgression)) {
 				return StateInteraction.ended;
 			}
+			
 			return StateInteraction.notFinished;
 		} else {
+			
 			if (next == null) { // If there is no next, pathfind to the end
-				clearUnusedMove();
-				PathFinder.findPath(human, finalDestination);
+				
+				human.getStateStack().clear();
+				
+				PathFinder.findPath(human, finalDestination);				
 				return StateInteraction.notFinished;
 			} else { // else just move to the next
+				
 				if (next.getOnTile() == null) {
+					
 					moveProgression += deltaTime;
-
 					if (human.moveToTile(next, moveProgression)) {
 						return StateInteraction.ended;
 					} else {
@@ -53,20 +54,18 @@ public class Move implements State {
 					}
 
 				} else {
-					// human.getStateStack().clear();
-					clearUnusedMove();
-
-					PathFinder.findPath(human, finalDestination);
-					return StateInteraction.notFinished;
+					
+					human.getStateStack().clear();
+					
+					if (human.getTarget() != null) {
+						human.getStateStack().push(new Move(human.getTarget().getTilesOrigin(), human));
+						return StateInteraction.notFinished;
+					} else {
+						PathFinder.findPath(human, finalDestination);
+						return StateInteraction.notFinished;
+					}
 				}
-				// TODO: test if the next has stuff on it, if so, repathfind...
 			}
-		}
-	}
-
-	private void clearUnusedMove() {
-		while (human.getStateStack().peek() != this && !human.getStateStack().isEmpty() ) {
-			human.getStateStack().pop();
 		}
 	}
 
