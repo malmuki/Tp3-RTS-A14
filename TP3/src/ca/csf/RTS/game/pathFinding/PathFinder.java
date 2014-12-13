@@ -30,7 +30,7 @@ public class PathFinder {
 		openList.clear();
 		closedList.clear();
 
-		openList.add(new AStarTile(movingHuman.getCurrentTiles().get(0), null));
+		openList.add(new AStarTile(movingHuman.getTilesOrigin(), null));
 
 		AStarTile currentTile;
 

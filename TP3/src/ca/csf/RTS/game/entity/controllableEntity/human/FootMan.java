@@ -33,8 +33,8 @@ public class FootMan extends Human implements Fighter {
 	private static final int RANGE = 14;
 	private static final int DAMAGE = 10;
 
-	public FootMan(ArrayList<Tile> tiles, Team team, GameEventHandler game) {
-		super(tiles, MAX_HEALTH, team, game);
+	public FootMan(Tile originTile, Team team, GameEventHandler game) {
+		super(originTile, MAX_HEALTH, team, game);
 		//stateStack.push(getDefaultState());
 	}
 
@@ -48,7 +48,7 @@ public class FootMan extends Human implements Fighter {
 		if (target.getTeam().getName() != "Nature" && target.getTeam() != this.team) {
 			stateStack.push(new Attack((Fightable) target, this));
 		}else {
-			stateStack.push(new Move(target.getCurrentTiles().get(0), this));
+			stateStack.push(new Move(target.getTilesOrigin(), this));
 		}
 	}
 
@@ -76,8 +76,7 @@ public class FootMan extends Human implements Fighter {
 								.getFutureTarget()), this));
 				break;
 			case targetTooFar:
-				Tile temp = ((Entity) ((Attack) stateStack.peek()).getTarget())
-						.getCurrentTiles().get(0);
+				Tile temp = ((Entity) ((Attack) stateStack.peek()).getTarget()).getTilesOrigin();
 				stateStack.push(new Move(temp, this));
 				break;
 			case dead:

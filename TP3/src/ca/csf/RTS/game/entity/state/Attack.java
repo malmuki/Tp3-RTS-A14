@@ -16,11 +16,7 @@ public class Attack implements State {
 
 	@Override
 	public StateInteraction action(float deltaTime) {
-		if (((ControlableEntity) source)
-				.getCurrentTiles()
-				.get(0)
-				.getDistance(
-						((ControlableEntity) target).getCurrentTiles().get(0)) <= source.getRange()) {
+		if (((ControlableEntity) source).getTilesOrigin().getDistance(((ControlableEntity) target).getTilesOrigin()) <= source.getRange()) { //TODO:fix the attack range calculation for buildings
 			source.attack(target);
 			if (target.getHP() <= 0) {
 				return StateInteraction.ended;

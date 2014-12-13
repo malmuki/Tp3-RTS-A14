@@ -10,52 +10,57 @@ import ca.csf.RTS.game.Team;
 
 public abstract class Entity extends GameObject {
 
-  protected ArrayList<Tile> currentTiles;
-  protected boolean selected;
-  protected Team team;
-  
-  public Entity(ArrayList<Tile> tiles, Team team, GameEventHandler game) {
-    super(game);
-    selected = false;
-    this.currentTiles = tiles;
-    this.team = team;
-    sprite.setTexture(texture);
-    setSpritePos();
-    team.addUnit(this);
-  }
+	protected Tile tilesOrigin;
+	protected int height;
+	protected int width;
+	protected boolean selected;
+	protected Team team;
 
-  public ArrayList<Tile> getCurrentTiles() {
-    return currentTiles;
-  }
+	public Entity(Tile tiles, Team team, GameEventHandler game) {
+		super(game);
+		selected = false;
+		this.tilesOrigin = tiles;
+		this.team = team;
+		sprite.setTexture(texture);
+		setSpritePos();
+		team.addUnit(this);
+	}
 
-  @Override
-  protected void setSpritePos() {
-    Vector2i mostTopLeftTile = new Vector2i(Game.MAP_SIZE, Game.MAP_SIZE);
-    for (Tile tile : currentTiles) {
-      if (tile.getMapLocation().x < mostTopLeftTile.x && tile.getMapLocation().y < mostTopLeftTile.y) {
-        mostTopLeftTile = tile.getMapLocation();
-      }
-    }
-    sprite.setPosition(mostTopLeftTile.x * Tile.TILE_SIZE, mostTopLeftTile.y * Tile.TILE_SIZE);
-  }
+	public Tile getTilesOrigin() {
+		return tilesOrigin;
+	}
 
-  public void select() {
-    selected = true;
-  }
+	@Override
+	protected void setSpritePos() {
+		
+		//TODO: figure out what this did
+//		Vector2i mostTopLeftTile = new Vector2i(Game.MAP_SIZE, Game.MAP_SIZE);
+//		for (Tile tile : tilesOrigin) {
+//			if (tile.getMapLocation().x < mostTopLeftTile.x	&& tile.getMapLocation().y < mostTopLeftTile.y) {
+//				mostTopLeftTile = tile.getMapLocation();
+//			}
+//		}
+		
+		sprite.setPosition(tilesOrigin.getMapLocation().x * Tile.TILE_SIZE, tilesOrigin.getMapLocation().y * Tile.TILE_SIZE);
+	}
 
-  public void deSelect() {
-    selected = false;
-  }
+	public void select() {
+		selected = true;
+	}
 
-  public abstract void order(Entity onTile);
+	public void deSelect() {
+		selected = false;
+	}
 
-  public abstract void order(Tile target);
+	public abstract void order(Entity onTile);
 
-  public abstract void doTasks(float deltaTime);
+	public abstract void order(Tile target);
 
-public Team getTeam() {
-	return team;
-}
+	public abstract void doTasks(float deltaTime);
 
-public abstract boolean isObstacle();
+	public Team getTeam() {
+		return team;
+	}
+
+	public abstract boolean isObstacle();
 }

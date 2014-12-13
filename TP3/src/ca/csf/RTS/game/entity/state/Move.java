@@ -29,7 +29,7 @@ public class Move implements State {
 
 	@Override
 	public StateInteraction action(float deltaTime) {
-		if (human.getCurrentTiles().get(0).getDistance(finalDestination) <= 14) {
+		if (human.getTilesOrigin().getDistance(finalDestination) <= 14) {
 			
 			moveProgression += deltaTime;
 			if (finalDestination.getOnTile() == null && human.moveToTile(finalDestination, moveProgression)) {

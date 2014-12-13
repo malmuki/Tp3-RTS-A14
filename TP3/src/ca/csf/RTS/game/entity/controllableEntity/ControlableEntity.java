@@ -26,8 +26,8 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	protected RectangleShape lifeBorder;
 	protected GameObject target;
 
-	public ControlableEntity(ArrayList<Tile> tiles, int healthMax , Team team, GameEventHandler game) {
-		super(tiles, team, game);
+	public ControlableEntity(Tile originTile, int healthMax, Team team, GameEventHandler game) {
+		super(originTile, team, game);
 		this.healthMax = healthMax;
 		healthCurrent = healthMax;
 		stateStack = new Stack<State>();

@@ -12,8 +12,8 @@ public abstract class Ressource extends Entity {
 	protected final int ressourceMax;
 	protected int ressourceLeft;
 
-	public Ressource(ArrayList<Tile> tiles, int ressourceMax, GameEventHandler game, Team team) {
-		super(tiles, team, game);
+	public Ressource(Tile tile, int ressourceMax, GameEventHandler game, Team team) {
+		super(tile, team, game);
 		this.ressourceMax = ressourceMax;
 		this.ressourceLeft = ressourceMax;
 	}
