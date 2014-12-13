@@ -8,7 +8,8 @@ import ca.csf.RTS.game.entity.controllableEntity.Fighter;
 public class Attack implements State {
 
 	private Fighter source;
-
+	private float attackProgression = 0f;
+	
 	public Attack(Fighter source) {
 		this.source = source;
 	}
@@ -23,8 +24,13 @@ public class Attack implements State {
 
 		if (((ControlableEntity) source).getTilesOrigin().getDistance(((Entity) ((ControlableEntity) source).getTarget()).getTilesOrigin()) <= source.getRange()) {
 			//TODO: calculation for buildings range
+			attackProgression += deltaTime;
 			
-			source.attack((Fightable) source.getTarget());
+			if (attackProgression >= 0.5f) {
+				source.attack((Fightable) source.getTarget());
+				attackProgression = 0f;
+			}
+			
 			return StateInteraction.notFinished;			
 		} else {
 			
