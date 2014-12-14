@@ -20,8 +20,8 @@ public class WatchTower extends Building implements Fighter,Watcher {
 	}
 
 	@Override
-	public void attack(Fightable target) {
-
+	public void attack() {
+		((Fightable) target).loseLife(DAMAGE);
 	}
 
 	public void order(Entity onTile) {

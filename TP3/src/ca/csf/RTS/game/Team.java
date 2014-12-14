@@ -15,8 +15,6 @@ public class Team {
 		units = new ArrayList<Entity>();
 	}
 	
-	public Team(){}
-	
 	public void addWood(int amountGained) {
 		wood += amountGained;
 	}

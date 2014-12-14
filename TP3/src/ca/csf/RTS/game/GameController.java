@@ -77,11 +77,6 @@ public class GameController {
 		selection.setOutlineColor(Color.BLACK);
 		selection.setOutlineThickness(SELECTION_THICKNESS);
 
-		RectangleShape rectTest = new RectangleShape();
-		rectTest.setSize(new Vector2f(0.0f,  0.0f));
-        rectTest.setPosition(20.0f, 20.0f);
-        rectTest.setFillColor(Color.RED);
-
 		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE * Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
 		map.setTexture(gazon);
 		map.setTextureRect(new IntRect(0, 0, (int) (Game.MAP_SIZE * Tile.TILE_SIZE), (int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
@@ -110,7 +105,7 @@ public class GameController {
 				}
 				
 				window.draw(selection);
-				window.draw(rectTest);
+				
 				// Display what was drawn
 				window.display();
 

@@ -47,6 +47,7 @@ public class Game implements GameEventHandler {
 		for (Entity entity : toBeDeleted) {
 			entityList.remove(entity);
 		}
+		toBeDeleted.clear();
 	}
 
 	public void newGame() {
@@ -147,8 +148,8 @@ public class Game implements GameEventHandler {
 	public void remove(Entity entity) {
 		toBeDeleted.add(entity);
 		selectedList.remove(entity);
-		//pas sur de la prochaine ligne
-		//entity.getTeam().removeUnit(entity);
+		entity.getTeam().removeUnit(entity);
+		
 		//TODO: fix this so it works with all the tiles of a building
 		entity.getTilesOrigin().setOnTile(null);
 	}
