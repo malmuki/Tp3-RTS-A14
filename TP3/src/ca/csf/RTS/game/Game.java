@@ -2,6 +2,7 @@ package ca.csf.RTS.game;
 
 import java.util.ArrayList;
 
+import org.jsfml.graphics.Color;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
@@ -47,14 +48,15 @@ public class Game implements GameEventHandler {
 		for (Entity entity : toBeDeleted) {
 			entityList.remove(entity);
 		}
+		toBeDeleted.clear();
 	}
 
 	public void newGame() {
 		PathFinder.setMap(map);
 		
-		player = new Team("Idiot");
-		computer = new Team("Ennemy");
-		nature = new Team("Nature");
+		player = new Team("Idiot", Color.YELLOW);
+		computer = new Team("Ennemy", Color.RED);
+		nature = new Team("Nature", Color.BLACK);
 		
 		// TEST: temporary, remove this
 		footman1 = new FootMan(map[5][5], computer, this);
@@ -147,8 +149,8 @@ public class Game implements GameEventHandler {
 	public void remove(Entity entity) {
 		toBeDeleted.add(entity);
 		selectedList.remove(entity);
-		//pas sur de la prochaine ligne
-		//entity.getTeam().removeUnit(entity);
+		entity.getTeam().removeUnit(entity);
+		
 		//TODO: fix this so it works with all the tiles of a building
 		entity.getTilesOrigin().setOnTile(null);
 	}

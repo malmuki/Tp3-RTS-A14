@@ -17,9 +17,9 @@ import ca.csf.RTS.game.entity.state.State;
 
 public abstract class ControlableEntity extends Entity implements Fightable {
 
-	private final float LIFE_BAR_W = 15;
-	private final float LIFE_BAR_H = 5;
-	
+	private final float LIFE_BAR_W = 10;
+	private final float LIFE_BAR_H = 4;
+
 	protected final int healthMax;
 	protected int healthCurrent;
 	protected Stack<State> stateStack;
@@ -36,7 +36,7 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		lifeBar = new RectangleShape(new Vector2f(LIFE_BAR_W, LIFE_BAR_H));
 		lifeBar.setFillColor(Color.GREEN);
 		lifeBorder = new RectangleShape(new Vector2f(LIFE_BAR_W, LIFE_BAR_H));
-		lifeBorder.setOutlineColor(Color.GREEN);
+		lifeBorder.setOutlineColor(team.getColor());
 		lifeBorder.setOutlineThickness(2);
 		lifeBorder.setFillColor(Color.TRANSPARENT);
 	}
@@ -44,20 +44,18 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	public void draw(RenderTarget target) {
 		super.draw(target);
 
-		lifeBar.setPosition(
-				(sprite.getTexture().getSize().x / 2 + sprite.getPosition().x),
-				sprite.getPosition().y - 12);
-		lifeBorder.setPosition(
-				(sprite.getTexture().getSize().x / 2 + sprite.getPosition().x),
-				sprite.getPosition().y - 12);
+		lifeBar.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
+		lifeBorder.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
 
-		lifeBar.setSize(new Vector2f(healthCurrent / healthMax * LIFE_BAR_W, LIFE_BAR_H));
+		
+		lifeBar.setSize(new Vector2f((float)healthCurrent / (float)healthMax * LIFE_BAR_W, LIFE_BAR_H));
 
 		if (selected) {
 			lifeBorder.setOutlineColor(Color.BLUE);
 		} else {
-			lifeBorder.setOutlineColor(Color.GREEN);
+			lifeBorder.setOutlineColor(team.getColor());
 		}
+		
 		lifeBar.draw(target, RenderStates.DEFAULT);
 		lifeBorder.draw(target, RenderStates.DEFAULT);
 	}

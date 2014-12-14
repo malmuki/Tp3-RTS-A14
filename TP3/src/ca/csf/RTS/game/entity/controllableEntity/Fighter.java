@@ -4,7 +4,7 @@ import ca.csf.RTS.game.entity.GameObject;
 
 public interface Fighter {
 	
-	public void attack(Fightable target);
+	public void attack();
 	
 	public int getRange();
 	

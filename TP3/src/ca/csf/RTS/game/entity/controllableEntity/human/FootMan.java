@@ -31,14 +31,20 @@ public class FootMan extends Human implements Fighter {
 	private static final String NAME = "Footman";
 	private static final int RANGE = 15;
 	private static final int DAMAGE = 10;
+	
+	//private static final float  ATTACK_DELAY = 2f;
 
+//	public float getAttackDelay() {
+//		return ATTACK_DELAY;
+//	}
+	
 	public FootMan(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, MAX_HEALTH, team, game);
 	}
 
 	@Override
-	public void attack(Fightable target) {
-		target.loseLife(DAMAGE);
+	public void attack() {
+		((Fightable) target).loseLife(DAMAGE);
 	}
 
 	@Override
@@ -92,7 +98,6 @@ public class FootMan extends Human implements Fighter {
 
 			case dead:
 				game.remove(this);
-				team.removeUnit(this);
 				break;
 
 			default:
