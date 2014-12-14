@@ -1,12 +1,14 @@
 package ca.csf.RTS.game.entity.state;
 
+import ca.csf.RTS.game.entity.Entity;
+import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Watcher;
 
 public class Alert implements State {
 
-	private Fightable futureTarget;
 	private Watcher watcher;
+	private float alertTimer = 0.0f;
 
 	public Alert(Watcher watcher) {
 		this.watcher = watcher;
@@ -14,19 +16,17 @@ public class Alert implements State {
 
 	@Override
 	public StateInteraction action(float deltaTime) {
-		setFutureTarget((Fightable) watcher.search());
-		if (getFutureTarget() != null) {
-			return StateInteraction.targetSighted;
+		alertTimer += deltaTime;
+		if (alertTimer > 2.5f) {
+			Entity target = watcher.search();
+			if (target != null) {
+				((ControlableEntity) watcher).setTarget(target);
+				return StateInteraction.targetSighted;
+			} else {
+				return StateInteraction.noTargetSighted;
+			}
 		} else {
-			return StateInteraction.noTargetSighted;
+			return StateInteraction.notFinished;
 		}
-	}
-	
-	public Fightable getFutureTarget() {
-		return futureTarget;
-	}
-
-	public void setFutureTarget(Fightable futurTarget) {
-		this.futureTarget = futurTarget;
 	}
 }
