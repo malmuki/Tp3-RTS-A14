@@ -2,6 +2,7 @@ package ca.csf.RTS.game;
 
 import java.util.ArrayList;
 
+import org.jsfml.graphics.Color;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
@@ -53,9 +54,9 @@ public class Game implements GameEventHandler {
 	public void newGame() {
 		PathFinder.setMap(map);
 		
-		player = new Team("Idiot");
-		computer = new Team("Ennemy");
-		nature = new Team("Nature");
+		player = new Team("Idiot", Color.YELLOW);
+		computer = new Team("Ennemy", Color.RED);
+		nature = new Team("Nature", Color.BLACK);
 		
 		// TEST: temporary, remove this
 		footman1 = new FootMan(map[5][5], computer, this);

@@ -2,6 +2,8 @@ package ca.csf.RTS.game;
 
 import java.util.ArrayList;
 
+import org.jsfml.graphics.Color;
+
 import ca.csf.RTS.game.entity.Entity;
 
 public class Team {
@@ -9,10 +11,12 @@ public class Team {
 	private int stone = 0;
 	private ArrayList<Entity> units;
 	private String name;
+	private Color color;
 	
-	public Team(String name) {
+	public Team(String name, Color color) {
 		this.name = name;
 		units = new ArrayList<Entity>();
+		this.color = color;
 	}
 	
 	public void addWood(int amountGained) {
@@ -63,5 +67,9 @@ public class Team {
 	
 	public void removeUnit(Entity removedUnit) {
 		units.remove(removedUnit);
+	}
+
+	public Color getColor() {
+		return color;
 	}
 }

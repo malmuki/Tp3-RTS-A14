@@ -36,7 +36,7 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		lifeBar = new RectangleShape(new Vector2f(LIFE_BAR_W, LIFE_BAR_H));
 		lifeBar.setFillColor(Color.GREEN);
 		lifeBorder = new RectangleShape(new Vector2f(LIFE_BAR_W, LIFE_BAR_H));
-		lifeBorder.setOutlineColor(Color.RED);
+		lifeBorder.setOutlineColor(team.getColor());
 		lifeBorder.setOutlineThickness(2);
 		lifeBorder.setFillColor(Color.TRANSPARENT);
 	}
@@ -53,7 +53,7 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		if (selected) {
 			lifeBorder.setOutlineColor(Color.BLUE);
 		} else {
-			lifeBorder.setOutlineColor(Color.RED);
+			lifeBorder.setOutlineColor(team.getColor());
 		}
 		
 		lifeBar.draw(target, RenderStates.DEFAULT);
