@@ -15,6 +15,7 @@ import ca.csf.RTS.game.entity.state.Alert;
 import ca.csf.RTS.game.entity.state.Attack;
 import ca.csf.RTS.game.entity.state.Move;
 import ca.csf.RTS.game.entity.state.State;
+import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class FootMan extends Human implements Fighter {
 
@@ -89,7 +90,7 @@ public class FootMan extends Human implements Fighter {
 				break;
 				
 			case targetSighted:
-				stateStack.push(new Attack(this));
+				//stateStack.push(new Attack(this));
 				break;
 
 			case targetTooFar:
@@ -110,8 +111,7 @@ public class FootMan extends Human implements Fighter {
 
 	@Override
 	public Entity search() {
-		// TODO: dijktras
-		return null;
+		return PathFinder.findClosestEnnemy(this, 24);
 	}
 
 	@Override

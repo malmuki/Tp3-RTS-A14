@@ -54,7 +54,9 @@ public class Game implements GameEventHandler {
 	}
 
 	public void newGame() {
-		PathFinder.setMap(map);
+		PathFinder.initialisePathFinder(map);
+		
+		//PathFinder.setMap(map);
 		
 		player = new Team("Idiot", Color.YELLOW);
 		computer = new Team("Ennemy", Color.RED);
