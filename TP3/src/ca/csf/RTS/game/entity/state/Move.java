@@ -29,7 +29,7 @@ public class Move implements State {
 	@Override
 	public StateInteraction action(float deltaTime) {
 		if (human.getTilesOrigin().getDistance(finalDestination) <= 14) {
-			
+
 			moveProgression += deltaTime;
 			if (finalDestination.getOnTile() == null && human.moveToTile(finalDestination, moveProgression)) {
 				return StateInteraction.ended;
@@ -37,10 +37,10 @@ public class Move implements State {
 			return StateInteraction.notFinished;
 		} else {
 			if (next == null) { // If there is no next, pathfind to the end
-				
-				human.getStateStack().clear();
-				
-				PathFinder.findPath(human, finalDestination);				
+
+				human.getStateStack().pop();
+
+				PathFinder.findPath(human, finalDestination);
 				return StateInteraction.notFinished;
 			} else { // else just move to the next
 				if (next.getOnTile() == null) {
@@ -52,10 +52,10 @@ public class Move implements State {
 						return StateInteraction.notFinished;
 					}
 
-				} else { //if there is something on the next tile, either repathfind to the end OR repathfind to the target
-					
+				} else { // if there is something on the next tile, either repathfind to the end OR repathfind to the target
+
 					human.getStateStack().clear();
-					
+
 					if (human.getTarget() != null) {
 						return StateInteraction.blocked;
 					} else {

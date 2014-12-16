@@ -13,9 +13,10 @@ import ca.csf.RTS.game.entity.state.Gathering;
 import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.Move;
 import ca.csf.RTS.game.entity.state.State;
+import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Worker extends Human {
-	
+
 	static {
 		try {
 			texture = new Texture();
@@ -24,7 +25,7 @@ public class Worker extends Human {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Worker";
 
@@ -39,6 +40,7 @@ public class Worker extends Human {
 
 	@Override
 	public void order(Entity target) {
+		stateStack.clear();
 		if (target.getTeam().getName() == "Nature") {
 			setTarget(target);
 			stateStack.push(new Gathering(this));
@@ -49,37 +51,38 @@ public class Worker extends Human {
 
 	@Override
 	public void doTasks(float deltaTime) {
-		switch (stateStack.peek().action(deltaTime)) {
-		case ended:
-			stateStack.pop();
-			if (stateStack.isEmpty()) {
-				stateStack.push(getDefaultState());
-			}
+		if (!stateStack.isEmpty()) {
+			switch (stateStack.peek().action(deltaTime)) {
+			case ended:
+				stateStack.pop();
+				if (stateStack.isEmpty()) {
+					stateStack.push(getDefaultState());
+				}
 
-			break;
-		case targetTooFar:
-			stateStack.push(new Move(target.getTilesOrigin(), this));
-			break;
-		case notEnoughRessources:
-			// afficher ou dire qu'il manque des ressource puis pop
-			break;
-		case spaceIsOccupied:
-			// afficher ou dire qu'il manque de place puis pop
-			break;
-		case targetUnreachable:
-			
-			break;
-		case ressourceDepleted:
-			//dijtra
-		default:
-			break;
+				break;
+			case targetTooFar:
+				stateStack.push(new Move(target.getTilesOrigin(), this));
+				break;
+			case notEnoughRessources:
+				// afficher ou dire qu'il manque des ressource puis pop
+				break;
+			case spaceIsOccupied:
+				// afficher ou dire qu'il manque de place puis pop
+				break;
+			case targetUnreachable:
+
+				break;
+			case ressourceDepleted:
+				setTarget(search());
+			default:
+				break;
+			}
 		}
 	}
 
 	@Override
 	public Entity search() {
-		// TODO: dijitre
-		return null;
+		return PathFinder.findClosestRessource(this, 50);
 	}
 
 	@Override

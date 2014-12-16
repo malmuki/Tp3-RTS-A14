@@ -56,16 +56,14 @@ public class Game implements GameEventHandler {
 	public void newGame() {
 		PathFinder.initialisePathFinder(map);
 		
-		//PathFinder.setMap(map);
-		
 		player = new Team("Idiot", Color.YELLOW);
 		computer = new Team("Ennemy", Color.RED);
 		nature = new Team("Nature", Color.BLACK);
 		
 		// TEST: temporary, remove this
-		footman1 = new FootMan(map[5][5], computer, this);
+		footman1 = new FootMan(map[20][20], computer, this);
 		entityList.add(footman1);
-		map[5][5].setOnTile(footman1);
+		map[20][20].setOnTile(footman1);
 		footman1.getStateStack().push(footman1.getDefaultState());
 
 		footman2 = new FootMan(map[6][7], player, this);
