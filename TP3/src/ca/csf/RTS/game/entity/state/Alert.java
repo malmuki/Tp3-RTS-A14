@@ -2,7 +2,6 @@ package ca.csf.RTS.game.entity.state;
 
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
-import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Watcher;
 
 public class Alert implements State {
@@ -17,7 +16,7 @@ public class Alert implements State {
 	@Override
 	public StateInteraction action(float deltaTime) {
 		alertTimer += deltaTime;
-		if (alertTimer > 2.5f) {
+		if (alertTimer > 0.2f) {
 			Entity target = watcher.search();
 			if (target != null) {
 				((ControlableEntity) watcher).setTarget(target);

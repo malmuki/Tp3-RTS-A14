@@ -1,8 +1,5 @@
 package ca.csf.RTS.game.pathFinding;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import ca.csf.RTS.game.Game;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
@@ -11,218 +8,289 @@ import ca.csf.RTS.game.entity.controllableEntity.human.Human;
 import ca.csf.RTS.game.entity.state.Attack;
 import ca.csf.RTS.game.entity.state.Move;
 
-// http://www.policyalmanac.org/games/binaryHeaps.htm
 public class PathFinder {
-	private static Tile goal;
-
-	public static Tile getGoal() {
-		return goal;
-	}
+	// To make path finding faster, I use a system called binary heap.
+	// The idea and tutorial came from this web site:
+	// http://www.policyalmanac.org/games/binaryHeaps.htm
+	// It uses more memory because of the arrays below that are constantly
+	// maintained but it's
+	// (supposedly) 2 -3 times faster than having ArrayLists that you keep
+	// sorted, which is really
+	// needed to move multiple units a long distance and to have units on alert
+	// constantly
 
 	private static Tile[][] map;
-	private static ArrayList<DijkstraTile> openList = new ArrayList<DijkstraTile>();
-	private static ArrayList<DijkstraTile> closedList = new ArrayList<DijkstraTile>();
 
-	public static void setMap(Tile[][] map) {
+	private static int[] closedList = new int[Game.MAP_SIZE * Game.MAP_SIZE];
+	private static int[] openList = new int[Game.MAP_SIZE * Game.MAP_SIZE];
+
+	private static int[] listsParent = new int[Game.MAP_SIZE * Game.MAP_SIZE];
+	private static int[] listsX = new int[Game.MAP_SIZE * Game.MAP_SIZE];
+	private static int[] listsY = new int[Game.MAP_SIZE * Game.MAP_SIZE];
+	private static int[] listsFCost = new int[Game.MAP_SIZE * Game.MAP_SIZE];
+	private static int[] listsGCost = new int[Game.MAP_SIZE * Game.MAP_SIZE];
+	private static int[] listsHCost = new int[Game.MAP_SIZE * Game.MAP_SIZE];
+
+	private static int openListCount;
+	private static int tilesChecked; // is equal to closedListCount +
+										// openListCount
+
+	private static int goalX;
+	private static int goalY;
+
+	public static void initialisePathFinder(Tile[][] map) {
 		PathFinder.map = map;
 	}
 
-	public static void findPath(Human movingHuman, Tile _goal) {
-		goal = _goal;
+	public static void findPath(Human movingHuman, Tile goal) {
+		goalX = goal.getMapLocation().x;
+		goalY = goal.getMapLocation().y;
 
-		openList.clear();
-		closedList.clear();
+		openListCount = 0;
+		tilesChecked = 0;
 
-		openList.add(new AStarTile(movingHuman.getTilesOrigin(), null));
+		addToOpenList(movingHuman.getTilesOrigin().getMapLocation().x, movingHuman.getTilesOrigin().getMapLocation().y, 0);
 
-		AStarTile currentTile;
+		int currentTile;
 
 		do {
-			currentTile = (AStarTile) Collections.min(openList); // Get lowest F cost tile
+			currentTile = openListRemove();
 
-			openList.remove(currentTile);
-			closedList.add(0, currentTile);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] - 1, currentTile);
+			addToOpenList(listsX[currentTile], listsY[currentTile] - 1, currentTile);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile], currentTile);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] - 1, currentTile);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] + 1, currentTile);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile], currentTile);
+			addToOpenList(listsX[currentTile], listsY[currentTile] + 1, currentTile);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] + 1, currentTile);
 
-			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y, currentTile);
-			addValidAStarTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
-		} while (closedList.get(0).getMapTile() != goal && !openList.isEmpty());
+		} while ((listsX[currentTile] != goalX || listsY[currentTile] != goalY) && openListCount != 0);
 
-		AStarTile lastTileAdded = (AStarTile) closedList.get(0);
-		if (movingHuman.getTarget() != null) { // if we are moving to attack, we must not add the final tile
-			lastTileAdded = (AStarTile) lastTileAdded.getParent();
+		if (movingHuman.getTarget() != null) { // if we are moving to attack, we
+												// must not add the final move
+			currentTile = listsParent[currentTile];
 		}
 
-		boolean temp = true;
-		while (temp) {
-			movingHuman.getStateStack().push(new Move(goal, lastTileAdded.getMapTile(), movingHuman));
-			if (lastTileAdded.getParent() == null) {
-				temp = false;
+		boolean pathComplete = true;
+
+		while (pathComplete) {
+			movingHuman.getStateStack().push(new Move(goal, map[listsX[currentTile]][listsY[currentTile]], movingHuman));
+			if (listsParent[currentTile] == 0) {
+				pathComplete = false;
 			} else {
-				lastTileAdded = (AStarTile) lastTileAdded.getParent();
+				currentTile = listsParent[currentTile];
 			}
 		}
 		movingHuman.getStateStack().pop();
 	}
-	
+
+	private static int openListRemove() {
+		if (openListCount == 0) {
+			return 0;
+		} else {
+			closedList[tilesChecked - openListCount + 1] = openList[1];
+
+			openList[1] = openList[openListCount];
+			openListCount--;
+
+			int newPosition = 1;
+			int currentPosition;
+			boolean orderIsRetablished = false;
+			int temp;
+
+			while (!orderIsRetablished) {
+				currentPosition = newPosition;
+				if (2 * currentPosition + 1 <= openListCount) {
+					if (listsFCost[openList[currentPosition]] >= listsFCost[openList[2 * currentPosition]]) {
+						newPosition = 2 * currentPosition;
+					}
+					if (listsFCost[openList[newPosition]] >= listsFCost[openList[2 * currentPosition + 1]]) {
+						newPosition = 2 * currentPosition + 1;
+					}
+				} else if (2 * currentPosition <= openListCount) {
+					if (listsFCost[openList[currentPosition]] >= listsFCost[openList[2 * currentPosition]]) {
+						newPosition = 2 * currentPosition;
+					}
+				}
+
+				if (currentPosition != newPosition) {
+					temp = openList[currentPosition];
+					openList[currentPosition] = openList[newPosition];
+					openList[newPosition] = temp;
+				} else {
+					orderIsRetablished = true;
+				}
+			}
+
+			return closedList[tilesChecked - openListCount];
+		}
+	}
+
+	private static void addToOpenList(int x, int y, int parentID) {
+		if (x >= 0 && y >= 0 && x < Game.MAP_SIZE && y < Game.MAP_SIZE) { // if tile exists
+			if (!map[x][y].hasObstacle() && closedListContains(x, y) == 0) { // if it's not in the closed list and it has no obstacle
+				int openListID = openListContains(x, y); // search for the tile in the openList
+				if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
+					// I will do this when I come back! And then the other to do
+					// TODO: re adjust parents
+				} else { // otherwise just add it to the list
+					openListCount++;
+					tilesChecked++;
+					openList[openListCount] = tilesChecked;
+					listsX[tilesChecked] = x;
+					listsY[tilesChecked] = y;
+					listsParent[tilesChecked] = parentID;
+					listsGCost[tilesChecked] = calculateG(tilesChecked);
+					listsHCost[tilesChecked] = calculateH(x, y);
+					listsFCost[tilesChecked] = listsGCost[tilesChecked] + listsHCost[tilesChecked];
+
+					int currentLocation = openListCount;
+					int temp;
+
+					while (currentLocation != 1 && listsFCost[openList[currentLocation]] < listsFCost[openList[currentLocation / 2]]) {
+						temp = openList[currentLocation];
+						openList[currentLocation] = openList[currentLocation / 2];
+						openList[currentLocation / 2] = temp;
+						currentLocation /= 2;
+					}
+				}
+			}
+		}
+	}
+
+	private static int closedListContains(int x, int y) {
+		for (int i = 1; i <= tilesChecked - openListCount; i++) {
+			if (listsX[closedList[i]] == x && listsY[closedList[i]] == y) {
+				return closedList[i];
+			}
+		}
+		return 0;
+	}
+
+	private static int openListContains(int x, int y) {
+		for (int i = 1; i <= openListCount; i++) {
+			if (listsX[openList[i]] == x && listsY[openList[i]] == y) {
+				return openList[i];
+			}
+		}
+		return 0;
+	}
+
+	private static int calculateG(int tileID) {
+		if (listsParent[tileID] != 0) {
+			if (listsX[listsParent[tileID]] != listsX[tileID] && listsY[listsParent[tileID]] != listsY[tileID]) {
+				return 14 + listsGCost[listsParent[tileID]];
+			} else {
+				return 10 + listsGCost[listsParent[tileID]];
+			}
+		} else {
+			return 0;
+		}
+	}
+
+	private static int calculateH(int tileX, int tileY) {
+		int h = (tileX - goalX) * 10;
+		int temp = (tileY - goalY) * 10;
+		if (h < 0) {
+			h *= -1;
+		}
+		if (temp < 0) {
+			temp *= -1;
+		}
+
+		h += temp;
+
+		return h;
+	}
+
+	private static void addToOpenList(int x, int y, int parentID, int maxG) {
+		if (x >= 0 && y >= 0 && x < Game.MAP_SIZE && y < Game.MAP_SIZE) { // if tile exists
+			if (!map[x][y].hasObstacle() && closedListContains(x, y) == 0 && listsGCost[parentID] <= maxG) { // if it's not in the closed list and it has no
+																												// obstacle and it's parent's G is not too high
+				int openListID = openListContains(x, y); // search for the tile in the openList
+				if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
+					// I will do this when I come back! And then the other to do
+					// TODO: re adjust parents
+				} else { // otherwise just add it to the list
+					openListCount++;
+					tilesChecked++;
+					openList[openListCount] = tilesChecked;
+					listsX[tilesChecked] = x;
+					listsY[tilesChecked] = y;
+					listsParent[tilesChecked] = parentID;
+					listsGCost[tilesChecked] = calculateG(tilesChecked);
+					listsFCost[tilesChecked] = listsGCost[tilesChecked];
+
+					int currentLocation = openListCount;
+					int temp;
+
+					while (currentLocation != 1 && listsFCost[openList[currentLocation]] < listsFCost[openList[currentLocation / 2]]) {
+						temp = openList[currentLocation];
+						openList[currentLocation] = openList[currentLocation / 2];
+						openList[currentLocation / 2] = temp;
+						currentLocation /= 2;
+					}
+				}
+			}
+		}
+	}
+
 	public static Entity findClosestEnnemy(Human searchingHuman, int searchRange) {
-		goal = null;
+		goalX = -1;
+		goalY = -1;
 
-		openList.clear();
-		closedList.clear();
+		openListCount = 0;
+		tilesChecked = 0;
 
-		openList.add(new DijkstraTile(searchingHuman.getTilesOrigin(), null));
+		addToOpenList(searchingHuman.getTilesOrigin().getMapLocation().x, searchingHuman.getTilesOrigin().getMapLocation().y, 0, searchRange);
 
-		DijkstraTile currentTile;
-		boolean targetSighted = false;
 		Entity onLastTileChecked;
-		
+		int currentTile;
+		boolean targetSighted = false;
+
 		do {
-			currentTile = Collections.min(openList); // Get lowest F cost tile
+			currentTile = openListRemove();
 
-			openList.remove(currentTile);
-			closedList.add(0, currentTile);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] - 1, currentTile, searchRange);
+			addToOpenList(listsX[currentTile], listsY[currentTile] - 1, currentTile, searchRange);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile], currentTile, searchRange);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] - 1, currentTile, searchRange);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] + 1, currentTile, searchRange);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile], currentTile, searchRange);
+			addToOpenList(listsX[currentTile], listsY[currentTile] + 1, currentTile, searchRange);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] + 1, currentTile, searchRange);
 
-			
-			addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y, currentTile, searchRange);
-			addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile, searchRange);
-			addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x - 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile, searchRange);
-			addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y - 1, currentTile, searchRange);
-			addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x, currentTile.getMapTile().getMapLocation().y + 1, currentTile, searchRange);
-			addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile, searchRange);
-			addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y, currentTile, searchRange);
-			addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile, searchRange);
-			onLastTileChecked = closedList.get(0).getMapTile().getOnTile();
-			
+			onLastTileChecked = map[listsX[currentTile]][listsY[currentTile]].getOnTile();
+
 			if (onLastTileChecked != null && onLastTileChecked.getTeam().getName() != "Nature" && onLastTileChecked.getTeam().getName() != searchingHuman.getTeam().getName()) {
 				targetSighted = true;
 			}
-			
-		} while (!targetSighted && !openList.isEmpty());
 
-		if (!targetSighted) {
-			onLastTileChecked = null;
-		} else {
+		} while (!targetSighted && openListCount != 0);
+
+		if (targetSighted) {
 			searchingHuman.getStateStack().clear();
-			searchingHuman.getStateStack().push(new Attack((Fighter)searchingHuman));
+			searchingHuman.getStateStack().push(new Attack((Fighter) searchingHuman));
 			
-			DijkstraTile lastTileAdded = closedList.get(0).getParent();
-			Tile tileOfTarget = closedList.get(0).getMapTile();
-			
-			boolean temp = true;
-			while (temp) {
-				searchingHuman.getStateStack().push(new Move(tileOfTarget, lastTileAdded.getMapTile(), searchingHuman));
-				if (lastTileAdded.getParent() == null) {
-					temp = false;
+			currentTile = listsParent[currentTile];
+
+			boolean pathComplete = true;
+
+			while (pathComplete) {
+				searchingHuman.getStateStack()
+						.push(new Move(onLastTileChecked.getTilesOrigin(), map[listsX[currentTile]][listsY[currentTile]], searchingHuman));
+				if (listsParent[currentTile] == 0) {
+					pathComplete = false;
 				} else {
-					lastTileAdded = lastTileAdded.getParent();
+					currentTile = listsParent[currentTile];
 				}
 			}
 			searchingHuman.getStateStack().pop();
-		}
-		
-		
-		return onLastTileChecked;
-	}
-	
-//		AStarTile lastTileAdded = (AStarTile) closedList.get(0);
-//		if (movingHuman.getTarget() != null) { // if we are moving to attack, we
-//												// must not add the final tile
-//			lastTileAdded = (AStarTile) lastTileAdded.getParent();
-//		}
-//
-//		boolean temp = true;
-//		while (temp) {
-//			movingHuman.getStateStack().push(new Move(goal, lastTileAdded.getMapTile(), movingHuman));
-//			if (lastTileAdded.getParent() == null) {
-//				temp = false;
-//			} else {
-//				lastTileAdded = (AStarTile) lastTileAdded.getParent();
-//			}
-//		}
-//		movingHuman.getStateStack().pop();
-	
-	// public void findClosest(Tile startLocation, Object objectToFind) {
-	// openList.clear();
-	// closedList.clear();
-	//
-	// openList.add(new DijkstraTile(startLocation, null));
-	//
-	// DijkstraTile currentTile;
-	//
-	// do {
-	// currentTile = chooseLowestF();
-	// openList.remove(currentTile);
-	// closedList.add(0, currentTile);
-	//
-	// addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x
-	// - 1, currentTile.getMapTile().getMapLocation().y, currentTile);
-	// addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x
-	// - 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
-	// addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x
-	// - 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
-	// addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x,
-	// currentTile.getMapTile().getMapLocation().y - 1, currentTile);
-	// addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x,
-	// currentTile.getMapTile().getMapLocation().y + 1, currentTile);
-	// addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x
-	// + 1, currentTile.getMapTile().getMapLocation().y - 1, currentTile);
-	// addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x
-	// + 1, currentTile.getMapTile().getMapLocation().y, currentTile);
-	// addValidDijkstraTileToOpenList(currentTile.getMapTile().getMapLocation().x
-	// + 1, currentTile.getMapTile().getMapLocation().y + 1, currentTile);
-	// } while (closedList.get(0).mapTile.getOnTile() != objectToFind &&
-	// !openList.isEmpty());
-	// }
 
-	private static void addValidDijkstraTileToOpenList(int row, int column, DijkstraTile tile, int searchRange) {
-		if (row >= 0 && column >= 0 && row < Game.MAP_SIZE && column < Game.MAP_SIZE) { // Tile exists
-			DijkstraTile checkTile = getTile(row, column, closedList);
-			if (!map[row][column].hasObstacle() && checkTile == null) { // if there is no obstacle on the tile and it's not in the closed list
-				checkTile = getTile(row, column, openList);
-				if (checkTile != null) { //if it's in the open list
-					if (checkTile.getParent().calculateG() > tile.calculateG()) {
-						checkTile.setParent(tile);
-					}
-				} else {
-					DijkstraTile newTile = new DijkstraTile(map[row][column], tile);
-					if (newTile.calculateG() <= searchRange) {
-						openList.add(new DijkstraTile(map[row][column], tile));
-					}
-				}
-			}
+			return onLastTileChecked;
+		} else {
+			return null;
 		}
-	}
-
-	private static void addValidAStarTileToOpenList(int row, int column, DijkstraTile tile) {
-		if (row >= 0 && column >= 0 && row < Game.MAP_SIZE && column < Game.MAP_SIZE) { // Tile exists
-			DijkstraTile checkTile = getTile(row, column, closedList);
-			if (!map[row][column].hasObstacle() && checkTile == null) {
-				checkTile = getTile(row, column, openList);
-				if (checkTile != null) {
-					if (checkTile.getParent().calculateG() > tile.calculateG()) {
-						checkTile.setParent(tile);
-					}
-				} else {
-					openList.add(new AStarTile(map[row][column], tile));
-				}
-			}
-		}
-	}
-
-	private static DijkstraTile getTile(int row, int column, ArrayList<DijkstraTile> list) {
-		DijkstraTile tile = null;
-		for (DijkstraTile i : list) {
-			if (i.getMapTile().getMapLocation().x == row && i.getMapTile().getMapLocation().y == column) {
-				tile = i;
-				break;
-			}
-		}
-		return tile;
 	}
 }

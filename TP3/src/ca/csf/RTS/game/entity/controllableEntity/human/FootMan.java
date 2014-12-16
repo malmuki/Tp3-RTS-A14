@@ -111,7 +111,7 @@ public class FootMan extends Human implements Fighter {
 
 	@Override
 	public Entity search() {
-		return PathFinder.findClosestEnnemy(this, 14);
+		return PathFinder.findClosestEnnemy(this, 24);
 	}
 
 	@Override
