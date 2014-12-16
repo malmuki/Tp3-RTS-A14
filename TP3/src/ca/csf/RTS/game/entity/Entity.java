@@ -1,13 +1,14 @@
 package ca.csf.RTS.game.entity;
 
+import org.jsfml.system.Vector2i;
+
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
 
 public abstract class Entity extends GameObject {
 
 	protected Tile tilesOrigin;
-	protected int height;
-	protected int width;
+	protected Vector2i dimentions;
 	protected boolean selected;
 	protected Team team;
 
@@ -39,11 +40,11 @@ public abstract class Entity extends GameObject {
 	}
 
 	public int getHeight() {
-		return height;
+		return dimentions.x;
 	}
 
 	public int getWidth() {
-		return width;
+		return dimentions.y;
 	}
 
 	public void select() {

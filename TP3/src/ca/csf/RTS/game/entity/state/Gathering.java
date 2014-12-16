@@ -14,32 +14,35 @@ public class Gathering implements State {
 	@Override
 	public StateInteraction action(float deltaTime) {
 
-		if (worker.getTilesOrigin().getDistance(worker.getTarget().getTilesOrigin()) < 14) {
-			switch (worker.getTarget().getName()) {
-			// 1/sec
-			case "Stone":
-				worker.getTeam().addStone(((Ressource) worker.getTarget()).removeRessources(1));
-				if (((Ressource) worker.getTarget()).getRessources() <= 0) {
-					worker.setTarget(null);
-					worker.getGame().remove(worker.getTarget());
-					return StateInteraction.ressourceDepleted;
+		if (worker.getTarget() != null) {
+
+			if (worker.getTilesOrigin().getDistance(worker.getTarget().getTilesOrigin()) < 14) {
+
+				switch (worker.getTarget().getName()) {
+				case "Stone":
+					worker.getTeam().addStone(((Ressource) worker.getTarget()).removeRessources(1));
+					if (((Ressource) worker.getTarget()).getRessources() <= 0) {
+						worker.getGame().remove(worker.getTarget());
+						worker.setTarget(null);
+						return StateInteraction.ressourceDepleted;
+					}
+					break;
+				case "Tree":
+					worker.getTeam().addWood(((Ressource) worker.getTarget()).removeRessources(1));
+					if (((Ressource) worker.getTarget()).getRessources() <= 0) {
+						worker.getGame().remove(worker.getTarget());
+						worker.setTarget(null);
+						return StateInteraction.ressourceDepleted;
+					}
+				default:
+					break;
 				}
-				break;
-			case "Tree":
-				worker.getTeam().addWood(((Ressource) worker.getTarget()).removeRessources(1));
-				if (((Ressource) worker.getTarget()).getRessources() <= 0) {
-					worker.setTarget(null);
-					worker.getGame().remove(worker.getTarget());
-					return StateInteraction.ressourceDepleted;
-				}
-			default:
-				break;
+				return StateInteraction.notFinished;
+			} else {
+				return StateInteraction.targetTooFar;
 			}
-
 		} else {
-			return StateInteraction.targetTooFar;
+			return StateInteraction.ended;
 		}
-		return StateInteraction.notFinished;
-
 	}
 }

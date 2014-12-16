@@ -10,11 +10,11 @@ import ca.csf.RTS.game.entity.state.Move;
 import ca.csf.RTS.game.entity.state.State;
 
 public abstract class Human extends ControlableEntity implements Watcher {
-	
+
 	private static final float MOVE_DELAY = 0.18f;
 
 	public Human(Tile originTile, int maxHealth, Team team, GameEventHandler game) {
-		super(originTile, maxHealth , team, game);
+		super(originTile, maxHealth, team, game);
 	}
 
 	public void order(Tile target) {
@@ -22,9 +22,14 @@ public abstract class Human extends ControlableEntity implements Watcher {
 		setTarget(null);
 		stateStack.add(new Move(target, this));
 	}
-	
+
 	public boolean moveToTile(Tile targetTile, float moveProgression) {
-		sprite.setPosition(tilesOrigin.getScreenLocation().x + (targetTile.getScreenLocation().x - tilesOrigin.getScreenLocation().x) * moveProgression / MOVE_DELAY,	tilesOrigin.getScreenLocation().y + (targetTile.getScreenLocation().y - tilesOrigin.getScreenLocation().y) * moveProgression / MOVE_DELAY);
+		if (moveProgression > MOVE_DELAY) {
+			moveProgression = MOVE_DELAY;
+		}
+		sprite.setPosition(tilesOrigin.getScreenLocation().x + (targetTile.getScreenLocation().x - tilesOrigin.getScreenLocation().x) * moveProgression
+				/ MOVE_DELAY, tilesOrigin.getScreenLocation().y + (targetTile.getScreenLocation().y - tilesOrigin.getScreenLocation().y) * moveProgression
+				/ MOVE_DELAY);
 		if (moveProgression >= MOVE_DELAY) {
 			tilesOrigin.setOnTile(null);
 			tilesOrigin = targetTile;
