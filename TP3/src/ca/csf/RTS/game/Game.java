@@ -55,11 +55,11 @@ public class Game implements GameEventHandler {
 
 	public void newGame() {
 		PathFinder.initialisePathFinder(map);
-		
+
 		player = new Team("Idiot", Color.YELLOW);
 		computer = new Team("Ennemy", Color.RED);
 		nature = new Team("Nature", Color.BLACK);
-		
+
 		// TEST: temporary, remove this
 		footman1 = new FootMan(map[20][20], computer, this);
 		entityList.add(footman1);
@@ -71,15 +71,15 @@ public class Game implements GameEventHandler {
 		map[6][7].setOnTile(footman2);
 		footman2.getStateStack().push(footman2.getDefaultState());
 
-		tree = new Tree(map[8][8], nature, this);
-		entityList.add(tree);
-		map[8][8].setOnTile(tree);
-		
 		worker = new Worker(map[20][10], player, this);
 		entityList.add(worker);
 		map[20][10].setOnTile(worker);
 		worker.getStateStack().push(worker.getDefaultState());
-		
+
+		tree = new Tree(map[8][8], nature, this);
+		entityList.add(tree);
+		map[8][8].setOnTile(tree);
+
 	}
 
 	public ArrayList<Entity> getAllEntity() {
