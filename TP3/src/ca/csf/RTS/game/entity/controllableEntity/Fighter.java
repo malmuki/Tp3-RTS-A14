@@ -1,6 +1,6 @@
 package ca.csf.RTS.game.entity.controllableEntity;
 
-import ca.csf.RTS.game.entity.GameObject;
+import ca.csf.RTS.game.entity.Entity;
 
 public interface Fighter {
 	
@@ -10,5 +10,5 @@ public interface Fighter {
 	
 	public int getDamage();
 	
-	public GameObject getTarget();
+	public Entity getTarget();
 }

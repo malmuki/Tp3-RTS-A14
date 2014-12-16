@@ -1,5 +1,7 @@
 package ca.csf.RTS.game.entity.controllableEntity.building.humanFactory;
 
+import org.jsfml.system.Vector2i;
+
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Tile;
@@ -8,15 +10,17 @@ public class TownCenter extends HumanFactory {
 
 	private static final int MAX_HEALTH = 2000;
 	private static final String NAME = "Town Center";
+	private static final Vector2i DIMENSION = new Vector2i(8, 8);
 
-	public TownCenter(Tile originTile,Team team, GameEventHandler game)  {
-		super(originTile, MAX_HEALTH , team, game);
+	public TownCenter(Tile originTile, Team team, GameEventHandler game) {
+		super(originTile, MAX_HEALTH, team, game, DIMENSION);
 	}
 
 	@Override
 	public void doTasks(float deltaTime) {
-		
+
 	}
+
 	@Override
 	public String getName() {
 		return NAME;
