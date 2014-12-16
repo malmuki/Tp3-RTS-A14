@@ -1,10 +1,12 @@
 package ca.csf.RTS.game;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.Font;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
@@ -21,6 +23,10 @@ import org.jsfml.window.VideoMode;
 import org.jsfml.window.WindowStyle;
 import org.jsfml.window.event.Event;
 import org.jsfml.window.event.KeyEvent;
+import org.jsfml.internal.SFMLNativeObject;
+import org.jsfml.graphics.Text;
+
+import com.sun.xml.internal.ws.org.objectweb.asm.Label;
 
 import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.game.entity.GameObject;
@@ -36,11 +42,17 @@ public class GameController {
 	private Texture gazon;
 	private boolean isFocused = true;
 	private MusicPlayer music;
+	private Texture rockIconTexture;
+	private Texture treeIconTexture;
 
 	public GameController() {
 		music = new MusicPlayer();
 		game = new Game();
 		try {
+			treeIconTexture = new Texture();
+			treeIconTexture.loadFromFile(Paths.get("./ressource/tree.png"));
+			rockIconTexture = new Texture();
+			rockIconTexture.loadFromFile(Paths.get("./ressource/rock.png"));
 			gui = new Texture();
 			gui.loadFromFile(Paths.get("./ressource/GUI.png"));
 			gazon = new Texture();
@@ -53,7 +65,7 @@ public class GameController {
 		}
 	}
 
-	public void newGame() {
+	public void newGame() throws IOException {
 		game.newGame();
 
 		RenderWindow window = new RenderWindow();
@@ -189,11 +201,44 @@ public class GameController {
 		}
 	}
 
-	private void drawGUI(RenderWindow window) {
-		RectangleShape gui = new RectangleShape(new Vector2f(VideoMode.getDesktopMode().width,
-				VideoMode.getDesktopMode().height));
+	private void drawGUI(RenderWindow window) throws IOException {
+		int UISizeWidth = VideoMode.getDesktopMode().width;
+		int UISizeHeight = VideoMode.getDesktopMode().height;
+		
+		Font arial = new Font();
+		arial.loadFromFile(Paths.get("./ressource/ARIBLK.TTF"));
+		Text labelTreeRessource = new Text();
+		labelTreeRessource.setFont(arial);
+		labelTreeRessource.setString("Kitten");
+		labelTreeRessource.setCharacterSize(50);
+		labelTreeRessource.setPosition(UISizeWidth*(0.45f), UISizeHeight*0.11f);
+		labelTreeRessource.setColor(Color.WHITE);
+		labelTreeRessource.setScale(3, 0.5f);
+		
+		Text labelRockRessource = new Text();
+		labelRockRessource.setFont(arial);
+		labelRockRessource.setString("Kitten");
+		labelRockRessource.setCharacterSize(50);
+		labelRockRessource.setPosition(UISizeWidth*(0.45f), UISizeHeight*0.055f);
+		labelRockRessource.setColor(Color.WHITE);
+		labelRockRessource.setScale(3, 0.5f);
+		
+		RectangleShape gui = new RectangleShape(new Vector2f(UISizeWidth,UISizeHeight));
+		RectangleShape rockRessource = new RectangleShape(new Vector2f(350, 35));
+		RectangleShape treeRessource = new RectangleShape(new Vector2f(750, 90));
+		
 		gui.setTexture(this.gui);
+		rockRessource.setTexture(this.rockIconTexture);
+		treeRessource.setTexture(this.treeIconTexture);
+		
+		rockRessource.setPosition(UISizeWidth*(0.20f), UISizeHeight*0.05f);
+		treeRessource.setPosition(UISizeWidth*(0.20f), UISizeHeight*0.1f);
+		
 		window.draw(gui);
+		window.draw(rockRessource);
+		window.draw(treeRessource);
+		window.draw(labelTreeRessource);
+		window.draw(labelRockRessource);
 	}
 	
 	public MusicPlayer getMusic() {

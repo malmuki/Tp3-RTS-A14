@@ -1,5 +1,7 @@
 package ca.csf.RTS.Menu.controller;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -26,7 +28,7 @@ public class MenuController extends SimpleFXController implements MenuEventHandl
 	}
 
 	@FXML
-	public void startGame() {
+	public void startGame() throws IOException {
 		getSimpleFxStage().close();
 		// Create the window
 			gameController.newGame();
