@@ -40,11 +40,11 @@ public abstract class Entity extends GameObject {
 	}
 
 	public int getHeight() {
-		return height;
+		return dimentions.x;
 	}
 
 	public int getWidth() {
-		return width;
+		return dimentions.y;
 	}
 
 	public void select() {
