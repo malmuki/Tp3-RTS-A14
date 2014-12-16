@@ -214,6 +214,7 @@ public class GameController {
 		labelTreeRessource.setPosition(UISizeWidth*(0.45f), UISizeHeight*0.11f);
 		labelTreeRessource.setColor(Color.WHITE);
 		labelTreeRessource.setScale(3, 0.5f);
+		Team teamRessourcesTeam = new Team(name, color);
 		
 		Text labelRockRessource = new Text();
 		labelRockRessource.setFont(arial);
