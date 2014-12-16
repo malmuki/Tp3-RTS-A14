@@ -104,6 +104,7 @@ public class GameController {
 					gameObject.draw(window);
 				}
 				
+				
 				window.draw(selection);
 				
 				// Display what was drawn
