@@ -10,6 +10,7 @@ import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
+import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Tree;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
@@ -25,10 +26,11 @@ public class Game implements GameEventHandler {
 	private Team computer;
 	private Team nature;
 
-	//TEST: temporaire, à enlever
+	// TEST: temporaire, à enlever
 	private FootMan footman1;
 	private FootMan footman2;
 	private Tree tree;
+	private Worker worker;
 
 	public Game() {
 		selectedList = new ArrayList<Entity>();
@@ -62,16 +64,22 @@ public class Game implements GameEventHandler {
 		footman1 = new FootMan(map[5][5], computer, this);
 		entityList.add(footman1);
 		map[5][5].setOnTile(footman1);
-		footman1.getStateStack().add(footman1.getDefaultState());
+		footman1.getStateStack().push(footman1.getDefaultState());
 
 		footman2 = new FootMan(map[6][7], player, this);
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
-		footman2.getStateStack().add(footman2.getDefaultState());
+		footman2.getStateStack().push(footman2.getDefaultState());
 
-		tree = new Tree(map[8][8], this, nature);
+		tree = new Tree(map[8][8], nature, this);
 		entityList.add(tree);
 		map[8][8].setOnTile(tree);
+		
+		worker = new Worker(map[20][10], player, this);
+		entityList.add(worker);
+		map[20][10].setOnTile(worker);
+		worker.getStateStack().push(worker.getDefaultState());
+		
 	}
 
 	public ArrayList<Entity> getAllEntity() {
@@ -133,7 +141,7 @@ public class Game implements GameEventHandler {
 	}
 
 	public void giveOrder(Vector2f mousePos) {
-			mousePos = Vector2f.div(mousePos, Tile.TILE_SIZE);
+		mousePos = Vector2f.div(mousePos, Tile.TILE_SIZE);
 		Tile target = map[(int) mousePos.x][(int) mousePos.y];
 		// TODO: check if not ressource
 		for (Entity entity : getAllSelected()) {
@@ -150,8 +158,8 @@ public class Game implements GameEventHandler {
 		toBeDeleted.add(entity);
 		selectedList.remove(entity);
 		entity.getTeam().removeUnit(entity);
-		
-		//TODO: fix this so it works with all the tiles of a building
+
+		// TODO: fix this so it works with all the tiles of a building
 		entity.getTilesOrigin().setOnTile(null);
 	}
 }

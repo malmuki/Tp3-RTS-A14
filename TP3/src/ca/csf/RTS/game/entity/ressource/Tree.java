@@ -23,7 +23,7 @@ public class Tree extends Ressource {
 	private static final String NAME = "Tree";
 	private static final int RESSOURCE_MAX = 150;
 	
-	public Tree(Tile originTile, GameEventHandler game, Team team) {
+	public Tree(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, RESSOURCE_MAX, game, team);
 	}
 	@Override
