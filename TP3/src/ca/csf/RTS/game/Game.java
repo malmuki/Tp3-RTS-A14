@@ -52,7 +52,9 @@ public class Game implements GameEventHandler {
 	}
 
 	public void newGame() {
-		PathFinder.setMap(map);
+		PathFinder.initialisePathFinder(map);
+		
+		//PathFinder.setMap(map);
 		
 		player = new Team("Idiot", Color.YELLOW);
 		computer = new Team("Ennemy", Color.RED);
@@ -62,12 +64,12 @@ public class Game implements GameEventHandler {
 		footman1 = new FootMan(map[5][5], computer, this);
 		entityList.add(footman1);
 		map[5][5].setOnTile(footman1);
-		footman1.getStateStack().add(footman1.getDefaultState());
+		footman1.getStateStack().push(footman1.getDefaultState());
 
 		footman2 = new FootMan(map[6][7], player, this);
 		entityList.add(footman2);
 		map[6][7].setOnTile(footman2);
-		footman2.getStateStack().add(footman2.getDefaultState());
+		footman2.getStateStack().push(footman2.getDefaultState());
 
 		tree = new Tree(map[8][8], this, nature);
 		entityList.add(tree);
