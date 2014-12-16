@@ -132,8 +132,17 @@ public class PathFinder {
 			if (!map[x][y].hasObstacle() && closedListContains(x, y) == 0) { // if it's not in the closed list and it has no obstacle
 				int openListID = openListContains(x, y); // search for the tile in the openList
 				if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
-					// I will do this when I come back! And then the other to do
-					// TODO: re adjust parents
+					int gMovementCost;
+					if (listsX[listsParent[parentID]] != x && listsY[listsParent[parentID]] != y) { //if diagonal with the currently explored tile
+						gMovementCost = 14;
+					} else {
+						gMovementCost = 10;
+					}
+					if (listsGCost[openListID] > listsGCost[parentID] + gMovementCost) {
+						listsParent[openListID] = parentID;
+						listsGCost[openListID] = calculateG(openListID);
+						reOrderOpenList(openListID);
+					}
 				} else { // otherwise just add it to the list
 					openListCount++;
 					tilesChecked++;
@@ -203,6 +212,10 @@ public class PathFinder {
 
 		return h;
 	}
+	
+	private static void reOrderOpenList(int id) { //TODO: this
+		
+	}
 
 	private static void addToOpenList(int x, int y, int parentID, int maxG) {
 		if (x >= 0 && y >= 0 && x < Game.MAP_SIZE && y < Game.MAP_SIZE) { // if tile exists
@@ -210,8 +223,17 @@ public class PathFinder {
 																												// obstacle and it's parent's G is not too high
 				int openListID = openListContains(x, y); // search for the tile in the openList
 				if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
-					// I will do this when I come back! And then the other to do
-					// TODO: re adjust parents
+					int gMovementCost;
+					if (listsX[listsParent[parentID]] != x && listsY[listsParent[parentID]] != y) { //if diagonal with the currently explored tile
+						gMovementCost = 14;
+					} else {
+						gMovementCost = 10;
+					}
+					if (listsGCost[openListID] > listsGCost[parentID] + gMovementCost) {
+						listsParent[openListID] = parentID;
+						listsGCost[openListID] = calculateG(openListID);
+						reOrderOpenList(openListID);
+					}
 				} else { // otherwise just add it to the list
 					openListCount++;
 					tilesChecked++;
