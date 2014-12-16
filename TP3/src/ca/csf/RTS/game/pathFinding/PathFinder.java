@@ -213,8 +213,23 @@ public class PathFinder {
 		return h;
 	}
 	
-	private static void reOrderOpenList(int id) { //TODO: this
+	private static void reOrderOpenList(int id) {
+		int position = 0;
+		int temp;
 		
+		for (int i = 1; i <= openListCount; i++) {
+		  if (openList[i] == id) {
+		    position = i;
+		  }
+		}
+		
+		int currentLocation = position;
+		while (currentLocation != 1 && listsFCost[openList[currentLocation]] < listsFCost[openList[currentLocation / 2]]) {
+          temp = openList[currentLocation];
+          openList[currentLocation] = openList[currentLocation / 2];
+          openList[currentLocation / 2] = temp;
+          currentLocation /= 2;
+      }
 	}
 
 	private static void addToOpenList(int x, int y, int parentID, int maxG) {
