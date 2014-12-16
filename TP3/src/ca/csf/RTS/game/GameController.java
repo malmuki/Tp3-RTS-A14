@@ -105,7 +105,7 @@ public class GameController {
 
 				window.setView(guiView);
 				// draw the GUI
-				drawGUI(window);
+				drawGUI(window, game);
 
 				window.setView(gameView);
 
@@ -201,7 +201,7 @@ public class GameController {
 		}
 	}
 
-	private void drawGUI(RenderWindow window) throws IOException {
+	private void drawGUI(RenderWindow window, Game game) throws IOException {
 		int UISizeWidth = VideoMode.getDesktopMode().width;
 		int UISizeHeight = VideoMode.getDesktopMode().height;
 		
@@ -209,20 +209,18 @@ public class GameController {
 		arial.loadFromFile(Paths.get("./ressource/ARIBLK.TTF"));
 		Text labelTreeRessource = new Text();
 		labelTreeRessource.setFont(arial);
-		labelTreeRessource.setString("Kitten");
 		labelTreeRessource.setCharacterSize(50);
 		labelTreeRessource.setPosition(UISizeWidth*(0.45f), UISizeHeight*0.11f);
 		labelTreeRessource.setColor(Color.WHITE);
 		labelTreeRessource.setScale(3, 0.5f);
-		Team teamRessourcesTeam = new Team(name, color);
-		
+		labelTreeRessource.setString(Integer.toString(game.getPlayerTeam().getWood()));
 		Text labelRockRessource = new Text();
 		labelRockRessource.setFont(arial);
-		labelRockRessource.setString("Kitten");
 		labelRockRessource.setCharacterSize(50);
 		labelRockRessource.setPosition(UISizeWidth*(0.45f), UISizeHeight*0.055f);
 		labelRockRessource.setColor(Color.WHITE);
 		labelRockRessource.setScale(3, 0.5f);
+		labelRockRessource.setString(Integer.toString(game.getPlayerTeam().getStoned()));
 		
 		RectangleShape gui = new RectangleShape(new Vector2f(UISizeWidth,UISizeHeight));
 		RectangleShape rockRessource = new RectangleShape(new Vector2f(350, 35));
