@@ -53,15 +53,19 @@ public class Move implements State {
 					}
 
 				} else { // if there is something on the next tile, either repathfind to the end OR repathfind to the target
+					if (next.getOnTile() != human.getTarget()) {
+						human.getStateStack().clear();
 
-					human.getStateStack().clear();
-
-					if (human.getTarget() != null) {
+						if (human.getTarget() != null) {
+							return StateInteraction.blocked;
+						} else {
+							PathFinder.findPath(human, finalDestination);
+							return StateInteraction.notFinished;
+						}
+					}else {
 						return StateInteraction.blocked;
-					} else {
-						PathFinder.findPath(human, finalDestination);
-						return StateInteraction.notFinished;
 					}
+
 				}
 				// TODO: test if the next has stuff on it, if so, repathfind...
 			}

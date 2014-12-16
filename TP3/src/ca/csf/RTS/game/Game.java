@@ -9,9 +9,11 @@ import org.jsfml.system.Vector2i;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Tree;
+import ca.csf.RTS.game.entity.state.Alert;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Game implements GameEventHandler {
@@ -31,6 +33,7 @@ public class Game implements GameEventHandler {
 	private FootMan footman2;
 	private Tree tree;
 	private Worker worker;
+	private WatchTower watchtower;
 
 	public Game() {
 		selectedList = new ArrayList<Entity>();
@@ -55,11 +58,11 @@ public class Game implements GameEventHandler {
 
 	public void newGame() {
 		PathFinder.initialisePathFinder(map);
-		
+
 		player = new Team("Idiot", Color.YELLOW);
 		computer = new Team("Ennemy", Color.RED);
 		nature = new Team("Nature", Color.BLACK);
-		
+
 		// TEST: temporary, remove this
 		footman1 = new FootMan(map[20][20], computer, this);
 		entityList.add(footman1);
@@ -71,15 +74,25 @@ public class Game implements GameEventHandler {
 		map[6][7].setOnTile(footman2);
 		footman2.getStateStack().push(footman2.getDefaultState());
 
-		tree = new Tree(map[8][8], nature, this);
-		entityList.add(tree);
-		map[8][8].setOnTile(tree);
-		
 		worker = new Worker(map[20][10], player, this);
 		entityList.add(worker);
 		map[20][10].setOnTile(worker);
 		worker.getStateStack().push(worker.getDefaultState());
+
+		watchtower = new WatchTower(map[9][9], player, this);
+		entityList.add(watchtower);
 		
+		for (int i = 0; i < watchtower.getDimention().x; i++) {
+			for (int j = 0; j < watchtower.getDimention().y; j++) {
+				map[9+i][9+j].setOnTile(watchtower);
+			}
+		}
+		watchtower.getStateStack().push(new Alert(watchtower));
+		
+		tree = new Tree(map[8][8], nature, this);
+		entityList.add(tree);
+		map[8][8].setOnTile(tree);
+
 	}
 
 	public ArrayList<Entity> getAllEntity() {

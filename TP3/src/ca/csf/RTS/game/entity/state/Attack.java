@@ -1,6 +1,5 @@
 package ca.csf.RTS.game.entity.state;
 
-import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.controllableEntity.ControlableEntity;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
 
@@ -22,7 +21,7 @@ public class Attack implements State {
 				return StateInteraction.ended;
 			}
 
-			if (((ControlableEntity) source).getTilesOrigin().getDistance(((Entity) ((ControlableEntity) source).getTarget()).getTilesOrigin()) <= source.getRange()) {
+			if (((ControlableEntity) source).getTilesOrigin().getDistance(((ControlableEntity) source).getTarget().getTilesOrigin()) <= source.getRange()) {
 				// TODO: calculation for buildings range
 				attackProgression += deltaTime;
 
@@ -30,7 +29,7 @@ public class Attack implements State {
 					source.attack();
 					attackProgression = 0.0f;
 				}
-				
+
 				return StateInteraction.notFinished;
 			} else {
 

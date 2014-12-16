@@ -4,6 +4,7 @@ import ca.csf.RTS.game.Game;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
+import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.human.Human;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.state.Attack;
@@ -131,7 +132,9 @@ public class PathFinder {
 
 	private static void addToOpenList(int x, int y, int parentID, Human searchingHuman) {
 		if (x >= 0 && y >= 0 && x < Game.MAP_SIZE && y < Game.MAP_SIZE) { // if tile exists
-			if ((!map[x][y].hasObstacle() || map[x][y].getOnTile() == searchingHuman.getTarget()) && closedListContains(x, y) == 0) { // if it's not in the closed list and it has no obstacle
+			if ((!map[x][y].hasObstacle() || map[x][y].getOnTile() == searchingHuman.getTarget()) && closedListContains(x, y) == 0) { // if it's not in the
+																																		// closed list and it
+																																		// has no obstacle
 				int openListID = openListContains(x, y); // search for the tile in the openList
 				if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
 					int gMovementCost;
@@ -333,6 +336,30 @@ public class PathFinder {
 		} else {
 			return null;
 		}
+	}
+
+	public static Entity findClosestEnnemy(WatchTower searchingWatchTower, int searchRange) {
+
+		int mapx;
+		int mapy;
+
+		for (int i = 2; i <= searchRange; i++) {
+			for (int x = -i; x <= 2 * i + searchingWatchTower.getDimention().x; x++) {
+				for (int y = -i; y <= 2 * i + searchingWatchTower.getDimention().y; y++) {
+					mapx = x + searchingWatchTower.getTilesOrigin().getMapLocation().x + 1;
+					mapy = y + searchingWatchTower.getTilesOrigin().getMapLocation().y + 1;
+
+					if ((mapx >= 0 && mapx < Game.MAP_SIZE) && (mapy >= 0 && mapy < Game.MAP_SIZE)) {
+						if (map[mapx][mapy].getOnTile() != null && map[mapx][mapy].getOnTile().getTeam() != searchingWatchTower.getTeam()
+								&& map[mapx][mapy].getOnTile().getTeam().getName() != "Nature") {
+							return map[mapx][mapy].getOnTile();
+						}
+					}
+
+				}
+			}
+		}
+		return null;
 	}
 
 	public static Entity findClosestRessource(Human searchingHuman, int searchRange) {

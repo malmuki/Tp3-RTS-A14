@@ -88,10 +88,6 @@ public class FootMan extends Human implements Fighter {
 			case blocked:
 				stateStack.push(new Attack(this));
 				break;
-				
-			case targetSighted:
-				//stateStack.push(new Attack(this));
-				break;
 
 			case targetTooFar:
 				stateStack.push(new Move(((Entity) this.getTarget()).getTilesOrigin(), this));
