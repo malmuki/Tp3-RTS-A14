@@ -49,7 +49,7 @@ public class Team {
 		return wood;
 	}
 	
-	public int getStone() {
+	public int getStoned() {
 		return stone;
 	}
 	

@@ -175,4 +175,8 @@ public class Game implements GameEventHandler {
 		// TODO: fix this so it works with all the tiles of a building
 		entity.getTilesOrigin().setOnTile(null);
 	}
+	
+	public Team getPlayerTeam(){
+		return player;
+	}
 }
