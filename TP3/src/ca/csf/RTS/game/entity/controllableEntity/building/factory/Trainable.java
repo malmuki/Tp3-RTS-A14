@@ -2,7 +2,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building.factory;
 
 public enum Trainable {
 	// wood cost, stone cost, time
-	FOOTMAN(50, 0, 15f), WORKER(50, 0, 15f);
+	FOOTMAN(50, 0, 15f), WORKER(50, 0, 5f);
 	int woodCost;
 	int stoneCost;
 	float time;

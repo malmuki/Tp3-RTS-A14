@@ -65,12 +65,6 @@ public class Worker extends Human {
 			case targetTooFar:
 				stateStack.push(new Move(target.getTilesOrigin(), this));
 				break;
-			case notEnoughRessources:
-				// afficher ou dire qu'il manque des ressource puis pop
-				break;
-			case spaceIsOccupied:
-				// afficher ou dire qu'il manque de place puis pop
-				break;
 			case targetUnreachable:
 
 				break;

@@ -58,7 +58,14 @@ public class Barrack extends Factory {
 	public boolean spawnNext() {
 		Tile tile = PathFinder.findSpawningSpot(this);
 		if (tile != null) {
-			game.add(new FootMan(tile, team, game));
+			switch (trainingQueue.get(0)) {
+			case FOOTMAN:
+				game.add(new FootMan(tile, team, game));
+				break;
+			default:
+				break;
+			}
+
 			return true;
 		} else {
 			return false;
