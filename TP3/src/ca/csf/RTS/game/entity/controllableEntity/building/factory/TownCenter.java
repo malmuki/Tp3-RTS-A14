@@ -1,12 +1,13 @@
-package ca.csf.RTS.game.entity.controllableEntity.building.humanFactory;
+package ca.csf.RTS.game.entity.controllableEntity.building.factory;
 
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.state.State;
 
-public class TownCenter extends HumanFactory {
+public class TownCenter extends Factory {
 
 	private static final int MAX_HEALTH = 2000;
 	private static final String NAME = "Town Center";
@@ -24,5 +25,20 @@ public class TownCenter extends HumanFactory {
 	@Override
 	public String getName() {
 		return NAME;
+	}
+
+	@Override
+	public boolean spawnNext() {
+		return false;
+	}
+
+	@Override
+	protected State getDefaultState() {
+		return null;
+	}
+
+	@Override
+	protected Trainable getTrainable(int index) {
+		return null;
 	}
 }

@@ -5,6 +5,7 @@ import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
 import ca.csf.RTS.game.entity.controllableEntity.human.Human;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.state.Attack;
@@ -356,6 +357,19 @@ public class PathFinder {
 						}
 					}
 
+				}
+			}
+		}
+		return null;
+	}
+
+	public static Tile findSpawningSpot(Factory factory) {
+		for (int i = factory.getTilesOrigin().getMapLocation().x - 1; i < factory.getTilesOrigin().getMapLocation().x + factory.getDimention().x + 2; i++) {
+			for (int j = factory.getTilesOrigin().getMapLocation().y - 1; j < factory.getTilesOrigin().getMapLocation().y + factory.getDimention().y + 2; j++) {
+				if ((i >= 0 && i < Game.MAP_SIZE) && (j >= 0 && j < Game.MAP_SIZE)) {
+					if (map[i][j].getOnTile() == null) {
+						return map[i][j];
+					}
 				}
 			}
 		}
