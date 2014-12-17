@@ -17,20 +17,22 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Worker extends Human {
 
-	static {
-		try {
-			texture = new Texture();
-			texture.loadFromFile(Paths.get("./ressource/Soldat.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	private Texture texture;
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Worker";
 
 	public Worker(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, MAX_HEALTH, team, game);
+		try {
+			if (texture == null) {
+				texture = new Texture();
+				texture.loadFromFile(Paths.get("./ressource/worker.gif"));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		sprite.setTexture(texture);
+		setSpritePos();
 	}
 
 	@Override

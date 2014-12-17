@@ -20,28 +20,30 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class FootMan extends Human implements Fighter {
 
-	static {
-		try {
-			texture = new Texture();
-			texture.loadFromFile(Paths.get("./ressource/soldat.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	private static Texture texture;
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Footman";
 	private static final int RANGE = 1;
 	private static final int DAMAGE = 10;
-	
-	//private static final float  ATTACK_DELAY = 2f;
 
-//	public float getAttackDelay() {
-//		return ATTACK_DELAY;
-//	}
-	
+	// private static final float ATTACK_DELAY = 2f;
+
+	// public float getAttackDelay() {
+	// return ATTACK_DELAY;
+	// }
+
 	public FootMan(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, MAX_HEALTH, team, game);
+		try {
+			if (texture == null) {
+				texture = new Texture();
+				texture.loadFromFile(Paths.get("./ressource/Soldat.png"));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		sprite.setTexture(texture);
+		setSpritePos();
 	}
 
 	@Override
@@ -85,7 +87,7 @@ public class FootMan extends Human implements Fighter {
 					}
 				}
 				break;
-				
+
 			case blocked:
 				stateStack.push(new Attack(this));
 				break;

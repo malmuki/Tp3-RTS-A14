@@ -18,25 +18,27 @@ import ca.csf.RTS.game.entity.state.RangeAttack;
 import ca.csf.RTS.game.entity.state.State;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
-public class WatchTower extends Building implements Fighter,Watcher {
-	
-	static {
-		try {
-			texture = new Texture();
-			texture.loadFromFile(Paths.get("./ressource/tower.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private static final int MAX_HEALTH = 100;
+public class WatchTower extends Building implements Fighter, Watcher {
+
+	private static final int MAX_HEALTH = 250;
 	private static final String NAME = "WatchTower";
 	private static final int RANGE = 10;
-	private static final int DAMAGE = 1;
-	private static final Vector2i DIMENSION = new Vector2i(3,3);
+	private static final int DAMAGE = 10;
+	private static final Vector2i DIMENSION = new Vector2i(3, 3);
+	private static Texture texture;
 
 	public WatchTower(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, MAX_HEALTH, team, game, DIMENSION);
+		try {
+			if (texture == null) {
+				texture = new Texture();
+				texture.loadFromFile(Paths.get("./ressource/tower.png"));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		sprite.setTexture(texture);
+		setSpritePos();
 	}
 
 	@Override
@@ -77,8 +79,8 @@ public class WatchTower extends Building implements Fighter,Watcher {
 				break;
 
 			case targetTooFar:
-					stateStack.clear();
-					stateStack.push(new RangeAttack(this));
+				stateStack.clear();
+				stateStack.push(new RangeAttack(this));
 				break;
 
 			case dead:

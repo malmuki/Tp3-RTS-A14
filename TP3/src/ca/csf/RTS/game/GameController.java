@@ -203,6 +203,8 @@ public class GameController {
 				case KEY_PRESSED:
 					if (keyEvent.key == Key.ESCAPE) {
 						window.close();
+					}else if (keyEvent.key == Key.NUM0) {
+						game.allo();
 					}
 					break;
 				case LOST_FOCUS:
@@ -229,7 +231,7 @@ public class GameController {
 		Text labelTreeRessource = new Text();
 		labelTreeRessource.setFont(arial);
 		labelTreeRessource.setCharacterSize(50);
-		labelTreeRessource.setPosition(UISizeWidth * (0.45f),
+		labelTreeRessource.setPosition(UISizeWidth * 0.45f,
 				UISizeHeight * 0.11f);
 		labelTreeRessource.setColor(Color.WHITE);
 		labelTreeRessource.setScale(3, 0.5f);

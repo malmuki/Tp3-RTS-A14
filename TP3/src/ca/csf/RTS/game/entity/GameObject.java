@@ -3,13 +3,10 @@ package ca.csf.RTS.game.entity;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
-import org.jsfml.graphics.Texture;
-
 import ca.csf.RTS.eventHandler.GameEventHandler;
 
 public abstract class GameObject {
 
-	protected static Texture texture;
 	protected Sprite sprite;
 	protected GameEventHandler game;
 

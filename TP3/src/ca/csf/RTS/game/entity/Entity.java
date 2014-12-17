@@ -17,8 +17,6 @@ public abstract class Entity extends GameObject {
 		selected = false;
 		this.tilesOrigin = tiles;
 		this.team = team;
-		sprite.setTexture(texture);
-		setSpritePos();
 		team.addUnit(this);
 	}
 

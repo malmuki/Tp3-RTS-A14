@@ -10,22 +10,25 @@ import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Tile;
 
 public class Tree extends Ressource {
-	
-	static {
+
+	private static Texture texture;
+	private static final String NAME = "Tree";
+	private static final int RESSOURCE_MAX = 150;
+
+	public Tree(Tile originTile, Team team, GameEventHandler game) {
+		super(originTile, RESSOURCE_MAX, game, team);
 		try {
-			texture = new Texture();
-			texture.loadFromFile(Paths.get("./ressource/Tree_Sprite.png"));
+			if (texture == null) {
+				texture = new Texture();
+				texture.loadFromFile(Paths.get("./ressource/Tree_Sprite.png"));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		sprite.setTexture(texture);
+		setSpritePos();
 	}
-	
-	private static final String NAME = "Tree";
-	private static final int RESSOURCE_MAX = 150;
-	
-	public Tree(Tile originTile, Team team, GameEventHandler game) {
-		super(originTile, RESSOURCE_MAX, game, team);
-	}
+
 	@Override
 	public String getName() {
 		return NAME;
