@@ -20,10 +20,11 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class WatchTower extends Building implements Fighter, Watcher {
 
-	private static final int MAX_HEALTH = 250;
+	private static final int MAX_HEALTH = 350;
 	private static final String NAME = "WatchTower";
 	private static final int RANGE = 10;
-	private static final int DAMAGE = 10;
+	private static final int DAMAGE = 20;
+	private static final float ATTACK_DELAY = 2.5f;
 	private static final Vector2i DIMENSION = new Vector2i(3, 3);
 	private static Texture texture;
 
@@ -123,4 +124,9 @@ public class WatchTower extends Building implements Fighter, Watcher {
 	public Vector2i getCenter() {
 		return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(1, 1));
 	}
+
+  @Override
+  public float getAttackDelay() {
+    return ATTACK_DELAY;
+  }
 }

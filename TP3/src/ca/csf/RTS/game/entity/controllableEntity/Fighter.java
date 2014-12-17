@@ -15,4 +15,6 @@ public interface Fighter {
 	public Entity getTarget();
 
 	public Vector2i getCenter();
+	
+	public float getAttackDelay();
 }

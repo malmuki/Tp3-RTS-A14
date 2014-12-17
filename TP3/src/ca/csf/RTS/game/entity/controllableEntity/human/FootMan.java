@@ -25,12 +25,12 @@ public class FootMan extends Human implements Fighter {
 	private static final String NAME = "Footman";
 	private static final int RANGE = 1;
 	private static final int DAMAGE = 10;
+	private static final float ATTACK_DELAY = 0.5f;
 
-	// private static final float ATTACK_DELAY = 2f;
-
-	// public float getAttackDelay() {
-	// return ATTACK_DELAY;
-	// }
+	@Override
+	 public float getAttackDelay() {
+	   return ATTACK_DELAY;
+	 }
 
 	public FootMan(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, MAX_HEALTH, team, game);

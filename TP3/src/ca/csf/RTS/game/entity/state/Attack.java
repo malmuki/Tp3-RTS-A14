@@ -71,7 +71,7 @@ public class Attack implements State {
 			if (source.getTilesOrigin().getDistance(closestLocation) <= this.source.getRange()) {
 				attackProgression += deltaTime;
 
-				if (attackProgression > 0.5f) {
+				if (attackProgression > this.source.getAttackDelay()) {
 					this.source.attack();
 					attackProgression = 0.0f;
 				}
