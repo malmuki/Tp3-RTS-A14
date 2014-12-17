@@ -14,7 +14,7 @@ import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
 import ca.csf.RTS.game.entity.controllableEntity.Watcher;
 import ca.csf.RTS.game.entity.state.Alert;
-import ca.csf.RTS.game.entity.state.RangeAttack;
+import ca.csf.RTS.game.entity.state.Attack;
 import ca.csf.RTS.game.entity.state.State;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
@@ -69,19 +69,19 @@ public class WatchTower extends Building implements Fighter, Watcher {
 
 				if (stateStack.isEmpty()) {
 					if (target != null) {
-						stateStack.push(new RangeAttack(this));
+						stateStack.push(new Attack(this));
 					} else {
 						stateStack.push(getDefaultState());
 					}
 				}
 				break;
 			case targetSighted:
-				stateStack.push(new RangeAttack(this));
+				stateStack.push(new Attack(this));
 				break;
 
 			case targetTooFar:
 				stateStack.clear();
-				stateStack.push(new RangeAttack(this));
+				stateStack.push(new Attack(this));
 				break;
 
 			case dead:
