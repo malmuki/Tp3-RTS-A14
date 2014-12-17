@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.jsfml.graphics.Texture;
+import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
@@ -30,7 +31,7 @@ public class FootMan extends Human implements Fighter {
 
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Footman";
-	private static final int RANGE = 15;
+	private static final int RANGE = 1;
 	private static final int DAMAGE = 10;
 	
 	//private static final float  ATTACK_DELAY = 2f;
@@ -123,5 +124,10 @@ public class FootMan extends Human implements Fighter {
 	@Override
 	public String getName() {
 		return NAME;
+	}
+
+	@Override
+	public Vector2i getCenter() {
+		return tilesOrigin.getMapLocation();
 	}
 }

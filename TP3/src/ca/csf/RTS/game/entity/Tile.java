@@ -21,17 +21,17 @@ public class Tile extends GameObject {
 		this.mapLocation = mapLocation;
 		this.screenLocation = new Vector2f(mapLocation.x * TILE_SIZE, mapLocation.y * TILE_SIZE);
 	}
-	
+
 	public int getDistance(Tile tile) {
-	  int x;
-	  int y;
-	  x = mapLocation.x - tile.getMapLocation().x;
-	  x *= 10;
-	  x *= x;
-	  y = mapLocation.y - tile.getMapLocation().y;
-	  y *= 10;
-	  y *= y;
-	  return (int)Math.sqrt(x + y);
+		int x;
+		int y;
+		x = mapLocation.x - tile.getMapLocation().x;
+		x *= 10;
+		x *= x;
+		y = mapLocation.y - tile.getMapLocation().y;
+		y *= 10;
+		y *= y;
+		return (int) Math.sqrt(x + y);
 	}
 
 	public Vector2f getScreenLocation() {
@@ -52,13 +52,13 @@ public class Tile extends GameObject {
 
 	@Override
 	protected void setSpritePos() {
-		sprite.setPosition(screenLocation);	
+		sprite.setPosition(screenLocation);
 	}
 
 	public boolean hasObstacle() {
 		if (onTile == null) {
 			return false;
-		}else {
+		} else {
 			return onTile.isObstacle();
 		}
 	}
@@ -66,5 +66,13 @@ public class Tile extends GameObject {
 	@Override
 	public String getName() {
 		return NAME;
+	}
+
+	public int getDistance(Vector2i location) {
+		int x = mapLocation.x - location.x;
+		x *= x;
+		int y = mapLocation.y - location.y;
+		y *= y;
+		return (int) Math.sqrt(x + y);
 	}
 }

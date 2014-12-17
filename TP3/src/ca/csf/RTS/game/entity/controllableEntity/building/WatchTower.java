@@ -29,10 +29,10 @@ public class WatchTower extends Building implements Fighter,Watcher {
 		}
 	}
 	
-	private static final int MAX_HEALTH = 1000;
+	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "WatchTower";
 	private static final int RANGE = 10;
-	private static final int DAMAGE = 10;
+	private static final int DAMAGE = 1;
 	private static final Vector2i DIMENSION = new Vector2i(3,3);
 
 	public WatchTower(Tile originTile, Team team, GameEventHandler game) {
@@ -115,5 +115,10 @@ public class WatchTower extends Building implements Fighter,Watcher {
 	@Override
 	public String getName() {
 		return NAME;
+	}
+
+	@Override
+	public Vector2i getCenter() {
+		return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(1, 1));
 	}
 }

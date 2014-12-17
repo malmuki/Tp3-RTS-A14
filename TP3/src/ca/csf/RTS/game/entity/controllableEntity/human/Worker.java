@@ -74,7 +74,7 @@ public class Worker extends Human {
 				break;
 			case ressourceDepleted:
 				setTarget(search());
-
+				break;
 			case dead:
 				game.remove(this);
 				break;

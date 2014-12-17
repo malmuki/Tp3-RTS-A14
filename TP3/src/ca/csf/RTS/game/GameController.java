@@ -1,13 +1,11 @@
 package ca.csf.RTS.game;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.Font;
-import org.jsfml.graphics.Image;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
@@ -24,10 +22,7 @@ import org.jsfml.window.VideoMode;
 import org.jsfml.window.WindowStyle;
 import org.jsfml.window.event.Event;
 import org.jsfml.window.event.KeyEvent;
-import org.jsfml.internal.SFMLNativeObject;
 import org.jsfml.graphics.Text;
-
-import com.sun.xml.internal.ws.org.objectweb.asm.Label;
 
 import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.game.entity.GameObject;
