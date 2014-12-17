@@ -77,11 +77,10 @@ public abstract class Factory extends Building {
 				if (getTrainable(index).stoneCost <= team.getStoned()) {
 					team.substractStone(getTrainable(index).stoneCost);
 					team.substractWood(getTrainable(index).woodCost);
-					trainingQueue.add(getTrainable(index));
 					if (trainingQueue.isEmpty()) {
-						stateStack.pop();
 						stateStack.push(new Training(this));
 					}
+					trainingQueue.add(getTrainable(index));
 				} else {
 					// spam un son de pas assez de stone!!!!
 				}
