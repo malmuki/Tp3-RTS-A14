@@ -35,36 +35,40 @@ public class Attack implements State {
 			// determine la case la plus proche de la source par rapport a ou elle est
 			switch (getDirection()) {
 			case BOTTOM:
-				closestLocation = new Vector2i(source.getTilesOrigin().getMapLocation().x, target.getTilesOrigin().getMapLocation().y + target.getDimention().y);
-				break;
-			case BOTTOM_LEFT:
-				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x, target.getTilesOrigin().getMapLocation().y + target.getDimention().y);
-				break;
-			case BOTTOM_RIGHT:
-				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x + target.getDimention().x, target.getTilesOrigin().getMapLocation().y
-						+ target.getDimention().y);
-				break;
-			case LEFT:
-				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x, source.getTilesOrigin().getMapLocation().y);
-				break;
-			case RIGHT:
-				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x + target.getDimention().x, source.getTilesOrigin().getMapLocation().y);
-				break;
-			case TOP:
 				closestLocation = new Vector2i(source.getTilesOrigin().getMapLocation().x, target.getTilesOrigin().getMapLocation().y);
 				break;
-			case TOP_LEFT:
+			case BOTTOM_LEFT:
+				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x + target.getDimention().x - 1, target.getTilesOrigin()
+						.getMapLocation().y);
+				break;
+			case BOTTOM_RIGHT:
 				closestLocation = target.getTilesOrigin().getMapLocation();
 				break;
+			case LEFT:
+				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x + target.getDimention().x - 1, source.getTilesOrigin()
+						.getMapLocation().y);
+				break;
+			case RIGHT:
+				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x, source.getTilesOrigin().getMapLocation().y);
+				break;
+			case TOP:
+				closestLocation = new Vector2i(source.getTilesOrigin().getMapLocation().x, target.getTilesOrigin().getMapLocation().y + target.getDimention().y
+						- 1);
+				break;
+			case TOP_LEFT:
+				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x + target.getDimention().x - 1, target.getTilesOrigin()
+						.getMapLocation().y + target.getDimention().y - 1);
+				break;
 			case TOP_RIGHT:
-				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x + target.getDimention().x, target.getTilesOrigin().getMapLocation().y);
+				closestLocation = new Vector2i(target.getTilesOrigin().getMapLocation().x, target.getTilesOrigin().getMapLocation().y + target.getDimention().y
+						- 1);
+				break;
 			default:
 				closestLocation = source.getTilesOrigin().getMapLocation();
 				break;
 			}
 
 			if (source.getTilesOrigin().getDistance(closestLocation) <= this.source.getRange()) {
-				// TODO: calculation for buildings range
 				attackProgression += deltaTime;
 
 				if (attackProgression > 0.5f) {
@@ -83,24 +87,24 @@ public class Attack implements State {
 
 	private RelativePosition getDirection() {
 		// left
-		if (source.getCenter().x > source.getTarget().getTilesOrigin().getMapLocation().x) {
+		if (source.getCenter().x > source.getTarget().getTilesOrigin().getMapLocation().x + source.getTarget().getDimention().x - 1) {
 			// top
-			if (source.getCenter().y > source.getTarget().getTilesOrigin().getMapLocation().y) {
+			if (source.getCenter().y > source.getTarget().getTilesOrigin().getMapLocation().y + source.getTarget().getDimention().y - 1) {
 				return RelativePosition.TOP_LEFT;
 				// bottom
-			} else if (source.getCenter().y < source.getTarget().getTilesOrigin().getMapLocation().y + source.getTarget().getTilesOrigin().getMapLocation().y) {
+			} else if (source.getCenter().y < source.getTarget().getTilesOrigin().getMapLocation().y) {
 				return RelativePosition.BOTTOM_LEFT;
 				// middle
 			} else {
 				return RelativePosition.LEFT;
 			}
 			// right
-		} else if (source.getCenter().x < source.getTarget().getTilesOrigin().getMapLocation().x + source.getTarget().getDimention().x) {
+		} else if (source.getCenter().x < source.getTarget().getTilesOrigin().getMapLocation().x) {
 			// top
-			if (source.getCenter().y > source.getTarget().getTilesOrigin().getMapLocation().y) {
+			if (source.getCenter().y > source.getTarget().getTilesOrigin().getMapLocation().y + source.getTarget().getDimention().y - 1) {
 				return RelativePosition.TOP_RIGHT;
 				// bottom
-			} else if (source.getCenter().y < source.getTarget().getTilesOrigin().getMapLocation().y + source.getTarget().getTilesOrigin().getMapLocation().y) {
+			} else if (source.getCenter().y < source.getTarget().getTilesOrigin().getMapLocation().y) {
 				return RelativePosition.BOTTOM_RIGHT;
 				// middle
 			} else {
@@ -109,10 +113,10 @@ public class Attack implements State {
 			// middle
 		} else {
 			// top
-			if (source.getCenter().y > source.getTarget().getTilesOrigin().getMapLocation().y) {
+			if (source.getCenter().y > source.getTarget().getTilesOrigin().getMapLocation().y + source.getTarget().getDimention().y - 1) {
 				return RelativePosition.TOP;
 				// bottom
-			} else if (source.getCenter().y < source.getTarget().getTilesOrigin().getMapLocation().y + source.getTarget().getTilesOrigin().getMapLocation().y) {
+			} else if (source.getCenter().y < source.getTarget().getTilesOrigin().getMapLocation().y) {
 				return RelativePosition.BOTTOM;
 				// middle
 			} else {
