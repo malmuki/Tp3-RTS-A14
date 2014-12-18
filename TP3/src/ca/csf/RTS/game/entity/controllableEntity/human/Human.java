@@ -1,5 +1,7 @@
 package ca.csf.RTS.game.entity.controllableEntity.human;
 
+import org.jsfml.system.Vector2i;
+
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
@@ -42,6 +44,11 @@ public abstract class Human extends ControlableEntity implements Watcher {
 	@Override
 	public boolean isObstacle() {
 		return false;
+	}
+
+	@Override
+	public Vector2i getCenter() {
+		return tilesOrigin.getMapLocation();
 	}
 
 	public abstract void order(Entity target);
