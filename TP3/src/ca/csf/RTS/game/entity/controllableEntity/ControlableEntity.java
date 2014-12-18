@@ -77,6 +77,11 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	public int getHP() {
 		return healthCurrent;
 	}
+	
+	@Override
+	public int getMaxHealth(){
+		return healthMax;
+	}
 
 	public Entity getTarget() {
 		return target;
@@ -85,5 +90,4 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	public void setTarget(Entity target) {
 		this.target = target;
 	}
-
 }
