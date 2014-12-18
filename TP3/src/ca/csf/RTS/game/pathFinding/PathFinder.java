@@ -139,7 +139,8 @@ public class PathFinder {
 			if (humanX - 1 <= x && humanX + 1 >= x && humanY - 1 <= y && humanY + 1 >= y && !(humanX == x && humanY == y)) {
 				isAdjacent = true;
 			}
-			if ((isAdjacent && map[x][y].getOnTile() == null) || (!isAdjacent && !map[x][y].hasObstacle()) || map[x][y].getOnTile() == searchingHuman.getTarget()) { // if it's not in the
+			if ((isAdjacent && map[x][y].getOnTile() == null) || (!isAdjacent && !map[x][y].hasObstacle())
+					|| map[x][y].getOnTile() == searchingHuman.getTarget()) { // if it's not in the
 				if (closedListContains(x, y) == 0) {
 					int openListID = openListContains(x, y); // search for the tile in the openList
 					if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
@@ -179,7 +180,7 @@ public class PathFinder {
 			}
 		}
 
-	 }
+	}
 
 	private static int closedListContains(int x, int y) {
 		for (int i = 1; i <= tilesChecked - openListCount; i++) {
@@ -245,42 +246,49 @@ public class PathFinder {
 		}
 	}
 
-	private static void addToOpenList(int x, int y, int parentID, int maxG, Human searchingHuman) {
+	private static void addToOpenList(int x, int y, int parentID, int maxG, Human searchingHuman, String searchForTeam) {
 		if (x >= 0 && y >= 0 && x < Game.MAP_SIZE && y < Game.MAP_SIZE) { // if tile exists
-			if ((!map[x][y].hasObstacle() || map[x][y].getOnTile() == searchingHuman.getTarget()) && closedListContains(x, y) == 0
-					&& listsGCost[parentID] <= maxG) { // if it's not in the closed list and it has no
-				// obstacle and it's parent's G is not too high
-				int openListID = openListContains(x, y); // search for the tile in the openList
-				if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
-					int gMovementCost;
-					if (listsX[listsParent[parentID]] != x && listsY[listsParent[parentID]] != y) { // if diagonal with the currently explored tile
-						gMovementCost = 14;
-					} else {
-						gMovementCost = 10;
-					}
-					if (listsGCost[openListID] > listsGCost[parentID] + gMovementCost) {
-						listsParent[openListID] = parentID;
-						listsGCost[openListID] = calculateG(openListID);
-						reOrderOpenList(openListID);
-					}
-				} else { // otherwise just add it to the list
-					openListCount++;
-					tilesChecked++;
-					openList[openListCount] = tilesChecked;
-					listsX[tilesChecked] = x;
-					listsY[tilesChecked] = y;
-					listsParent[tilesChecked] = parentID;
-					listsGCost[tilesChecked] = calculateG(tilesChecked);
-					listsFCost[tilesChecked] = listsGCost[tilesChecked];
+			// if in range
+			if (listsGCost[parentID] <= maxG && closedListContains(x, y) == 0) {
+				if (map[x][y].getOnTile() == null || searchForTeam == map[x][y].getOnTile().getTeam().getName() || !map[x][y].hasObstacle()) { // if it's not
+																																					// in the
+																																					// closed
+																																					// list
+																																					// and it
+																																					// has no
+					// obstacle and it's parent's G is not too high
+					int openListID = openListContains(x, y); // search for the tile in the openList
+					if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
+						int gMovementCost;
+						if (listsX[listsParent[parentID]] != x && listsY[listsParent[parentID]] != y) { // if diagonal with the currently explored tile
+							gMovementCost = 14;
+						} else {
+							gMovementCost = 10;
+						}
+						if (listsGCost[openListID] > listsGCost[parentID] + gMovementCost) {
+							listsParent[openListID] = parentID;
+							listsGCost[openListID] = calculateG(openListID);
+							reOrderOpenList(openListID);
+						}
+					} else { // otherwise just add it to the list
+						openListCount++;
+						tilesChecked++;
+						openList[openListCount] = tilesChecked;
+						listsX[tilesChecked] = x;
+						listsY[tilesChecked] = y;
+						listsParent[tilesChecked] = parentID;
+						listsGCost[tilesChecked] = calculateG(tilesChecked);
+						listsFCost[tilesChecked] = listsGCost[tilesChecked];
 
-					int currentLocation = openListCount;
-					int temp;
+						int currentLocation = openListCount;
+						int temp;
 
-					while (currentLocation != 1 && listsFCost[openList[currentLocation]] < listsFCost[openList[currentLocation / 2]]) {
-						temp = openList[currentLocation];
-						openList[currentLocation] = openList[currentLocation / 2];
-						openList[currentLocation / 2] = temp;
-						currentLocation /= 2;
+						while (currentLocation != 1 && listsFCost[openList[currentLocation]] < listsFCost[openList[currentLocation / 2]]) {
+							temp = openList[currentLocation];
+							openList[currentLocation] = openList[currentLocation / 2];
+							openList[currentLocation / 2] = temp;
+							currentLocation /= 2;
+						}
 					}
 				}
 			}
@@ -294,7 +302,16 @@ public class PathFinder {
 		openListCount = 0;
 		tilesChecked = 0;
 
-		addToOpenList(searchingHuman.getTilesOrigin().getMapLocation().x, searchingHuman.getTilesOrigin().getMapLocation().y, 0, searchRange, searchingHuman);
+		String searchForTeam;
+
+		if (searchingHuman.getTeam().getName() == "Ennemy") {
+			searchForTeam = "Idiot";
+		} else {
+			searchForTeam = "Ennemy";
+		}
+
+		addToOpenList(searchingHuman.getTilesOrigin().getMapLocation().x, searchingHuman.getTilesOrigin().getMapLocation().y, 0, searchRange, searchingHuman,
+				searchForTeam);
 
 		Entity onLastTileChecked;
 		int currentTile;
@@ -303,14 +320,14 @@ public class PathFinder {
 		do {
 			currentTile = openListRemove();
 
-			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] - 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile], listsY[currentTile] - 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] - 1, listsY[currentTile], currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] - 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] + 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] + 1, listsY[currentTile], currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile], listsY[currentTile] + 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] + 1, currentTile, searchRange, searchingHuman);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] - 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile], listsY[currentTile] - 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile], currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] - 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] + 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile], currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile], listsY[currentTile] + 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] + 1, currentTile, searchRange, searchingHuman, searchForTeam);
 
 			onLastTileChecked = map[listsX[currentTile]][listsY[currentTile]].getOnTile();
 
@@ -390,7 +407,10 @@ public class PathFinder {
 		openListCount = 0;
 		tilesChecked = 0;
 
-		addToOpenList(searchingHuman.getTilesOrigin().getMapLocation().x, searchingHuman.getTilesOrigin().getMapLocation().y, 0, searchRange, searchingHuman);
+		String searchForTeam = "Nature";
+
+		addToOpenList(searchingHuman.getTilesOrigin().getMapLocation().x, searchingHuman.getTilesOrigin().getMapLocation().y, 0, searchRange, searchingHuman,
+				searchForTeam);
 
 		Entity onLastTileChecked;
 		int currentTile;
@@ -399,14 +419,14 @@ public class PathFinder {
 		do {
 			currentTile = openListRemove();
 
-			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] - 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile], listsY[currentTile] - 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] - 1, listsY[currentTile], currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] - 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] + 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] + 1, listsY[currentTile], currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile], listsY[currentTile] + 1, currentTile, searchRange, searchingHuman);
-			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] + 1, currentTile, searchRange, searchingHuman);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] - 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile], listsY[currentTile] - 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile], currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] - 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] - 1, listsY[currentTile] + 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile], currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile], listsY[currentTile] + 1, currentTile, searchRange, searchingHuman, searchForTeam);
+			addToOpenList(listsX[currentTile] + 1, listsY[currentTile] + 1, currentTile, searchRange, searchingHuman, searchForTeam);
 
 			onLastTileChecked = map[listsX[currentTile]][listsY[currentTile]].getOnTile();
 
