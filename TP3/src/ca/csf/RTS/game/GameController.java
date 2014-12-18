@@ -230,7 +230,7 @@ public class GameController {
 						if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.20f
 								&& mousePos.y <= UISizeHeight * 0.28f) {
-							
+							game.btnAction(0);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.20f
 								&& mousePos.y <= UISizeHeight * 0.28f) {
@@ -281,10 +281,6 @@ public class GameController {
 			}
 		}
 	}
-
-	//public void {
-		
-	//}
 
 	private void initializeGUI() {
 
@@ -516,3 +512,4 @@ public class GameController {
 		return music;
 	}
 }
+
