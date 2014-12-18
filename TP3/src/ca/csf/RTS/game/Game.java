@@ -9,10 +9,13 @@ import org.jsfml.system.Vector2i;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
+import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Tree;
+import ca.csf.RTS.game.entity.state.Alert;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Game implements GameEventHandler {
@@ -72,22 +75,22 @@ public class Game implements GameEventHandler {
 			add(new Worker(map[i][12], player, this));
 		}
 
-		footman2 = new FootMan(map[6][7], player, this);
+		FootMan footman2 = new FootMan(map[6][7], player, this);
 		add(footman2);
 		footman2.getStateStack().push(footman2.getDefaultState());
 		
-		worker = new Worker(map[20][10], player, this);
+		Worker worker = new Worker(map[20][10], player, this);
 		add(worker);
 		worker.getStateStack().push(worker.getDefaultState());
 
-		watchtower = new WatchTower(map[9][9], player, this);
+		WatchTower watchtower = new WatchTower(map[9][9], player, this);
 		add(watchtower);
 		watchtower.getStateStack().push(new Alert(watchtower));
 
-		barrack = new Barrack(map[4][22], player, this, 0);
+		Barrack barrack = new Barrack(map[4][22], player, this, 0);
 		add(barrack);
 
-		tree = new Tree(map[8][8], nature, this);
+		Tree tree = new Tree(map[8][8], nature, this);
 		add(tree);
 		
 		add(new Tree(map[15][15], nature, this));
