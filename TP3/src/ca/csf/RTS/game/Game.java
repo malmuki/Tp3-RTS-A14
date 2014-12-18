@@ -1,6 +1,7 @@
 package ca.csf.RTS.game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.system.Vector2f;
@@ -12,6 +13,7 @@ import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
+import ca.csf.RTS.game.entity.ressource.Stone;
 import ca.csf.RTS.game.entity.ressource.Tree;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
@@ -76,15 +78,46 @@ public class Game implements GameEventHandler {
 		for (int i = 2; i < 13; i += 2) {
 			add(new Worker(map[MAP_SIZE - i][MAP_SIZE - 12], computer, this));
 		}
-		
-		add(new Tree(map[15][15], nature, this));
-		add(new Tree(map[17][15], nature, this));
+
+		Random random = new Random();
+
+		placeTree(1000, random);
+		placeStone(200, random);
+
+	}
+
+	public void placeTree(int nbTree, Random random) {
+		int x = random.nextInt(MAP_SIZE);
+		int y = random.nextInt(MAP_SIZE);
+
+		if (nbTree > 0) {
+			if (map[x][y].getOnTile() == null) {
+				add(new Tree(map[x][y], nature, this));
+				placeTree(nbTree - 1, random);
+			} else {
+				placeTree(nbTree, random);
+			}
+		}
+	}
+
+	public void placeStone(int nbStone, Random random) {
+		int x = random.nextInt(MAP_SIZE);
+		int y = random.nextInt(MAP_SIZE);
+
+		if (nbStone > 0) {
+			if (map[x][y].getOnTile() == null) {
+				add(new Stone(map[x][y], nature, this));
+				placeStone(nbStone - 1, random);
+			} else {
+				placeStone(nbStone, random);
+			}
+		}
 	}
 
 	public void allo() {
 		if (selectedList.get(0).getName() == "Barrack") {
 			((Barrack) selectedList.get(0)).addToQueue(0);
-		} else {
+		} else if (selectedList.get(0).getName() == "Town Center") {
 			((TownCenter) selectedList.get(0)).addToQueue(0);
 		}
 
@@ -162,20 +195,36 @@ public class Game implements GameEventHandler {
 
 	@Override
 	public void add(Entity entity) {
-		toBeCreated.add(entity);
-		for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
-			for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
-				map[i][j].setOnTile(entity);
+		if (canPlace(entity)) {
+			toBeCreated.add(entity);
+			for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
+				for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
+					map[i][j].setOnTile(entity);
+				}
 			}
 		}
+	}
+
+	private boolean canPlace(Entity entity) {
+		if (entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x >= MAP_SIZE
+				|| entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y >= MAP_SIZE) {
+			return false;
+		}
+
+		for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
+			for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
+				if (map[i][j].getOnTile() != null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	@Override
 	public void remove(Entity entity) {
 		toBeDeleted.add(entity);
 		selectedList.remove(entity);
-		entity.getTeam().removeUnit(entity);
-
 		for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
 			for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
 				map[i][j].setOnTile(null);

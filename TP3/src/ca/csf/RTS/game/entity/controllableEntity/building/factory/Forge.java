@@ -59,7 +59,7 @@ public class Forge extends Factory {
   }
 
   @Override
-  protected Trainable getTrainable(int index) {
+  protected Trainee getTrainable(int index) {
     return null;
   }
 }
