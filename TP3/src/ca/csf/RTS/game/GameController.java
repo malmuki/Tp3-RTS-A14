@@ -1,13 +1,11 @@
 package ca.csf.RTS.game;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.Font;
-import org.jsfml.graphics.Image;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
@@ -24,14 +22,13 @@ import org.jsfml.window.VideoMode;
 import org.jsfml.window.WindowStyle;
 import org.jsfml.window.event.Event;
 import org.jsfml.window.event.KeyEvent;
-import org.jsfml.internal.SFMLNativeObject;
 import org.jsfml.graphics.Text;
 
-import com.sun.xml.internal.ws.org.objectweb.asm.Label;
-
 import ca.csf.RTS.Menu.model.Menu;
+import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.sound.MusicPlayer;
 
 public class GameController {
@@ -46,13 +43,28 @@ public class GameController {
 	private Texture rockIconTexture;
 	private Texture treeIconTexture;
 	private Texture footman;
+	private Texture worker;
+	private Text labelTreeRessource = new Text();
+	private Text labelRockRessource = new Text();
+	private Text selectedUnitHP = new Text();
+	private Font arial = new Font();
+	private int UISizeWidth = VideoMode.getDesktopMode().width;
+	private int UISizeHeight = VideoMode.getDesktopMode().height;
+	private RectangleShape guiRectangle = new RectangleShape(new Vector2f(UISizeWidth,
+			UISizeHeight));
+	private RectangleShape rockRessource = new RectangleShape(new Vector2f(350, 35));
+	private RectangleShape treeRessource = new RectangleShape(new Vector2f(750, 90));
+	private RectangleShape selectedUnitIcon = new RectangleShape(new Vector2f(1200, 200));
 
 	public GameController() {
 		music = new MusicPlayer();
 		game = new Game();
 		try {
+			arial.loadFromFile(Paths.get("./ressource/ARIBLK.TTF"));
 			footman = new Texture();
 			footman.loadFromFile(Paths.get("./ressource/Soldat.png"));
+			worker = new Texture();
+			//worker.loadFromFile(Paths.get("./ressource/Worker.png"));
 			treeIconTexture = new Texture();
 			treeIconTexture.loadFromFile(Paths.get("./ressource/tree.png"));
 			rockIconTexture = new Texture();
@@ -225,61 +237,67 @@ public class GameController {
 	}
 
 	private void drawGUI(RenderWindow window, Game game) throws IOException {
-		int UISizeWidth = VideoMode.getDesktopMode().width;
-		int UISizeHeight = VideoMode.getDesktopMode().height;
 
-		Font arial = new Font();
-		arial.loadFromFile(Paths.get("./ressource/ARIBLK.TTF"));
-
-		Text labelTreeRessource = new Text();
 		labelTreeRessource.setFont(arial);
 		labelTreeRessource.setCharacterSize(50);
-		labelTreeRessource.setPosition(UISizeWidth * (0.45f),
-				UISizeHeight * 0.11f);
 		labelTreeRessource.setColor(Color.WHITE);
 		labelTreeRessource.setScale(3, 0.5f);
 
-		Text labelRockRessource = new Text();
 		labelRockRessource.setFont(arial);
 		labelRockRessource.setCharacterSize(50);
-		labelRockRessource.setPosition(UISizeWidth * (0.45f),
-				UISizeHeight * 0.055f);
 		labelRockRessource.setColor(Color.WHITE);
 		labelRockRessource.setScale(3, 0.5f);
-
-		RectangleShape gui = new RectangleShape(new Vector2f(UISizeWidth,
-				UISizeHeight));
-		RectangleShape rockRessource = new RectangleShape(new Vector2f(350, 35));
-		RectangleShape treeRessource = new RectangleShape(new Vector2f(750, 90));
-		RectangleShape buildingTabs = new RectangleShape(new Vector2f(1200, 400));
-		buildingTabs.setFillColor(Color.TRANSPARENT);
+		
+		selectedUnitHP.setFont(arial);
+		selectedUnitHP.setCharacterSize(50);
+		selectedUnitHP.setColor(Color.CYAN);
+		selectedUnitHP.setScale(3, 0.5f);
+		
+		rockRessource.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.05f);
+		treeRessource.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.1f);
+		selectedUnitIcon.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.50f);
+		selectedUnitHP.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.70f);
+		labelRockRessource.setPosition(UISizeWidth * (0.45f),UISizeHeight * 0.055f);
+		labelTreeRessource.setPosition(UISizeWidth * (0.45f),UISizeHeight * 0.11f);
+		
 		if (!game.getAllSelected().isEmpty()) {
+			Fightable entity = (Fightable) game.getAllSelected().get(0);
 			switch (game.getAllSelected().get(0).getName()) {
 			case "Footman":
-				buildingTabs.setTexture(footman);
+				selectedUnitIcon.setTexture(footman);
+				selectedUnitHP.setString("Health : " + Integer.toString(entity.getHP()));
 				break;
 			case "Worker":
+				//selectedUnitIcon.setTexture(worker);
+				selectedUnitHP.setString("Health : " + Integer.toString(entity.getHP()));
+				break;
+			case "TownCenter":
+				//TO DO
+				// Set building tab to show trainable units
+				break;
+			case "Barrack":
+				//TO DO
+				// Set building tab to show trainable units
+				break;
+			case "WhateverOtherBuildingsWeHave":
 				break;
 			default:
 				break;
 			}
 		}
-		gui.setTexture(this.gui);
+		//selectedUnitIcon.setFillColor(Color.TRANSPARENT);
+		guiRectangle.setTexture(this.gui);
 		rockRessource.setTexture(this.rockIconTexture);
 		treeRessource.setTexture(this.treeIconTexture);
 
-		rockRessource.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.05f);
-		treeRessource.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.1f);
-		buildingTabs.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.20f);
-		labelTreeRessource.setString(Integer.toString(game.getPlayerTeam()
-				.getWood()));
-		labelRockRessource.setString(Integer.toString(game.getPlayerTeam()
-				.getStoned()));
+		labelTreeRessource.setString(Integer.toString(game.getPlayerTeam().getWood()));
+		labelRockRessource.setString(Integer.toString(game.getPlayerTeam().getStoned()));
 
-		window.draw(gui);
+		window.draw(guiRectangle);
 		window.draw(rockRessource);
 		window.draw(treeRessource);
-		window.draw(buildingTabs);
+		window.draw(selectedUnitIcon);
+		window.draw(selectedUnitHP);
 		window.draw(labelTreeRessource);
 		window.draw(labelRockRessource);
 	}
