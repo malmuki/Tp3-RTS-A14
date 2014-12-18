@@ -74,24 +74,6 @@ public class Game implements GameEventHandler {
 		for (int i = 1; i < 12; i += 2) {
 			add(new Worker(map[i][12], player, this));
 		}
-
-		FootMan footman2 = new FootMan(map[6][7], player, this);
-		add(footman2);
-		footman2.getStateStack().push(footman2.getDefaultState());
-		
-		Worker worker = new Worker(map[20][10], player, this);
-		add(worker);
-		worker.getStateStack().push(worker.getDefaultState());
-
-		WatchTower watchtower = new WatchTower(map[9][9], player, this);
-		add(watchtower);
-		watchtower.getStateStack().push(new Alert(watchtower));
-
-		Barrack barrack = new Barrack(map[4][22], player, this, 0);
-		add(barrack);
-
-		Tree tree = new Tree(map[8][8], nature, this);
-		add(tree);
 		
 		add(new Tree(map[15][15], nature, this));
 		add(new Tree(map[17][15], nature, this));
