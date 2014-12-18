@@ -54,12 +54,10 @@ public class GameController {
 	private Font arial = new Font();
 	private int UISizeWidth = VideoMode.getDesktopMode().width;
 	private int UISizeHeight = VideoMode.getDesktopMode().height;
-	private RectangleShape guiRectangle = new RectangleShape(new Vector2f(UISizeWidth,
-			UISizeHeight));
+	private RectangleShape guiRectangle = new RectangleShape(new Vector2f(UISizeWidth, UISizeHeight));
 	private RectangleShape rockRessource = new RectangleShape(new Vector2f(350, 35));
 	private RectangleShape treeRessource = new RectangleShape(new Vector2f(750, 90));
 	private RectangleShape selectedEntityIcon = new RectangleShape(new Vector2f(1200, 200));
-	
 
 	public GameController() {
 		music = new MusicPlayer();
@@ -71,7 +69,7 @@ public class GameController {
 			footman = new Texture();
 			footman.loadFromFile(Paths.get("./ressource/Soldat.png"));
 			worker = new Texture();
-			//worker.loadFromFile(Paths.get("./ressource/Worker.png"));
+			// worker.loadFromFile(Paths.get("./ressource/Worker.png"));
 			treeIconTexture = new Texture();
 			treeIconTexture.loadFromFile(Paths.get("./ressource/tree.png"));
 			rockIconTexture = new Texture();
@@ -92,8 +90,7 @@ public class GameController {
 		game.newGame();
 
 		RenderWindow window = new RenderWindow();
-		window.create(VideoMode.getDesktopMode(), Menu.TITLE,
-				WindowStyle.FULLSCREEN);
+		window.create(VideoMode.getDesktopMode(), Menu.TITLE, WindowStyle.FULLSCREEN);
 
 		window.setFramerateLimit(60);
 
@@ -113,12 +110,9 @@ public class GameController {
 		selection.setOutlineColor(Color.BLACK);
 		selection.setOutlineThickness(SELECTION_THICKNESS);
 
-		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE
-				* Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
+		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE * Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
 		map.setTexture(gazon);
-		map.setTextureRect(new IntRect(0, 0,
-				(int) (Game.MAP_SIZE * Tile.TILE_SIZE),
-				(int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
+		map.setTextureRect(new IntRect(0, 0, (int) (Game.MAP_SIZE * Tile.TILE_SIZE), (int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
 
 		music.playMusic(1);
 		while (window.isOpen()) {
@@ -149,8 +143,7 @@ public class GameController {
 				window.display();
 
 				if (Keyboard.isKeyPressed(Key.D)) {
-					if (gameView.getCenter().x * 2 < Game.MAP_SIZE
-							* Tile.TILE_SIZE) {
+					if (gameView.getCenter().x + (gameView.getSize().x / 2) < Game.MAP_SIZE * Tile.TILE_SIZE) {
 						gameView.move(dt * SENSITIVITY, 0);
 					}
 				}
@@ -158,13 +151,11 @@ public class GameController {
 					if (gameView.getCenter().x - gameView.getSize().x / 2 > 0) {
 						gameView.move(dt * -SENSITIVITY, 0);
 					} else {
-						gameView.setCenter(gameView.getSize().x / 2,
-								gameView.getCenter().y);
+						gameView.setCenter(gameView.getSize().x / 2, gameView.getCenter().y);
 					}
 				}
 				if (Keyboard.isKeyPressed(Key.S)) {
-					if (gameView.getCenter().y * 2 < Game.MAP_SIZE
-							* Tile.TILE_SIZE) {
+					if (gameView.getCenter().y + (gameView.getSize().y / 2) < Game.MAP_SIZE * Tile.TILE_SIZE) {
 						gameView.move(0, dt * SENSITIVITY);
 					}
 				}
@@ -175,48 +166,37 @@ public class GameController {
 				}
 
 				// pour la selection des units et des buildings
-				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse
-						.getPosition().x, Mouse.getPosition().y));
-				if (Mouse.isButtonPressed(Button.LEFT)) {
+				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
+				if (mousePos.x < gameView.getCenter().x + (gameView.getSize().x / 2)) {
+					if (Mouse.isButtonPressed(Button.LEFT)) {
 
-					// pour empecher que la selection depasse de la vue
-					if (mousePos.x > gameView.getSize().x
-							&& mousePos.x > Game.MAP_SIZE * Tile.TILE_SIZE) {
-						mousePos = new Vector2f(
-								mousePos.x
-										- (gameView.getSize().x / 2 - gameView
-												.getCenter().x),
-								mousePos.y);
-					}
-					if (mousePos.y > gameView.getSize().y
-							&& mousePos.y > Game.MAP_SIZE * Tile.TILE_SIZE) {
-						mousePos = new Vector2f(mousePos.x,
-								mousePos.y
-										- (gameView.getSize().y / 2 - gameView
-												.getCenter().y));
-					}
+						// pour empecher que la selection depasse de la vue
+						if (mousePos.x > gameView.getSize().x && mousePos.x > Game.MAP_SIZE * Tile.TILE_SIZE) {
+							mousePos = new Vector2f(mousePos.x - (gameView.getSize().x / 2 - gameView.getCenter().x), mousePos.y);
+						}
+						if (mousePos.y > gameView.getSize().y && mousePos.y > Game.MAP_SIZE * Tile.TILE_SIZE) {
+							mousePos = new Vector2f(mousePos.x, mousePos.y - (gameView.getSize().y / 2 - gameView.getCenter().y));
+						}
 
-					if (isLeftButtonPressed) {
-						selection.setSize(new Vector2f(mousePos.x
-								- selection.getPosition().x, mousePos.y
-								- selection.getPosition().y));
-						game.selectEntity(selection.getPosition(), mousePos);
+						if (isLeftButtonPressed) {
+							selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y - selection.getPosition().y));
+							game.selectEntity(selection.getPosition(), mousePos);
+						} else {
+							isLeftButtonPressed = true;
+							selection.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
+						}
 					} else {
-						isLeftButtonPressed = true;
-						selection
-								.setPosition(window
-										.mapPixelToCoords(new Vector2i(Mouse
-												.getPosition().x, Mouse
-												.getPosition().y)));
+						isLeftButtonPressed = false;
+						selection.setSize(new Vector2f(0, 0));
 					}
+
+					if (Mouse.isButtonPressed(Button.RIGHT)) {
+
+						game.giveOrder(mousePos);
+					}
+					// pour les selection dans le UI
 				} else {
-					isLeftButtonPressed = false;
-					selection.setSize(new Vector2f(0, 0));
-				}
-
-				if (Mouse.isButtonPressed(Button.RIGHT)) {
-
-					game.giveOrder(mousePos);
+					
 				}
 			}
 
@@ -227,7 +207,7 @@ public class GameController {
 				case KEY_PRESSED:
 					if (keyEvent.key == Key.ESCAPE) {
 						window.close();
-					}else if (keyEvent.key == Key.NUM0) {
+					} else if (keyEvent.key == Key.NUM0) {
 						game.allo();
 					}
 					break;
@@ -256,39 +236,39 @@ public class GameController {
 		labelRockRessource.setCharacterSize(50);
 		labelRockRessource.setColor(Color.WHITE);
 		labelRockRessource.setScale(3, 0.5f);
-		
+
 		selectedEntityHP.setFont(arial);
 		selectedEntityHP.setCharacterSize(40);
 		selectedEntityHP.setColor(Color.CYAN);
 		selectedEntityHP.setScale(3, 0.5f);
-		
+
 		selectedEntityName.setFont(arial);
 		selectedEntityName.setCharacterSize(40);
 		selectedEntityName.setColor(Color.CYAN);
 		selectedEntityName.setScale(3, 0.5f);
-		
+
 		selectedEntityDamage.setFont(arial);
 		selectedEntityDamage.setCharacterSize(40);
 		selectedEntityDamage.setColor(Color.CYAN);
 		selectedEntityDamage.setScale(3, 0.5f);
-		
+
 		rockRessource.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.05f);
 		treeRessource.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.1f);
 		selectedEntityIcon.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.50f);
 		selectedEntityHP.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.70f);
 		selectedEntityName.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.48f);
 		selectedEntityDamage.setPosition(UISizeWidth * (0.20f), UISizeHeight * 0.725f);
-		labelRockRessource.setPosition(UISizeWidth * (0.45f),UISizeHeight * 0.055f);
-		labelTreeRessource.setPosition(UISizeWidth * (0.45f),UISizeHeight * 0.11f);
-		
+		labelRockRessource.setPosition(UISizeWidth * (0.45f), UISizeHeight * 0.055f);
+		labelTreeRessource.setPosition(UISizeWidth * (0.45f), UISizeHeight * 0.11f);
+
 		if (!game.getAllSelected().isEmpty()) {
 			selectedEntityIcon.setFillColor(Color.WHITE);
 			switch (game.getAllSelected().get(0).getName()) {
 			case "Footman":
 				FootMan entity = (FootMan) game.getAllSelected().get(0);
-				selectedEntityName.setString("Footman");
+				selectedEntityName.setString(entity.getName());
 				selectedEntityDamage.setString("Damage : " + Integer.toString(entity.getDamage()));
-				if(!selectedEntityIcon.equals(footman)){
+				if (!selectedEntityIcon.equals(footman)) {
 					selectedEntityIcon.setTexture(footman);
 				}
 				selectedEntityHP.setString("Health : " + Integer.toString(entity.getHP()) + " / " + entity.getMaxHealth());
@@ -296,24 +276,24 @@ public class GameController {
 			case "Worker":
 				selectedEntityName.setString("Worker");
 				Fightable entity2 = (Fightable) game.getAllSelected().get(0);
-				if(!selectedEntityIcon.equals(worker)){
-					//selectedUnitIcon.setTexture(worker);
+				if (!selectedEntityIcon.equals(worker)) {
+					// selectedUnitIcon.setTexture(worker);
 				}
 				selectedEntityDamage.setString("");
 				selectedEntityHP.setString("Health : " + Integer.toString(entity2.getHP()) + " / " + entity2.getMaxHealth());
 				break;
 			case "TownCenter":
-				//TO DO
-			    // Set building tab to show trainable units
+				// TO DO
+				// Set building tab to show trainable units
 				break;
 			case "Barrack":
-				//TO DO
+				// TO DO
 				// Set building tab to show trainable units
 				break;
 			case "Tree":
 				Ressource entityRessource = (Ressource) game.getAllSelected().get(0);
 				selectedEntityName.setString("Tree");
-				if(!selectedEntityIcon.equals(treeSprite)){
+				if (!selectedEntityIcon.equals(treeSprite)) {
 					selectedEntityIcon.setTexture(treeSprite);
 				}
 				selectedEntityDamage.setString("Ressource : " + Integer.toString(entityRessource.getRessources()));
