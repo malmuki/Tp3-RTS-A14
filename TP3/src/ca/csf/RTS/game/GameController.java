@@ -232,27 +232,27 @@ public class GameController {
 						if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.20f
 								&& mousePos.y <= UISizeHeight * 0.28f) {
-							game.allo();
+							game.btnAction(0);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.20f
 								&& mousePos.y <= UISizeHeight * 0.28f) {
-							game.allo();
+							game.btnAction(1);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.30f
 								&& mousePos.y <= UISizeHeight * 0.38f) {
-							game.allo();
+							game.btnAction(2);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.30f
 								&& mousePos.y <= UISizeHeight * 0.38f) {
-							game.allo();
+							game.btnAction(3);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.40f
 								&& mousePos.y <= UISizeHeight * 0.48f) {
-							game.allo();
+							game.btnAction(4);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.40f
 								&& mousePos.y <= UISizeHeight * 0.488f) {
-							game.allo();
+							game.btnAction(5);
 						}
 
 					}
@@ -283,6 +283,10 @@ public class GameController {
 			}
 		}
 	}
+	
+	//public void {
+		
+	//}
 
 	private void initializeGUI() {
 

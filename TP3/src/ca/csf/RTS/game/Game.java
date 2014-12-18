@@ -2,7 +2,6 @@ package ca.csf.RTS.game;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import org.jsfml.graphics.Color;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -80,7 +79,7 @@ public class Game implements GameEventHandler {
 		for (int i = 2; i < 13; i += 2) {
 			add(new Worker(map[MAP_SIZE - i][MAP_SIZE - 12], computer, this));
 		}
-
+		
 		Random random = new Random();
 
 		placeTree(1000, random);
@@ -198,13 +197,13 @@ public class Game implements GameEventHandler {
 	@Override
 	public void add(Entity entity) {
 		if (canPlace(entity)) {
-			toBeCreated.add(entity);
-			for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
-				for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
-					map[i][j].setOnTile(entity);
-				}
+		toBeCreated.add(entity);
+		for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
+			for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
+				map[i][j].setOnTile(entity);
 			}
 		}
+	}
 	}
 
 	private boolean canPlace(Entity entity) {
@@ -237,4 +236,9 @@ public class Game implements GameEventHandler {
 	public Team getPlayerTeam() {
 		return player;
 	}
+
+	public void btnAction(int i) {
+		
+	}
+
 }
