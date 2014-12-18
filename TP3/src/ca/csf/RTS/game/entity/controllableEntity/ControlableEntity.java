@@ -7,6 +7,7 @@ import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
@@ -85,8 +86,11 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	public Entity getTarget() {
 		return target;
 	}
+	
 
 	public void setTarget(Entity target) {
 		this.target = target;
 	}
+	
+	public abstract Vector2i getCenter();
 }

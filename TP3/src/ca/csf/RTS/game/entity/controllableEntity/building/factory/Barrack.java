@@ -45,10 +45,10 @@ public class Barrack extends Factory {
   }
 
   @Override
-  protected Trainable getTrainable(int index) {
+  protected Trainee getTrainable(int index) {
     switch (index) {
       case 0:
-        return Trainable.FOOTMAN;
+        return Trainee.FOOTMAN;
       default:
         return null;
     }
@@ -71,4 +71,9 @@ public class Barrack extends Factory {
       return false;
     }
   }
+
+@Override
+public Vector2i getCenter() {
+	return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(3, 3));
+}
 }

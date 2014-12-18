@@ -39,16 +39,18 @@ public class TownCenter extends Factory {
   public String getName() {
     return NAME;
   }
+	
+	
 
   protected State getDefaultState() {
     return new Idle();
   }
 
   @Override
-  protected Trainable getTrainable(int index) {
+  protected Trainee getTrainable(int index) {
     switch (index) {
       case 0:
-        return Trainable.WORKER;
+        return Trainee.WORKER;
       default:
         return null;
     }
@@ -70,4 +72,9 @@ public class TownCenter extends Factory {
       return false;
     }
   }
+
+@Override
+public Vector2i getCenter() {
+	return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(4, 4));
+}
 }

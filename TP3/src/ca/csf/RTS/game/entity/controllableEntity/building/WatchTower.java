@@ -42,90 +42,91 @@ public class WatchTower extends Building implements Fighter, Watcher {
     setSpritePos();
   }
 
-  @Override
-  public void attack() {
-    ((Fightable) target).loseLife(DAMAGE);
-  }
+	@Override
+	public void attack() {
+		((Fightable) target).loseLife(DAMAGE);
+	}
 
-  public void order(Entity onTile) {
+	public void order(Entity onTile) {
 
-  }
+	}
 
-  public void order(Tile target) {}
+	public void order(Tile target) {
+	}
 
-  @Override
-  public void doTasks(float deltaTime) {
-    if (!stateStack.isEmpty()) {
+	@Override
+	public void doTasks(float deltaTime) {
+		if (!stateStack.isEmpty()) {
 
-      switch (stateStack.peek().action(deltaTime)) {
+			switch (stateStack.peek().action(deltaTime)) {
 
-        case notFinished:
-        case noTargetSighted:
-          break;
+			case notFinished:
+			case noTargetSighted:
+				break;
 
-        case ended:
-          stateStack.pop();
+			case ended:
+				stateStack.pop();
 
-          if (stateStack.isEmpty()) {
-            if (target != null) {
-              stateStack.push(new Attack(this));
-            } else {
-              stateStack.push(getDefaultState());
-            }
-          }
-          break;
-        case targetSighted:
-          stateStack.push(new Attack(this));
-          break;
+				if (stateStack.isEmpty()) {
+					if (target != null) {
+						stateStack.push(new Attack(this));
+					} else {
+						stateStack.push(getDefaultState());
+					}
+				}
+				break;
+			case targetSighted:
+				stateStack.push(new Attack(this));
+				break;
 
-        case targetTooFar:
-          stateStack.clear();
-          stateStack.push(new Attack(this));
-          break;
+			case targetTooFar:
+				stateStack.clear();
+				stateStack.push(new Attack(this));
+				break;
 
-        case dead:
-          game.remove(this);
-          break;
+			case dead:
+				game.remove(this);
+				break;
 
-        default:
-          break;
-      }
-    } else {
-      stateStack.push(getDefaultState());
-    }
-  }
+			default:
+				break;
+			}
+		} else {
+			stateStack.push(getDefaultState());
+		}
+	}
 
-  private State getDefaultState() {
-    return new Alert(this);
-  }
+	private State getDefaultState() {
+		return new Alert(this);
+	}
 
-  @Override
-  public Entity search() {
-    return PathFinder.findClosestEnnemy(this, RANGE);
-  }
+	@Override
+	public Entity search() {
+		return PathFinder.findClosestEnnemy(this, RANGE);
+	}
 
-  @Override
-  public int getRange() {
-    return RANGE;
-  }
+	@Override
+	public int getRange() {
+		return RANGE;
+	}
 
-  @Override
-  public int getDamage() {
-    return DAMAGE;
-  }
+	@Override
+	public int getDamage() {
+		return DAMAGE;
+	}
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+	@Override
+	public String getName() {
+		return NAME;
+	}
 
-  @Override
-  public Vector2i getCenter() {
-    return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(1, 1));
-  }
+	@Override
+	public Vector2i getCenter() {
+		return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(1, 1));
+	}
 
-  @Override
-  public float getAttackDelay() {
-    return ATTACK_DELAY;
-  }
+	@Override
+	public float getAttackDelay() {
+		return ATTACK_DELAY;
+	}
 }

@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.jsfml.graphics.Texture;
-import org.jsfml.system.Vector2i;
-
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
@@ -129,8 +127,4 @@ public class FootMan extends Human implements Fighter {
     return NAME;
   }
 
-  @Override
-  public Vector2i getCenter() {
-    return tilesOrigin.getMapLocation();
-  }
 }

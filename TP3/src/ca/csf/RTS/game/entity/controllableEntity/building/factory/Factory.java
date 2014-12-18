@@ -17,13 +17,13 @@ public abstract class Factory extends Building {
 	public static final int MAX_QUEUE = 5;
 
 	protected GameObject rallyPoint;
-	protected ArrayList<Trainable> trainingQueue;
+	protected ArrayList<Trainee> trainingQueue;
 
 	public Factory(Tile originTile, Team team, GameEventHandler game, Vector2i dimension, int healthMax) {
 		super(originTile, team, game, dimension, healthMax);
 		
 		rallyPoint = null;
-		trainingQueue = new ArrayList<Trainable>();
+		trainingQueue = new ArrayList<Trainee>();
 	}
 
 	@Override
@@ -45,9 +45,9 @@ public abstract class Factory extends Building {
 				break;
 
 			case dead:
-				for (Trainable trainable : trainingQueue) {
-					team.addStone(trainable.stoneCost);
-					team.addWood(trainable.woodCost);
+				for (Trainee trainee : trainingQueue) {
+					team.addStone(trainee.stoneCost);
+					team.addWood(trainee.woodCost);
 				}
 				game.remove(this);
 				break;
@@ -68,7 +68,7 @@ public abstract class Factory extends Building {
 		rallyPoint = target;
 	}
 	
-	public Trainable getNextInQueue(){
+	public Trainee getNextInQueue(){
 		return trainingQueue.get(0);
 	}
 
@@ -97,5 +97,5 @@ public abstract class Factory extends Building {
 
 	protected abstract State getDefaultState();
 
-	protected abstract Trainable getTrainable(int index);
+	protected abstract Trainee getTrainable(int index);
 }
