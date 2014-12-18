@@ -29,19 +29,19 @@ public class WatchTower extends Building implements Fighter, Watcher {
   private static final Vector2i DIMENSION = new Vector2i(3, 3);
   private static Texture texture;
 
-  public WatchTower(Tile originTile, Team team, GameEventHandler game) {
-    super(originTile, MAX_HEALTH, team, game, DIMENSION);
-    try {
-      if (texture == null) {
-        texture = new Texture();
-        texture.loadFromFile(Paths.get(TEXTURE_PATH));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    sprite.setTexture(texture);
-    setSpritePos();
-  }
+	public WatchTower(Tile originTile, Team team, GameEventHandler game) {
+		super(originTile, MAX_HEALTH, team, game, DIMENSION);
+		try {
+			if (texture == null) {
+				texture = new Texture();
+				texture.loadFromFile(Paths.get(TEXTURE_PATH));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		sprite.setTexture(texture);
+		setSpritePos();
+	}
 
   @Override
   public void attack() {
