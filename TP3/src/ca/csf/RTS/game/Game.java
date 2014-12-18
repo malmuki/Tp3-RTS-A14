@@ -74,11 +74,6 @@ public class Game implements GameEventHandler {
 			add(new Worker(map[i][12], player, this));
 		}
 
-		add(new TownCenter(map[MAP_SIZE - 10][MAP_SIZE - 10], computer, this));
-		for (int i = 2; i < 13; i += 2) {
-			add(new Worker(map[MAP_SIZE - i][MAP_SIZE - 12], computer, this));
-		}
-
 		Random random = new Random();
 
 		placeTree(1000, random);
