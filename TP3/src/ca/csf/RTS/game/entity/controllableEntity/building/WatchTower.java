@@ -20,7 +20,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class WatchTower extends Building implements Fighter, Watcher {
 
-  private static String TEXTURE_PATH = "./ressource/tower.png";
+  private static String TEXTURE_PATH = "./ressource/watchtower.png";
   private static final int MAX_HEALTH = 350;
   private static final String NAME = "WatchTower";
   private static final int RANGE = 10;
