@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.jsfml.graphics.Texture;
+import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
@@ -19,28 +20,30 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class FootMan extends Human implements Fighter {
 
-	static {
+	private static Texture texture;
+	private static final int MAX_HEALTH = 100;
+	private static final String NAME = "Footman";
+	private static final int RANGE = 1;
+	private static final int DAMAGE = 10;
+	private static final float ATTACK_DELAY = 0.5f;
+
+	@Override
+	 public float getAttackDelay() {
+	   return ATTACK_DELAY;
+	 }
+
+	public FootMan(Tile originTile, Team team, GameEventHandler game) {
+		super(originTile, MAX_HEALTH, team, game);
 		try {
-			texture = new Texture();
-			texture.loadFromFile(Paths.get("./ressource/soldat.png"));
+			if (texture == null) {
+				texture = new Texture();
+				texture.loadFromFile(Paths.get("./ressource/Soldat.png"));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private static final int MAX_HEALTH = 100;
-	private static final String NAME = "Footman";
-	private static final int RANGE = 15;
-	private static final int DAMAGE = 10;
-	
-	//private static final float  ATTACK_DELAY = 2f;
-
-//	public float getAttackDelay() {
-//		return ATTACK_DELAY;
-//	}
-	
-	public FootMan(Tile originTile, Team team, GameEventHandler game) {
-		super(originTile, MAX_HEALTH, team, game);
+		sprite.setTexture(texture);
+		setSpritePos();
 	}
 
 	@Override
@@ -84,13 +87,9 @@ public class FootMan extends Human implements Fighter {
 					}
 				}
 				break;
-				
+
 			case blocked:
 				stateStack.push(new Attack(this));
-				break;
-				
-			case targetSighted:
-				//stateStack.push(new Attack(this));
 				break;
 
 			case targetTooFar:
@@ -111,7 +110,7 @@ public class FootMan extends Human implements Fighter {
 
 	@Override
 	public Entity search() {
-		return PathFinder.findClosestEnnemy(this, 24);
+		return PathFinder.findClosestEnnemy(this, 35);
 	}
 
 	@Override
@@ -127,5 +126,10 @@ public class FootMan extends Human implements Fighter {
 	@Override
 	public String getName() {
 		return NAME;
+	}
+
+	@Override
+	public Vector2i getCenter() {
+		return tilesOrigin.getMapLocation();
 	}
 }

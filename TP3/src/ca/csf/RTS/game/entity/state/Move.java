@@ -29,12 +29,17 @@ public class Move implements State {
 	@Override
 	public StateInteraction action(float deltaTime) {
 		if (human.getTilesOrigin().getDistance(finalDestination) <= 14) {
-
-			moveProgression += deltaTime;
-			if (finalDestination.getOnTile() == null && human.moveToTile(finalDestination, moveProgression)) {
+			if (finalDestination.getOnTile() != null) {
+				human.moveToTile(human.getTilesOrigin(), 0);
 				return StateInteraction.ended;
+			} else {
+				moveProgression += deltaTime;
+				if (human.moveToTile(finalDestination, moveProgression)) {
+					return StateInteraction.ended;
+				}
+				return StateInteraction.notFinished;
 			}
-			return StateInteraction.notFinished;
+
 		} else {
 			if (next == null) { // If there is no next, pathfind to the end
 
@@ -53,17 +58,17 @@ public class Move implements State {
 					}
 
 				} else { // if there is something on the next tile, either repathfind to the end OR repathfind to the target
-
+					moveProgression = 0;
+					human.moveToTile(human.getTilesOrigin(), moveProgression);
 					human.getStateStack().clear();
-
-					if (human.getTarget() != null) {
-						return StateInteraction.blocked;
-					} else {
+					if (next.getOnTile() != human.getTarget()) {
 						PathFinder.findPath(human, finalDestination);
 						return StateInteraction.notFinished;
+
+					} else {
+						return StateInteraction.blocked;
 					}
 				}
-				// TODO: test if the next has stuff on it, if so, repathfind...
 			}
 		}
 	}

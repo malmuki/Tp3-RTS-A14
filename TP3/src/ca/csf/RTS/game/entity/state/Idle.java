@@ -8,7 +8,7 @@ public class Idle implements State {
 
   @Override
 	public StateInteraction action(float deltaTime) {
-		return StateInteraction.ended;
+		return StateInteraction.notFinished;
 		
 	}
 }

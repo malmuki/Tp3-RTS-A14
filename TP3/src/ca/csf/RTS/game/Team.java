@@ -7,8 +7,8 @@ import org.jsfml.graphics.Color;
 import ca.csf.RTS.game.entity.Entity;
 
 public class Team {
-	private int wood = 0;
-	private int stone = 0;
+	private int wood = 150;
+	private int stone = 150;
 	private ArrayList<Entity> units;
 	private String name;
 	private Color color;

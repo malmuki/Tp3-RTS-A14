@@ -17,20 +17,22 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Worker extends Human {
 
-	static {
-		try {
-			texture = new Texture();
-			texture.loadFromFile(Paths.get("./ressource/Soldat.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	private Texture texture;
 	private static final int MAX_HEALTH = 100;
 	private static final String NAME = "Worker";
 
 	public Worker(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, MAX_HEALTH, team, game);
+		try {
+			if (texture == null) {
+				texture = new Texture();
+				texture.loadFromFile(Paths.get("./ressource/worker.gif"));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		sprite.setTexture(texture);
+		setSpritePos();
 	}
 
 	@Override
@@ -56,24 +58,27 @@ public class Worker extends Human {
 			case ended:
 				stateStack.pop();
 				if (stateStack.isEmpty()) {
-					stateStack.push(getDefaultState());
+					if (target != null) {
+						stateStack.push(new Gathering(this));
+					}else {
+						stateStack.push(getDefaultState());
+					}
 				}
-
+				
 				break;
 			case targetTooFar:
 				stateStack.push(new Move(target.getTilesOrigin(), this));
-				break;
-			case notEnoughRessources:
-				// afficher ou dire qu'il manque des ressource puis pop
-				break;
-			case spaceIsOccupied:
-				// afficher ou dire qu'il manque de place puis pop
 				break;
 			case targetUnreachable:
 
 				break;
 			case ressourceDepleted:
+				stateStack.pop();
 				setTarget(search());
+				break;
+			case dead:
+				game.remove(this);
+				break;
 			default:
 				break;
 			}
@@ -82,7 +87,7 @@ public class Worker extends Human {
 
 	@Override
 	public Entity search() {
-		return PathFinder.findClosestRessource(this, 50);
+		return PathFinder.findClosestRessource(this, 150);
 	}
 
 	@Override

@@ -25,11 +25,9 @@ import org.jsfml.window.event.KeyEvent;
 import org.jsfml.graphics.Text;
 
 import ca.csf.RTS.Menu.model.Menu;
-import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
-import ca.csf.RTS.game.entity.controllableEntity.Fighter;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.ressource.Ressource;
 import ca.csf.RTS.game.sound.MusicPlayer;
@@ -229,6 +227,8 @@ public class GameController {
 				case KEY_PRESSED:
 					if (keyEvent.key == Key.ESCAPE) {
 						window.close();
+					}else if (keyEvent.key == Key.NUM0) {
+						game.allo();
 					}
 					break;
 				case LOST_FOCUS:

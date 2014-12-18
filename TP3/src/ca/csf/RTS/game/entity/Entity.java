@@ -8,7 +8,7 @@ import ca.csf.RTS.game.Team;
 public abstract class Entity extends GameObject {
 
 	protected Tile tilesOrigin;
-	protected Vector2i dimentions;
+	protected Vector2i dimensions;
 	protected boolean selected;
 	protected Team team;
 
@@ -17,8 +17,6 @@ public abstract class Entity extends GameObject {
 		selected = false;
 		this.tilesOrigin = tiles;
 		this.team = team;
-		sprite.setTexture(texture);
-		setSpritePos();
 		team.addUnit(this);
 	}
 
@@ -28,23 +26,18 @@ public abstract class Entity extends GameObject {
 
 	@Override
 	protected void setSpritePos() {
-		//if the entity take 1 tile but the sprite is bigger that the tile
-		if (sprite.getTexture().getSize().y > Tile.TILE_SIZE) {
-			sprite.setPosition(getTilesOrigin().getMapLocation().x * Tile.TILE_SIZE,
-					getTilesOrigin().getMapLocation().y * Tile.TILE_SIZE
-							- sprite.getTexture().getSize().y + Tile.TILE_SIZE);
+		// if the entity take 1 tile but the sprite is bigger that the tile
+		sprite.setPosition(tilesOrigin.getMapLocation().x * Tile.TILE_SIZE, tilesOrigin.getMapLocation().y * Tile.TILE_SIZE);
+
+	}
+
+	public Vector2i getDimention() {
+		if (dimensions != null) {
+			return dimensions;
 		} else {
-			sprite.setPosition(tilesOrigin.getMapLocation().x * Tile.TILE_SIZE,
-					tilesOrigin.getMapLocation().y * Tile.TILE_SIZE);
+			return new Vector2i(1, 1);
 		}
-	}
 
-	public int getHeight() {
-		return dimentions.x;
-	}
-
-	public int getWidth() {
-		return dimentions.y;
 	}
 
 	public void select() {
