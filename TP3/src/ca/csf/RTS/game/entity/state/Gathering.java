@@ -5,7 +5,7 @@ import ca.csf.RTS.game.entity.ressource.Ressource;
 
 public class Gathering implements State {
 
-	private static final float MIN_COLLECT_TIME = 1.0f;
+	private static final float MIN_COLLECT_TIME = 0.1f;
 	private static final int RESSOURCES_PER_COLLECT_TIME = 1;
 
 	private Worker worker;
@@ -29,7 +29,9 @@ public class Gathering implements State {
 					case "Stone":
 						worker.getTeam().addStone(((Ressource) worker.getTarget()).removeRessources(RESSOURCES_PER_COLLECT_TIME));
 						if (((Ressource) worker.getTarget()).getRessources() <= 0) {
-							worker.getGame().remove(worker.getTarget());
+							if (worker.getTarget() == worker.getTarget().getTilesOrigin().getOnTile()) {
+								worker.getGame().remove(worker.getTarget());
+							}
 							worker.setTarget(null);
 							return StateInteraction.ressourceDepleted;
 						}
@@ -37,7 +39,10 @@ public class Gathering implements State {
 					case "Tree":
 						worker.getTeam().addWood(((Ressource) worker.getTarget()).removeRessources(RESSOURCES_PER_COLLECT_TIME));
 						if (((Ressource) worker.getTarget()).getRessources() <= 0) {
-							worker.getGame().remove(worker.getTarget());
+							if (worker.getTarget() == worker.getTarget().getTilesOrigin().getOnTile()) {
+								worker.getGame().remove(worker.getTarget());
+							}
+
 							worker.setTarget(null);
 							return StateInteraction.ressourceDepleted;
 						}

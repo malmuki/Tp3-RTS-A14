@@ -76,12 +76,12 @@ public class PathFinder {
 			currentTile = listsParent[currentTile];
 		}
 
-		boolean pathComplete = true;
+		boolean pathComplete = false;
 
-		while (pathComplete) {
+		while (!pathComplete) {
 			movingHuman.getStateStack().push(new Move(goal, map[listsX[currentTile]][listsY[currentTile]], movingHuman));
 			if (listsParent[currentTile] == 0) {
-				pathComplete = false;
+				pathComplete = true;
 			} else {
 				currentTile = listsParent[currentTile];
 			}
@@ -132,47 +132,54 @@ public class PathFinder {
 	}
 
 	private static void addToOpenList(int x, int y, int parentID, Human searchingHuman) {
+		boolean isAdjacent = false;
 		if (x >= 0 && y >= 0 && x < Game.MAP_SIZE && y < Game.MAP_SIZE) { // if tile exists
-			if ((!map[x][y].hasObstacle() || map[x][y].getOnTile() == searchingHuman.getTarget()) && closedListContains(x, y) == 0) { // if it's not in the
-																																		// closed list and it
-																																		// has no obstacle
-				int openListID = openListContains(x, y); // search for the tile in the openList
-				if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
-					int gMovementCost;
-					if (listsX[listsParent[parentID]] != x && listsY[listsParent[parentID]] != y) { // if diagonal with the currently explored tile
-						gMovementCost = 14;
-					} else {
-						gMovementCost = 10;
-					}
-					if (listsGCost[openListID] > listsGCost[parentID] + gMovementCost) {
-						listsParent[openListID] = parentID;
-						listsGCost[openListID] = calculateG(openListID);
-						reOrderOpenList(openListID);
-					}
-				} else { // otherwise just add it to the list
-					openListCount++;
-					tilesChecked++;
-					openList[openListCount] = tilesChecked;
-					listsX[tilesChecked] = x;
-					listsY[tilesChecked] = y;
-					listsParent[tilesChecked] = parentID;
-					listsGCost[tilesChecked] = calculateG(tilesChecked);
-					listsHCost[tilesChecked] = calculateH(x, y);
-					listsFCost[tilesChecked] = listsGCost[tilesChecked] + listsHCost[tilesChecked];
+			int humanX = searchingHuman.getTilesOrigin().getMapLocation().x;
+			int humanY = searchingHuman.getTilesOrigin().getMapLocation().y;
+			if (humanX - 1 <= x && humanX + 1 >= x && humanY - 1 <= y && humanY + 1 >= y && !(humanX == x && humanY == y)) {
+				isAdjacent = true;
+			}
+			if ((isAdjacent && map[x][y].getOnTile() == null) || (!isAdjacent && !map[x][y].hasObstacle()) || map[x][y].getOnTile() == searchingHuman.getTarget()) { // if it's not in the
+				if (closedListContains(x, y) == 0) {
+					int openListID = openListContains(x, y); // search for the tile in the openList
+					if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
+						int gMovementCost;
+						if (listsX[listsParent[parentID]] != x && listsY[listsParent[parentID]] != y) { // if diagonal with the currently explored tile
+							gMovementCost = 14;
+						} else {
+							gMovementCost = 10;
+						}
+						if (listsGCost[openListID] > listsGCost[parentID] + gMovementCost) {
+							listsParent[openListID] = parentID;
+							listsGCost[openListID] = calculateG(openListID);
+							reOrderOpenList(openListID);
+						}
+					} else { // otherwise just add it to the list
+						openListCount++;
+						tilesChecked++;
+						openList[openListCount] = tilesChecked;
+						listsX[tilesChecked] = x;
+						listsY[tilesChecked] = y;
+						listsParent[tilesChecked] = parentID;
+						listsGCost[tilesChecked] = calculateG(tilesChecked);
+						listsHCost[tilesChecked] = calculateH(x, y);
+						listsFCost[tilesChecked] = listsGCost[tilesChecked] + listsHCost[tilesChecked];
 
-					int currentLocation = openListCount;
-					int temp;
+						int currentLocation = openListCount;
+						int temp;
 
-					while (currentLocation != 1 && listsFCost[openList[currentLocation]] < listsFCost[openList[currentLocation / 2]]) {
-						temp = openList[currentLocation];
-						openList[currentLocation] = openList[currentLocation / 2];
-						openList[currentLocation / 2] = temp;
-						currentLocation /= 2;
+						while (currentLocation != 1 && listsFCost[openList[currentLocation]] < listsFCost[openList[currentLocation / 2]]) {
+							temp = openList[currentLocation];
+							openList[currentLocation] = openList[currentLocation / 2];
+							openList[currentLocation / 2] = temp;
+							currentLocation /= 2;
+						}
 					}
 				}
 			}
 		}
-	}
+
+	 }
 
 	private static int closedListContains(int x, int y) {
 		for (int i = 1; i <= tilesChecked - openListCount; i++) {

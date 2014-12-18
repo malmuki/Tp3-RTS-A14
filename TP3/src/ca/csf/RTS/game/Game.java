@@ -11,6 +11,7 @@ import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Tree;
@@ -26,7 +27,7 @@ public class Game implements GameEventHandler {
 	private ArrayList<Entity> selectedList;
 	private ArrayList<Entity> toBeDeleted;
 	private ArrayList<Entity> toBeCreated;
-	
+
 	private Team player;
 	private Team computer;
 	private Team nature;
@@ -38,8 +39,7 @@ public class Game implements GameEventHandler {
 	private Worker worker;
 	private WatchTower watchtower;
 	private Barrack barrack;
-
-	
+	private TownCenter towncenter;
 
 	public Game() {
 		selectedList = new ArrayList<Entity>();
@@ -95,15 +95,22 @@ public class Game implements GameEventHandler {
 		add(barrack);
 
 		tree = new Tree(map[8][8], nature, this);
-		entityList.add(tree);
-		map[8][8].setOnTile(tree);
+		add(tree);
+		
+		Tree tree2 = new Tree(map[8][6], nature, this);
+		add(tree2);
 
+		towncenter = new TownCenter(map[40][20], player, this);
+		add(towncenter);
 	}
 
 	public void allo() {
 		if (selectedList.get(0).getName() == "Barrack") {
-			((Barrack)selectedList.get(0)).addToQueue(0);
+			((Barrack) selectedList.get(0)).addToQueue(0);
+		}else {
+			((TownCenter) selectedList.get(0)).addToQueue(0);
 		}
+		
 	}
 
 	public ArrayList<Entity> getAllEntity() {
