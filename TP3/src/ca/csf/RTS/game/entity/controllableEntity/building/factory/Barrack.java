@@ -72,4 +72,9 @@ public class Barrack extends Factory {
       return false;
     }
   }
+
+@Override
+public Vector2i getCenter() {
+	return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(3, 3));
+}
 }

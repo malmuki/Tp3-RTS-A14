@@ -62,4 +62,9 @@ public class Forge extends Factory {
   protected Trainee getTrainable(int index) {
     return null;
   }
+
+@Override
+public Vector2i getCenter() {
+	return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(3, 4));
+}
 }

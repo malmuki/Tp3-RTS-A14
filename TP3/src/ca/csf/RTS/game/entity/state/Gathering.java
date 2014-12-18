@@ -2,6 +2,7 @@ package ca.csf.RTS.game.entity.state;
 
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Ressource;
+import ca.csf.RTS.game.pathFinding.DirectionFinder;
 
 public class Gathering implements State {
 
@@ -19,11 +20,10 @@ public class Gathering implements State {
 	public StateInteraction action(float deltaTime) {
 
 		if (worker.getTarget() != null) {
-			if (worker.getTilesOrigin().getDistance(worker.getTarget().getTilesOrigin()) < 15) {
+			if (worker.getTilesOrigin().getDistance(DirectionFinder.getClosestLocation(worker)) <= 1) {
 				timeElapse += deltaTime;
 				if (timeElapse >= MIN_COLLECT_TIME) {
 					timeElapse = 0.0f;
-
 					switch (worker.getTarget().getName()) {
 					case "Stone":
 						worker.getTeam().addStone(((Ressource) worker.getTarget()).removeRessources(RESSOURCES_PER_COLLECT_TIME));

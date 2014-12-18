@@ -13,6 +13,7 @@ import ca.csf.RTS.game.entity.state.Gathering;
 import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.Move;
 import ca.csf.RTS.game.entity.state.State;
+import ca.csf.RTS.game.pathFinding.DirectionFinder;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Worker extends Human {
@@ -69,7 +70,7 @@ public class Worker extends Human {
 
           break;
         case targetTooFar:
-          stateStack.push(new Move(target.getTilesOrigin(), this));
+          stateStack.push(new Move(DirectionFinder.getClosestLocation(this), this));
           break;
         case targetUnreachable:
 
@@ -96,4 +97,5 @@ public class Worker extends Human {
   public String getName() {
     return NAME;
   }
+
 }
