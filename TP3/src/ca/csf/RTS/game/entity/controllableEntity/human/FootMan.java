@@ -21,18 +21,16 @@ public class FootMan extends Human implements Fighter {
   private static String TEXTURE_PATH = "./ressource/Soldat.png";
   private static Texture texture;
   private static final String NAME = "Footman";
-  private static final int RANGE = 1;
-  private static final int DAMAGE = 10;
-  private static final float ATTACK_DELAY = 0.5f;
+  private final int RANGE;
+  private final int DAMAGE;
+  private final float ATTACK_DELAY;
   private static final int ENNEMY_SEARCH_RANGE = 35; // this accounts for 10 per horizontal move and 14 for diagonal
-
-  @Override
-  public float getAttackDelay() {
-    return ATTACK_DELAY;
-  }
 
   public FootMan(Tile originTile, Team team, GameEventHandler game) {
     super(originTile, team, game, team.getFootManModel().getHealthMax());
+    RANGE = team.getFootManModel().getRange();
+    DAMAGE = team.getFootManModel().getDamage();
+    ATTACK_DELAY = team.getFootManModel().getAttackDelay();
     try {
       if (texture == null) {
         texture = new Texture();
@@ -43,6 +41,11 @@ public class FootMan extends Human implements Fighter {
     }
     sprite.setTexture(texture);
     setSpritePos();
+  }
+  
+  @Override
+  public float getAttackDelay() {
+    return ATTACK_DELAY;
   }
 
   @Override
