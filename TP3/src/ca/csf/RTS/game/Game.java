@@ -116,6 +116,7 @@ public class Game implements GameEventHandler {
 		}
 	}
 
+
 	public void allo() {
 		if (selectedList.get(0).getName() == "Barrack") {
 			((Barrack) selectedList.get(0)).addToQueue(0);
@@ -236,5 +237,9 @@ public class Game implements GameEventHandler {
 
 	public Team getPlayerTeam() {
 		return player;
+	}
+
+	public void btnAction(int i) {
+
 	}
 }

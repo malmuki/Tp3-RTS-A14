@@ -3,6 +3,7 @@ package ca.csf.RTS.game;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
@@ -71,17 +72,14 @@ public class GameController {
 	private RectangleShape treeRessource = new RectangleShape(new Vector2f(UISizeWidth * 0.47f, UISizeHeight * 0.10f));
 	private RectangleShape selectedEntityIcon = new RectangleShape(new Vector2f(UISizeWidth * 0.65f, UISizeHeight * 0.18f));
 	private ArrayList<Texture> buildingImageButtons = new ArrayList<Texture>(9);
-	private RectangleShape buildingTabRectangle1 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
-	private RectangleShape buildingTabRectangle2 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
-	private RectangleShape buildingTabRectangle3 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
-	private RectangleShape buildingTabRectangle4 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
-	private RectangleShape buildingTabRectangle5 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
-	private RectangleShape buildingTabRectangle6 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
+	private RectangleShape[] buildingTabRectangle = new RectangleShape[6];
+	
 
 	// temporary
 	private Texture spriteTest = new Texture();
 
 	public GameController() {
+		Arrays.fill(buildingTabRectangle, new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f)));
 		music = new MusicPlayer();
 		game = new Game();
 		try {
@@ -232,27 +230,27 @@ public class GameController {
 						if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.20f
 								&& mousePos.y <= UISizeHeight * 0.28f) {
-							game.allo();
+							
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.20f
 								&& mousePos.y <= UISizeHeight * 0.28f) {
-							game.allo();
+							game.btnAction(1);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.30f
 								&& mousePos.y <= UISizeHeight * 0.38f) {
-							game.allo();
+							game.btnAction(2);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.30f
 								&& mousePos.y <= UISizeHeight * 0.38f) {
-							game.allo();
+							game.btnAction(3);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.40f
 								&& mousePos.y <= UISizeHeight * 0.48f) {
-							game.allo();
+							game.btnAction(4);
 						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
 								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.40f
 								&& mousePos.y <= UISizeHeight * 0.488f) {
-							game.allo();
+							game.btnAction(5);
 						}
 
 					}
@@ -283,6 +281,10 @@ public class GameController {
 			}
 		}
 	}
+
+	//public void {
+		
+	//}
 
 	private void initializeGUI() {
 
@@ -321,12 +323,12 @@ public class GameController {
 		selectedEntityAttackSpeed.setColor(Color.CYAN);
 		selectedEntityAttackSpeed.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
 
-		buildingTabRectangle1.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.20f);
-		buildingTabRectangle2.setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.20f);
-		buildingTabRectangle3.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.30f);
-		buildingTabRectangle4.setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.30f);
-		buildingTabRectangle5.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.40f);
-		buildingTabRectangle6.setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.40f);
+		buildingTabRectangle[0].setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.20f);
+		buildingTabRectangle[1].setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.20f);
+		buildingTabRectangle[2].setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.30f);
+		buildingTabRectangle[3].setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.30f);
+		buildingTabRectangle[4].setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.40f);
+		buildingTabRectangle[5].setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.40f);
 
 		rockRessource.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.05f);
 		treeRessource.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.1f);
@@ -346,12 +348,9 @@ public class GameController {
 		if (!game.getAllSelected().isEmpty()) {
 			buildingImageButtons.clear();
 			selectedEntityIcon.setFillColor(Color.WHITE);
-			buildingTabRectangle1.setFillColor(Color.WHITE);
-			buildingTabRectangle2.setFillColor(Color.WHITE);
-			buildingTabRectangle3.setFillColor(Color.WHITE);
-			buildingTabRectangle4.setFillColor(Color.WHITE);
-			buildingTabRectangle5.setFillColor(Color.WHITE);
-			buildingTabRectangle6.setFillColor(Color.WHITE);
+			for (RectangleShape rect : buildingTabRectangle) {
+				rect.setFillColor(Color.WHITE);
+			}
 			switch (game.getAllSelected().get(0).getName()) {
 			case "Footman":
 				FootMan entityFootman = (FootMan) game.getAllSelected().get(0);
@@ -360,12 +359,9 @@ public class GameController {
 				selectedEntityHP.setString("Health : " + (entityFootman.getHP()) + " / " + entityFootman.getMaxHealth());
 				selectedEntityRange.setString("Range : " + (entityFootman.getRange()));
 				selectedEntityAttackSpeed.setString("APS : " + (1 / (entityFootman.getAttackDelay())));
-				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				for (RectangleShape rect : buildingTabRectangle) {
+					rect.setFillColor(Color.TRANSPARENT);
+				}
 				if (!selectedEntityIcon.equals(footman)) {
 					selectedEntityIcon.setTexture(footman);
 				}
@@ -382,12 +378,11 @@ public class GameController {
 				buildingImageButtons.add(barrack);
 				buildingImageButtons.add(forge);
 				buildingImageButtons.add(watchtower);
-				buildingTabRectangle1.setTexture(buildingImageButtons.get(0));
-				buildingTabRectangle2.setTexture(buildingImageButtons.get(1));
-				buildingTabRectangle3.setTexture(buildingImageButtons.get(2));
-				buildingTabRectangle4.setTexture(buildingImageButtons.get(3));
-				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				for(int i = 0; i <= 3;i++){
+					buildingTabRectangle[i].setTexture(buildingImageButtons.get(i));
+				}
+				buildingTabRectangle[4].setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle[5].setFillColor(Color.TRANSPARENT);
 				if (!selectedEntityIcon.equals(entityWorker.getHP())) {
 					// selectedUnitIcon.setTexture(worker);
 				}
@@ -400,12 +395,10 @@ public class GameController {
 				selectedEntityAttackSpeed.setString("");
 				selectedEntityHP.setString("Health : " + (entityTownCenter.getHP()) + " / " + entityTownCenter.getMaxHealth());
 				buildingImageButtons.add(worker);
-				buildingTabRectangle1.setTexture(buildingImageButtons.get(0));
-				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				for (RectangleShape rect : buildingTabRectangle) {
+					rect.setFillColor(Color.TRANSPARENT);
+				}
+				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
 				if (!selectedEntityIcon.equals(towncenter)) {
 					selectedEntityIcon.setTexture(towncenter);
 				}
@@ -420,12 +413,10 @@ public class GameController {
 				selectedEntityAttackSpeed.setString("");
 				selectedEntityHP.setString("Health : " + (entityBarrack.getHP()) + " / " + entityBarrack.getMaxHealth());
 				buildingImageButtons.add(footman);
-				buildingTabRectangle1.setTexture(buildingImageButtons.get(0));
-				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				for (RectangleShape rect : buildingTabRectangle) {
+					rect.setFillColor(Color.TRANSPARENT);
+				}
+				buildingTabRectangle[1].setTexture(buildingImageButtons.get(0));
 				if (!selectedEntityIcon.equals(barrack)) {
 					selectedEntityIcon.setTexture(barrack);
 				}
@@ -438,12 +429,9 @@ public class GameController {
 				selectedEntityDamage.setString("Damage : " + (entityWatchTower.getDamage()));
 				selectedEntityRange.setString("Range : " + (entityWatchTower.getRange()));
 				selectedEntityAttackSpeed.setString("APS : " + (1 / (entityWatchTower.getAttackDelay())));
-				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				for (RectangleShape rect : buildingTabRectangle) {
+					rect.setFillColor(Color.TRANSPARENT);
+				}
 				selectedEntityHP.setString("Health : " + (entityWatchTower.getHP()) + " / " + entityWatchTower.getMaxHealth());
 				if (!selectedEntityIcon.equals(watchtower)) {
 					selectedEntityIcon.setTexture(watchtower);
@@ -453,26 +441,20 @@ public class GameController {
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
-				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				for (RectangleShape rect : buildingTabRectangle) {
+					rect.setFillColor(Color.TRANSPARENT);
+				}
 				break;
 			case "Tree":
 				Tree entityTree = (Tree) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityTree.getName());
-				selectedEntityHP.setString("Ressources : " + Integer.toString(entityTree.getRessources()));
+				selectedEntityHP.setString("Ressources : " + (entityTree.getRessources()));
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
-				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				for (RectangleShape rect : buildingTabRectangle) {
+					rect.setFillColor(Color.TRANSPARENT);
+				}
 				if (!selectedEntityIcon.equals(treeSprite)) {
 					selectedEntityIcon.setTexture(treeSprite);
 				}
@@ -480,19 +462,16 @@ public class GameController {
 			case "Stone":
 				Stone entityRock = (Stone) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityRock.getName());
-				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
-				selectedEntityHP.setString("Ressources : " + Integer.toString(entityRock.getRessources()));
+				selectedEntityHP.setString("Ressources : " + (entityRock.getRessources()));
 				selectedEntityRange.setString("");
 				selectedEntityDamage.setString("");
 				selectedEntityAttackSpeed.setString("");
-				// if(!selectedEntityIcon.equals(rockSprite)){
-				// selectedEntityIcon.setTexture(rockSprite);
-				// }
+				for (RectangleShape rect : buildingTabRectangle) {
+					rect.setFillColor(Color.TRANSPARENT);
+				}
+				 if(!selectedEntityIcon.equals(rockIconTexture)){
+					 selectedEntityIcon.setTexture(rockIconTexture);
+				 }
 				break;
 			case "WhateverOtherBuildingsWeHave":
 				break;
@@ -501,12 +480,9 @@ public class GameController {
 			}
 		} else {
 			selectedEntityIcon.setFillColor(Color.TRANSPARENT);
-			buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
-			buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
-			buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
-			buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
-			buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
-			buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+			for (RectangleShape rect : buildingTabRectangle) {
+				rect.setFillColor(Color.TRANSPARENT);
+			}
 			selectedEntityAttackSpeed.setString("");
 			selectedEntityDamage.setString("");
 			selectedEntityHP.setString("");
@@ -531,12 +507,9 @@ public class GameController {
 		window.draw(selectedEntityAttackSpeed);
 		window.draw(labelTreeRessource);
 		window.draw(labelRockRessource);
-		window.draw(buildingTabRectangle1);
-		window.draw(buildingTabRectangle2);
-		window.draw(buildingTabRectangle3);
-		window.draw(buildingTabRectangle4);
-		window.draw(buildingTabRectangle5);
-		window.draw(buildingTabRectangle6);
+		for(int i = 0;i <= 5;i++){
+			window.draw(buildingTabRectangle[i]);
+		}
 	}
 
 	public MusicPlayer getMusic() {
