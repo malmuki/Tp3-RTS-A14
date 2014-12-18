@@ -19,8 +19,9 @@ public abstract class Factory extends Building {
 	protected GameObject rallyPoint;
 	protected ArrayList<Trainee> trainingQueue;
 
-	public Factory(Tile originTile, int maxHealth, Team team, GameEventHandler game, Vector2i dimension) {
-		super(originTile, maxHealth, team, game, dimension);
+	public Factory(Tile originTile, Team team, GameEventHandler game, Vector2i dimension, int healthMax) {
+		super(originTile, team, game, dimension, healthMax);
+		
 		rallyPoint = null;
 		trainingQueue = new ArrayList<Trainee>();
 	}

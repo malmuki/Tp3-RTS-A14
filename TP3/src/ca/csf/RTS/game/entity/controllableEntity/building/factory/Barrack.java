@@ -18,12 +18,11 @@ public class Barrack extends Factory {
 
   private static String TEXTURE_PATH = "./ressource/barrack.png";
   private static Texture texture;
-  private static final int MAX_HEALTH = 1000;
   private static final String NAME = "Barrack";
   private static final Vector2i DIMENSION = new Vector2i(6, 6);
 
   public Barrack(Tile originTile, Team team, GameEventHandler game, int healthModifier) {
-    super(originTile, MAX_HEALTH + healthModifier, team, game, DIMENSION);
+    super(originTile, team, game, DIMENSION, team.getBarrackModel().getHealthMax());
     try {
       if (texture == null) {
         texture = new Texture();
