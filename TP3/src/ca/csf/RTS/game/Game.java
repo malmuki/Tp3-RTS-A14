@@ -75,6 +75,8 @@ public class Game implements GameEventHandler {
 			add(new Worker(map[i][12], player, this));
 		}
 		
+		add(new Barrack(map[10][30], player, this, 0));
+		
 		add(new Tree(map[15][15], nature, this));
 		add(new Tree(map[17][15], nature, this));
 	}

@@ -1,14 +1,21 @@
 package ca.csf.RTS.game;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import org.jsfml.graphics.Color;
+import org.jsfml.graphics.ConstTexture;
+import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.Font;
+import org.jsfml.graphics.Image;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
@@ -64,22 +71,35 @@ public class GameController {
 	private Font arial = new Font();
 	private int UISizeWidth = VideoMode.getDesktopMode().width;
 	private int UISizeHeight = VideoMode.getDesktopMode().height;
-	private RectangleShape guiRectangle = new RectangleShape(new Vector2f(UISizeWidth,UISizeHeight));
-	private RectangleShape rockRessource = new RectangleShape(new Vector2f(UISizeWidth * 0.18f , UISizeHeight * 0.04f));
+	private RectangleShape guiRectangle = new RectangleShape(new Vector2f(UISizeWidth, UISizeHeight));
+	private RectangleShape rockRessource = new RectangleShape(new Vector2f(UISizeWidth * 0.18f, UISizeHeight * 0.04f));
 	private RectangleShape treeRessource = new RectangleShape(new Vector2f(UISizeWidth * 0.47f, UISizeHeight * 0.10f));
 	private RectangleShape selectedEntityIcon = new RectangleShape(new Vector2f(UISizeWidth * 0.65f, UISizeHeight * 0.18f));
+	private ArrayList<Texture> buildingImageButtons = new ArrayList<Texture>(9);
+	private RectangleShape buildingTabRectangle1 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
+	private RectangleShape buildingTabRectangle2 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
+	private RectangleShape buildingTabRectangle3 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
+	private RectangleShape buildingTabRectangle4 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
+	private RectangleShape buildingTabRectangle5 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
+	private RectangleShape buildingTabRectangle6 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
+
+	// temporary
+	private Texture spriteTest = new Texture();
 
 	public GameController() {
 		music = new MusicPlayer();
 		game = new Game();
 		try {
+			// temp
+			spriteTest.loadFromFile(Paths.get("./ressource/barrack.png"));
+			// temp
 			arial.loadFromFile(Paths.get("./ressource/ARIBLK.TTF"));
 			towncenter = new Texture();
 			towncenter.loadFromFile(Paths.get("./ressource/towncenter.png"));
 			barrack = new Texture();
 			barrack.loadFromFile(Paths.get("./ressource/barrack.png"));
 			forge = new Texture();
-			//forge.loadFromFile(Paths.get("./ressource/forge.png"));
+			// forge.loadFromFile(Paths.get("./ressource/forge.png"));
 			watchtower = new Texture();
 			watchtower.loadFromFile(Paths.get("./ressource/watchtower.png"));
 			treeSprite = new Texture();
@@ -98,6 +118,7 @@ public class GameController {
 			gazon.loadFromFile(Paths.get("./ressource/gazon.jpg"));
 			gazon.setRepeated(true);
 			gazon.setSmooth(true);
+			initializeGUI();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -177,7 +198,7 @@ public class GameController {
 				if (Keyboard.isKeyPressed(Key.S)) {
 					if (gameView.getCenter().y + (gameView.getSize().y / 2) < Game.MAP_SIZE * Tile.TILE_SIZE) {
 						gameView.move(0, dt * SENSITIVITY);
-					}else {
+					} else {
 						gameView.setCenter(gameView.getCenter().x, (Game.MAP_SIZE * Tile.TILE_SIZE) - gameView.getSize().y / 2);
 					}
 				}
@@ -212,7 +233,14 @@ public class GameController {
 					}
 					// pour les selection dans le UI
 				} else {
+					//if (Mouse.isButtonPressed(Button.LEFT)) {
+						if (mousePos.x >= ((gameView.getCenter().x + gameView.getSize().x / 2) + UISizeWidth * 0.20f)
+								&& mousePos.x <= ((gameView.getCenter().x + gameView.getSize().x / 2) + UISizeWidth * 0.48f)
+								&& mousePos.y >= (UISizeHeight * 0.08f) && mousePos.y <= (UISizeHeight * 0.28f)) {
+							game.allo();
+						}
 
+					//}
 				}
 			}
 
@@ -241,7 +269,7 @@ public class GameController {
 		}
 	}
 
-	private void drawGUI(RenderWindow window, Game game) throws IOException {
+	private void initializeGUI() {
 
 		labelTreeRessource.setFont(arial);
 		labelTreeRessource.setCharacterSize(50);
@@ -267,18 +295,25 @@ public class GameController {
 		selectedEntityDamage.setCharacterSize(40);
 		selectedEntityDamage.setColor(Color.CYAN);
 		selectedEntityDamage.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
-		
+
 		selectedEntityRange.setFont(arial);
 		selectedEntityRange.setCharacterSize(40);
 		selectedEntityRange.setColor(Color.CYAN);
 		selectedEntityRange.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
-		
+
 		selectedEntityAttackSpeed.setFont(arial);
 		selectedEntityAttackSpeed.setCharacterSize(40);
 		selectedEntityAttackSpeed.setColor(Color.CYAN);
 		selectedEntityAttackSpeed.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
 
-		rockRessource.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.05f);	
+		buildingTabRectangle1.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.20f);
+		buildingTabRectangle2.setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.20f);
+		buildingTabRectangle3.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.30f);
+		buildingTabRectangle4.setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.30f);
+		buildingTabRectangle5.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.40f);
+		buildingTabRectangle6.setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.40f);
+
+		rockRessource.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.05f);
 		treeRessource.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.1f);
 		selectedEntityName.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.62f);
 		selectedEntityIcon.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.65f);
@@ -286,11 +321,22 @@ public class GameController {
 		selectedEntityDamage.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.875f);
 		selectedEntityRange.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.90f);
 		selectedEntityAttackSpeed.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.925f);
-		labelRockRessource.setPosition(UISizeWidth * 0.50f,UISizeHeight * 0.055f);
-		labelTreeRessource.setPosition(UISizeWidth * 0.50f,UISizeHeight * 0.11f);
-		
+		labelRockRessource.setPosition(UISizeWidth * 0.50f, UISizeHeight * 0.055f);
+		labelTreeRessource.setPosition(UISizeWidth * 0.50f, UISizeHeight * 0.11f);
+
+	}
+
+	private void drawGUI(RenderWindow window, Game game) throws IOException {
+
 		if (!game.getAllSelected().isEmpty()) {
+			buildingImageButtons.clear();
 			selectedEntityIcon.setFillColor(Color.WHITE);
+			buildingTabRectangle1.setFillColor(Color.WHITE);
+			buildingTabRectangle2.setFillColor(Color.WHITE);
+			buildingTabRectangle3.setFillColor(Color.WHITE);
+			buildingTabRectangle4.setFillColor(Color.WHITE);
+			buildingTabRectangle5.setFillColor(Color.WHITE);
+			buildingTabRectangle6.setFillColor(Color.WHITE);
 			switch (game.getAllSelected().get(0).getName()) {
 			case "Footman":
 				FootMan entityFootman = (FootMan) game.getAllSelected().get(0);
@@ -298,11 +344,17 @@ public class GameController {
 				selectedEntityDamage.setString("Damage : " + (entityFootman.getDamage()));
 				selectedEntityHP.setString("Health : " + (entityFootman.getHP()) + " / " + entityFootman.getMaxHealth());
 				selectedEntityRange.setString("Range : " + (entityFootman.getRange()));
-				selectedEntityAttackSpeed.setString("APS : " + (1/(entityFootman.getAttackDelay())));
+				selectedEntityAttackSpeed.setString("APS : " + (1 / (entityFootman.getAttackDelay())));
+				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
 				if (!selectedEntityIcon.equals(footman)) {
 					selectedEntityIcon.setTexture(footman);
 				}
-				
+
 				break;
 			case "Worker":
 				selectedEntityName.setString("Worker");
@@ -311,8 +363,18 @@ public class GameController {
 				selectedEntityHP.setString("Health : " + (entityWorker.getHP()) + " / " + entityWorker.getMaxHealth());
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
-				if(!selectedEntityIcon.equals(entityWorker.getHP())){
-					//selectedUnitIcon.setTexture(worker);
+				buildingImageButtons.add(towncenter);
+				buildingImageButtons.add(barrack);
+				buildingImageButtons.add(forge);
+				buildingImageButtons.add(watchtower);
+				buildingTabRectangle1.setTexture(buildingImageButtons.get(0));
+				buildingTabRectangle2.setTexture(buildingImageButtons.get(1));
+				buildingTabRectangle3.setTexture(buildingImageButtons.get(2));
+				buildingTabRectangle4.setTexture(buildingImageButtons.get(3));
+				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				if (!selectedEntityIcon.equals(entityWorker.getHP())) {
+					// selectedUnitIcon.setTexture(worker);
 				}
 				break;
 			case "Town Center":
@@ -322,11 +384,18 @@ public class GameController {
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
 				selectedEntityHP.setString("Health : " + (entityTownCenter.getHP()) + " / " + entityTownCenter.getMaxHealth());
-				if(!selectedEntityIcon.equals(towncenter)){
+				buildingImageButtons.add(worker);
+				buildingTabRectangle1.setTexture(buildingImageButtons.get(0));
+				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				if (!selectedEntityIcon.equals(towncenter)) {
 					selectedEntityIcon.setTexture(towncenter);
 				}
-				//TODO
-			    // Set building tab to show trainable units
+				// TODO
+				// Set building tab to show trainable units
 				break;
 			case "Barrack":
 				Barrack entityBarrack = (Barrack) game.getAllSelected().get(0);
@@ -335,10 +404,17 @@ public class GameController {
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
 				selectedEntityHP.setString("Health : " + (entityBarrack.getHP()) + " / " + entityBarrack.getMaxHealth());
-				if(!selectedEntityIcon.equals(barrack)){
+				buildingImageButtons.add(footman);
+				buildingTabRectangle1.setTexture(buildingImageButtons.get(0));
+				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				if (!selectedEntityIcon.equals(barrack)) {
 					selectedEntityIcon.setTexture(barrack);
 				}
-				//TODO
+				// TODO
 				// Set building tab to show trainable units
 				break;
 			case "WatchTower":
@@ -346,9 +422,15 @@ public class GameController {
 				selectedEntityName.setString(entityWatchTower.getName());
 				selectedEntityDamage.setString("Damage : " + (entityWatchTower.getDamage()));
 				selectedEntityRange.setString("Range : " + (entityWatchTower.getRange()));
-				selectedEntityAttackSpeed.setString("APS : " + (1/(entityWatchTower.getAttackDelay())));
+				selectedEntityAttackSpeed.setString("APS : " + (1 / (entityWatchTower.getAttackDelay())));
+				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
 				selectedEntityHP.setString("Health : " + (entityWatchTower.getHP()) + " / " + entityWatchTower.getMaxHealth());
-				if(!selectedEntityIcon.equals(watchtower)){
+				if (!selectedEntityIcon.equals(watchtower)) {
 					selectedEntityIcon.setTexture(watchtower);
 				}
 				break;
@@ -356,7 +438,13 @@ public class GameController {
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
-				break;							
+				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+				break;
 			case "Tree":
 				Tree entityTree = (Tree) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityTree.getName());
@@ -364,6 +452,12 @@ public class GameController {
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
+				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
 				if (!selectedEntityIcon.equals(treeSprite)) {
 					selectedEntityIcon.setTexture(treeSprite);
 				}
@@ -371,13 +465,19 @@ public class GameController {
 			case "Stone":
 				Stone entityRock = (Stone) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityRock.getName());
+				buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
 				selectedEntityHP.setString("Ressources : " + Integer.toString(entityRock.getRessources()));
 				selectedEntityRange.setString("");
 				selectedEntityDamage.setString("");
 				selectedEntityAttackSpeed.setString("");
-				//if(!selectedEntityIcon.equals(rockSprite)){
-				//	selectedEntityIcon.setTexture(rockSprite);
-				//}
+				// if(!selectedEntityIcon.equals(rockSprite)){
+				// selectedEntityIcon.setTexture(rockSprite);
+				// }
 				break;
 			case "WhateverOtherBuildingsWeHave":
 				break;
@@ -386,6 +486,17 @@ public class GameController {
 			}
 		} else {
 			selectedEntityIcon.setFillColor(Color.TRANSPARENT);
+			buildingTabRectangle1.setFillColor(Color.TRANSPARENT);
+			buildingTabRectangle2.setFillColor(Color.TRANSPARENT);
+			buildingTabRectangle3.setFillColor(Color.TRANSPARENT);
+			buildingTabRectangle4.setFillColor(Color.TRANSPARENT);
+			buildingTabRectangle5.setFillColor(Color.TRANSPARENT);
+			buildingTabRectangle6.setFillColor(Color.TRANSPARENT);
+			selectedEntityAttackSpeed.setString("");
+			selectedEntityDamage.setString("");
+			selectedEntityHP.setString("");
+			selectedEntityName.setString("");
+			selectedEntityRange.setString("");
 		}
 		guiRectangle.setTexture(this.gui);
 		rockRessource.setTexture(this.rockIconTexture);
@@ -405,6 +516,12 @@ public class GameController {
 		window.draw(selectedEntityAttackSpeed);
 		window.draw(labelTreeRessource);
 		window.draw(labelRockRessource);
+		window.draw(buildingTabRectangle1);
+		window.draw(buildingTabRectangle2);
+		window.draw(buildingTabRectangle3);
+		window.draw(buildingTabRectangle4);
+		window.draw(buildingTabRectangle5);
+		window.draw(buildingTabRectangle6);
 	}
 
 	public MusicPlayer getMusic() {
