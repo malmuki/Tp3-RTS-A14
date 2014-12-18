@@ -48,10 +48,10 @@ public class TownCenter extends Factory {
   }
 
   @Override
-  protected Trainable getTrainable(int index) {
+  protected Trainee getTrainable(int index) {
     switch (index) {
       case 0:
-        return Trainable.WORKER;
+        return Trainee.WORKER;
       default:
         return null;
     }
