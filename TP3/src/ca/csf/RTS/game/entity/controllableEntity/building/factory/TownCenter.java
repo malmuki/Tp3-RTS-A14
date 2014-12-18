@@ -18,12 +18,11 @@ public class TownCenter extends Factory {
 
   private static String TEXTURE_PATH = "./ressource/towncenter.png";
   private static Texture texture;
-  private static final int MAX_HEALTH = 2000;
   private static final String NAME = "Town Center";
   private static final Vector2i DIMENSION = new Vector2i(8, 8);
 
   public TownCenter(Tile originTile, Team team, GameEventHandler game) {
-    super(originTile, MAX_HEALTH, team, game, DIMENSION);
+    super(originTile, team, game, DIMENSION, team.getTownCenterModel().getHealthMax());
     try {
       if (texture == null) {
         texture = new Texture();

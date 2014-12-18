@@ -16,12 +16,11 @@ public class Forge extends Factory {
 
   private static String TEXTURE_PATH = "./ressource/Soldat.png";
   private static Texture texture;
-  private static final int MAX_HEALTH = 1000;
   private static final String NAME = "Forge";
   private static final Vector2i DIMENSION = new Vector2i(5, 7);
 
   public Forge(Tile originTile, Team team, GameEventHandler game) {
-    super(originTile, MAX_HEALTH, team, game, DIMENSION);
+    super(originTile, team, game, DIMENSION, team.getForgeModel().getHealthMax());
     try {
       if (texture == null) {
         texture = new Texture();

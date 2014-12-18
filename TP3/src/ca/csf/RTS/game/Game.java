@@ -174,7 +174,6 @@ public class Game implements GameEventHandler {
 	public void remove(Entity entity) {
 		toBeDeleted.add(entity);
 		selectedList.remove(entity);
-		entity.getTeam().removeUnit(entity);
 
 		for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
 			for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {

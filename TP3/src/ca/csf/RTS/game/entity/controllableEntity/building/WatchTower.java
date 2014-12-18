@@ -21,7 +21,6 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 public class WatchTower extends Building implements Fighter, Watcher {
 
   private static String TEXTURE_PATH = "./ressource/tower.png";
-  private static final int MAX_HEALTH = 350;
   private static final String NAME = "WatchTower";
   private static final int RANGE = 10;
   private static final int DAMAGE = 20;
@@ -30,7 +29,7 @@ public class WatchTower extends Building implements Fighter, Watcher {
   private static Texture texture;
 
   public WatchTower(Tile originTile, Team team, GameEventHandler game) {
-    super(originTile, MAX_HEALTH, team, game, DIMENSION);
+    super(originTile, team, game, DIMENSION, team.getWatchTowerModel().getHealthMax());
     try {
       if (texture == null) {
         texture = new Texture();

@@ -27,12 +27,11 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	protected RectangleShape lifeBorder;
 	protected Entity target;
 
-	public ControlableEntity(Tile originTile, int healthMax, Team team, GameEventHandler game) {
+	public ControlableEntity(Tile originTile, Team team, GameEventHandler game, int healthMax) {
 		super(originTile, team, game);
-		this.healthMax = healthMax;
-		healthCurrent = healthMax;
 		stateStack = new Stack<State>();
-
+		this.healthMax = healthMax;
+		healthCurrent = this.healthMax;
 		lifeBar = new RectangleShape(new Vector2f(LIFE_BAR_W, LIFE_BAR_H));
 		lifeBar.setFillColor(Color.GREEN);
 		lifeBorder = new RectangleShape(new Vector2f(LIFE_BAR_W, LIFE_BAR_H));

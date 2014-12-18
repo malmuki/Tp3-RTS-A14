@@ -19,12 +19,11 @@ public class Worker extends Human {
 
   private static String TEXTURE_PATH = "./ressource/worker.gif";
   private Texture texture;
-  private static final int MAX_HEALTH = 100;
   private static final String NAME = "Worker";
   private static final int RESSOURCE_SEARCH_RANGE = 35; // this accounts for 10 per horizontal move and 14 for diagonal
 
   public Worker(Tile originTile, Team team, GameEventHandler game) {
-    super(originTile, MAX_HEALTH, team, game);
+    super(originTile, team, game, team.getWorkerModel().getHealthMax());
     try {
       if (texture == null) {
         texture = new Texture();

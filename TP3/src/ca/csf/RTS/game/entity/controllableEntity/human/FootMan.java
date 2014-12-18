@@ -22,7 +22,6 @@ public class FootMan extends Human implements Fighter {
 
   private static String TEXTURE_PATH = "./ressource/Soldat.png";
   private static Texture texture;
-  private static final int MAX_HEALTH = 100;
   private static final String NAME = "Footman";
   private static final int RANGE = 1;
   private static final int DAMAGE = 10;
@@ -35,7 +34,7 @@ public class FootMan extends Human implements Fighter {
   }
 
   public FootMan(Tile originTile, Team team, GameEventHandler game) {
-    super(originTile, MAX_HEALTH, team, game);
+    super(originTile, team, game, team.getFootManModel().getHealthMax());
     try {
       if (texture == null) {
         texture = new Texture();
