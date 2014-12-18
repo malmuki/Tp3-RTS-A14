@@ -33,7 +33,7 @@ public class WatchTower extends Building implements Fighter, Watcher {
 		try {
 			if (texture == null) {
 				texture = new Texture();
-				texture.loadFromFile(Paths.get("./ressource/tower.png"));
+				texture.loadFromFile(Paths.get("./ressource/watchtower.png"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

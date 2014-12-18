@@ -39,6 +39,8 @@ public class TownCenter extends Factory {
 	public String getName() {
 		return NAME;
 	}
+	
+	
 
 	protected State getDefaultState() {
 		return new Idle();

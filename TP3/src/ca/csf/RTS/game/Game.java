@@ -82,7 +82,12 @@ public class Game implements GameEventHandler {
 		footman2 = new FootMan(map[6][7], player, this);
 		add(footman2);
 		footman2.getStateStack().push(footman2.getDefaultState());
-
+		
+		add(new FootMan(map[7][7], computer, this));
+		add(new FootMan(map[8][7], computer, this));
+		add(new FootMan(map[9][7], computer, this));
+		add(new FootMan(map[10][7], computer, this));
+		
 		worker = new Worker(map[20][10], player, this);
 		add(worker);
 		worker.getStateStack().push(worker.getDefaultState());
