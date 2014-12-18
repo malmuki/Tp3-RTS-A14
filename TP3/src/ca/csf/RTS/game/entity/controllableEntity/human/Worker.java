@@ -58,9 +58,13 @@ public class Worker extends Human {
 			case ended:
 				stateStack.pop();
 				if (stateStack.isEmpty()) {
-					stateStack.push(getDefaultState());
+					if (target != null) {
+						stateStack.push(new Gathering(this));
+					}else {
+						stateStack.push(getDefaultState());
+					}
 				}
-
+				
 				break;
 			case targetTooFar:
 				stateStack.push(new Move(target.getTilesOrigin(), this));
@@ -69,6 +73,7 @@ public class Worker extends Human {
 
 				break;
 			case ressourceDepleted:
+				stateStack.pop();
 				setTarget(search());
 				break;
 			case dead:
