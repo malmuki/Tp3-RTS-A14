@@ -19,8 +19,7 @@ public class Gathering implements State {
 	public StateInteraction action(float deltaTime) {
 
 		if (worker.getTarget() != null) {
-
-			if (worker.getTilesOrigin().getDistance(worker.getTarget().getTilesOrigin()) < 14) {
+			if (worker.getTilesOrigin().getDistance(worker.getTarget().getTilesOrigin()) < 15) {
 				timeElapse += deltaTime;
 				if (timeElapse >= MIN_COLLECT_TIME) {
 					timeElapse = 0.0f;

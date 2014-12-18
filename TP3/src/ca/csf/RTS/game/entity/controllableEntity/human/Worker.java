@@ -87,7 +87,7 @@ public class Worker extends Human {
 
 	@Override
 	public Entity search() {
-		return PathFinder.findClosestRessource(this, 150);
+		return PathFinder.findClosestRessource(this, 35);
 	}
 
 	@Override
