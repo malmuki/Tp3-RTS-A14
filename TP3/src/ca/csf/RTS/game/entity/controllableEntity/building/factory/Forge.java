@@ -11,6 +11,9 @@ import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.State;
+import ca.csf.RTS.upgrades.FootmanUpgrade;
+import ca.csf.RTS.upgrades.WatchTowerUpgrade;
+import ca.csf.RTS.upgrades.WorkerUpgrade;
 
 public class Forge extends Factory {
 
@@ -33,8 +36,10 @@ public class Forge extends Factory {
     setSpritePos();
   }
 
+  @Override
   public void order(Entity onTile) {}
 
+  @Override
   public void order(Tile target) {}
 
   @Override
@@ -49,7 +54,20 @@ public class Forge extends Factory {
 
   @Override
   public boolean spawnNext() {
-    return false;
+    switch (trainingQueue.get(0)) {
+      case FOOTMAN_UPGRADE:
+        FootmanUpgrade.applyUpgrade(this.getTeam());
+        break;
+      case WORKER_UPGRADE:
+        WorkerUpgrade.applyUpgrade(this.getTeam());
+        break;
+      case TOWER_UPGRADE:
+        WatchTowerUpgrade.applyUpgrade(this.getTeam());
+        break;
+      default:
+        break;
+    }
+    return true;
   }
 
   @Override
@@ -59,11 +77,16 @@ public class Forge extends Factory {
 
   @Override
   protected Trainee getTrainable(int index) {
-    return null;
+    switch (index) {
+      case 0:
+        return Trainee.FOOTMAN;
+      default:
+        return null;
+    }
   }
 
-@Override
-public Vector2i getCenter() {
-	return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(3, 4));
-}
+  @Override
+  public Vector2i getCenter() {
+    return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(3, 4));
+  }
 }
