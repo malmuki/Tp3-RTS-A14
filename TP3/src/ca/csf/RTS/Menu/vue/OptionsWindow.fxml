@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="ca.csf.RTS.Menu.controller.MenuController">
+   <center>
+      <Pane prefHeight="275.0" prefWidth="291.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="14.0" layoutY="61.0" text="Volume musique :" />
+            <Slider fx:id="volumeMusicSlider" layoutX="137.0" layoutY="63.0" onMouseDragReleased="#dragRelease" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.csf.RTS.Menu.controller.MenuController">
+	<center>
+		<VBox alignment="CENTER" prefHeight="333.0" prefWidth="450.0">
+   <children>
+            <Pane prefHeight="335.0" prefWidth="450.0">
+               <children>
+         			<Button alignment="CENTER" layoutX="307.0" layoutY="142.0" onAction="#startGame" text="Start Game!" />
+         			<Button fx:id="btnOptions" alignment="CENTER" layoutX="317.0" layoutY="192.0" onAction="#optionsClick" text="Options" />
+                  <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="50.0" layoutY="67.0">
+                     <image>
+                        <Image url="knightFight~.gif" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="293.0" layoutY="84.0" text="TP3_RTS">
+                     <font>
+                        <Font name="Copperplate Gothic Bold" size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+   </children>
+		</VBox>
+	</center>
+</BorderPane>
