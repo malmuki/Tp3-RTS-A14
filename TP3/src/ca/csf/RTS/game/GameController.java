@@ -30,6 +30,7 @@ import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
 import ca.csf.RTS.game.entity.controllableEntity.Fighter;
+import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.ressource.Ressource;
 import ca.csf.RTS.game.sound.MusicPlayer;
 
@@ -281,12 +282,12 @@ public class GameController {
 		labelTreeRessource.setPosition(UISizeWidth * (0.45f),UISizeHeight * 0.11f);
 		
 		if (!game.getAllSelected().isEmpty()) {
+			selectedEntityIcon.setFillColor(Color.WHITE);
 			switch (game.getAllSelected().get(0).getName()) {
 			case "Footman":
-				Fightable entity = (Fightable) game.getAllSelected().get(0);
-				Fighter entityTemp = (Fighter)game.getAllSelected().get(0);
+				FootMan entity = (FootMan) game.getAllSelected().get(0);
 				selectedEntityName.setString("Footman");
-				selectedEntityDamage.setString("Damage : " + Integer.toString(entityTemp.getDamage()));
+				selectedEntityDamage.setString("Damage : " + Integer.toString(entity.getDamage()));
 				if(!selectedEntityIcon.equals(footman)){
 					selectedEntityIcon.setTexture(footman);
 				}
@@ -325,8 +326,9 @@ public class GameController {
 			default:
 				break;
 			}
+		} else {
+			selectedEntityIcon.setFillColor(Color.TRANSPARENT);
 		}
-		//selectedUnitIcon.setFillColor(Color.TRANSPARENT);
 		guiRectangle.setTexture(this.gui);
 		rockRessource.setTexture(this.rockIconTexture);
 		treeRessource.setTexture(this.treeIconTexture);
