@@ -5,7 +5,7 @@ import ca.csf.RTS.game.entity.ressource.Ressource;
 
 public class Gathering implements State {
 
-	private static final float MIN_COLLECT_TIME = 0.1f;
+	private static final float MIN_COLLECT_TIME = 1f;
 	private static final int RESSOURCES_PER_COLLECT_TIME = 1;
 
 	private Worker worker;

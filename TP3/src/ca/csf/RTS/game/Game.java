@@ -9,18 +9,19 @@ import org.jsfml.system.Vector2i;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
-import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
-import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Tree;
-import ca.csf.RTS.game.entity.state.Alert;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Game implements GameEventHandler {
 
 	public static final int MAP_SIZE = 150;
+
+	public static final String TEAM_PLAYER = "Idiot";
+	public static final String TEAM_COMPUTER = "Ennemy";
+	public static final String TEAM_NATURE = "Nature";
 
 	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
 	private ArrayList<Entity> entityList;
@@ -31,15 +32,6 @@ public class Game implements GameEventHandler {
 	private Team player;
 	private Team computer;
 	private Team nature;
-
-	// TEST: temporaire, à enlever
-	private FootMan footman1;
-	private FootMan footman2;
-	private Tree tree;
-	private Worker worker;
-	private WatchTower watchtower;
-	private Barrack barrack;
-	private TownCenter towncenter;
 
 	public Game() {
 		selectedList = new ArrayList<Entity>();
@@ -70,47 +62,32 @@ public class Game implements GameEventHandler {
 	public void newGame() {
 		PathFinder.initialisePathFinder(map);
 
-		player = new Team("Idiot", Color.YELLOW);
-		computer = new Team("Ennemy", Color.RED);
-		nature = new Team("Nature", Color.BLACK);
+		player = new Team(TEAM_PLAYER, Color.YELLOW);
+		computer = new Team(TEAM_COMPUTER, Color.RED);
+		nature = new Team(TEAM_NATURE, Color.BLACK);
 
-		// TEST: temporary, remove this
-		footman1 = new FootMan(map[20][20], computer, this);
-		add(footman1);
-		footman1.getStateStack().push(footman1.getDefaultState());
+		// stating stuff of the player
+		add(new TownCenter(map[2][2], player, this));
+		for (int i = 1; i < 12; i += 2) {
+			add(new Worker(map[i][12], player, this));
+		}
 
-		footman2 = new FootMan(map[6][7], player, this);
-		add(footman2);
-		footman2.getStateStack().push(footman2.getDefaultState());
-
-		worker = new Worker(map[20][10], player, this);
-		add(worker);
-		worker.getStateStack().push(worker.getDefaultState());
-
-		watchtower = new WatchTower(map[9][9], player, this);
-		add(watchtower);
-		watchtower.getStateStack().push(new Alert(watchtower));
-
-		barrack = new Barrack(map[4][22], player, this, 0);
-		add(barrack);
-
-		tree = new Tree(map[8][8], nature, this);
-		add(tree);
+		add(new TownCenter(map[MAP_SIZE - 100][MAP_SIZE - 100], computer, this));
+		for (int i = 1; i < 12; i += 2) {
+			add(new Worker(map[MAP_SIZE - i][MAP_SIZE - 12], computer, this));
+		}
 		
-		Tree tree2 = new Tree(map[8][6], nature, this);
-		add(tree2);
+		add(new Tree(map[15][15], nature, this));
 
-		towncenter = new TownCenter(map[40][20], player, this);
-		add(towncenter);
 	}
 
 	public void allo() {
 		if (selectedList.get(0).getName() == "Barrack") {
 			((Barrack) selectedList.get(0)).addToQueue(0);
-		}else {
+		} else {
 			((TownCenter) selectedList.get(0)).addToQueue(0);
 		}
-		
+
 	}
 
 	public ArrayList<Entity> getAllEntity() {
