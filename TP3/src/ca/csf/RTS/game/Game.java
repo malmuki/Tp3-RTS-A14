@@ -72,13 +72,13 @@ public class Game implements GameEventHandler {
 			add(new Worker(map[i][12], player, this));
 		}
 
-		add(new TownCenter(map[MAP_SIZE - 100][MAP_SIZE - 100], computer, this));
+		add(new TownCenter(map[MAP_SIZE - 10][MAP_SIZE - 10], computer, this));
 		for (int i = 1; i < 12; i += 2) {
 			add(new Worker(map[MAP_SIZE - i][MAP_SIZE - 12], computer, this));
 		}
 		
 		add(new Tree(map[15][15], nature, this));
-
+		add(new Tree(map[17][15], nature, this));
 	}
 
 	public void allo() {
