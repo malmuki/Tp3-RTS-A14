@@ -28,7 +28,7 @@ public class Move implements State {
 
 	@Override
 	public StateInteraction action(float deltaTime) {
-		if (human.getTilesOrigin().getDistance(finalDestination) <= 14) {
+		if (human.getTilesOrigin().getDistance(finalDestination) <= 1) {
 			if (finalDestination.getOnTile() != null) {
 				human.moveToTile(human.getTilesOrigin(), 0);
 				return StateInteraction.ended;

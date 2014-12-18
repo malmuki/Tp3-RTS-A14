@@ -15,6 +15,7 @@ import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
 import ca.csf.RTS.game.entity.ressource.Tree;
+import ca.csf.RTS.game.pathFinding.DirectionFinder;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Game implements GameEventHandler {
@@ -63,6 +64,7 @@ public class Game implements GameEventHandler {
 
 	public void newGame() {
 		PathFinder.initialisePathFinder(map);
+		DirectionFinder.initialise(map);
 
 		player = new Team(TEAM_PLAYER, Color.YELLOW);
 		computer = new Team(TEAM_COMPUTER, Color.RED);
@@ -72,6 +74,11 @@ public class Game implements GameEventHandler {
 		add(new TownCenter(map[2][2], player, this));
 		for (int i = 1; i < 12; i += 2) {
 			add(new Worker(map[i][12], player, this));
+		}
+
+		add(new TownCenter(map[MAP_SIZE - 10][MAP_SIZE - 10], computer, this));
+		for (int i = 2; i < 13; i += 2) {
+			add(new Worker(map[MAP_SIZE - i][MAP_SIZE - 12], computer, this));
 		}
 
 		Random random = new Random();
