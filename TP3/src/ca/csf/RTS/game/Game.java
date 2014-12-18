@@ -114,7 +114,7 @@ public class Game implements GameEventHandler {
 				placeStone(nbStone, random);
 			}
 		}
-
+	}
 
 	public void allo() {
 		if (selectedList.get(0).getName() == "Barrack") {

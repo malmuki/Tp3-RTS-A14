@@ -1,21 +1,15 @@
 package ca.csf.RTS.game;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.jsfml.graphics.Color;
-import org.jsfml.graphics.ConstTexture;
-import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.Font;
-import org.jsfml.graphics.Image;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
-import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
@@ -47,6 +41,7 @@ public class GameController {
 
 	private static final float SENSITIVITY = 250;
 	private static final int SELECTION_THICKNESS = 2;
+	private static final float GUI_SCALE = 0.15f;
 	private Game game;
 	private Texture gui;
 	private Texture gazon;
@@ -233,14 +228,34 @@ public class GameController {
 					}
 					// pour les selection dans le UI
 				} else {
-					//if (Mouse.isButtonPressed(Button.LEFT)) {
-						if (mousePos.x >= ((gameView.getCenter().x + gameView.getSize().x / 2) + UISizeWidth * 0.20f)
-								&& mousePos.x <= ((gameView.getCenter().x + gameView.getSize().x / 2) + UISizeWidth * 0.48f)
-								&& mousePos.y >= (UISizeHeight * 0.08f) && mousePos.y <= (UISizeHeight * 0.28f)) {
+					if (Mouse.isButtonPressed(Button.LEFT)) {
+						if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.20f
+								&& mousePos.y <= UISizeHeight * 0.28f) {
+							game.allo();
+						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.20f
+								&& mousePos.y <= UISizeHeight * 0.28f) {
+							game.allo();
+						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.30f
+								&& mousePos.y <= UISizeHeight * 0.38f) {
+							game.allo();
+						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.30f
+								&& mousePos.y <= UISizeHeight * 0.38f) {
+							game.allo();
+						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.40f
+								&& mousePos.y <= UISizeHeight * 0.48f) {
+							game.allo();
+						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.40f
+								&& mousePos.y <= UISizeHeight * 0.488f) {
 							game.allo();
 						}
 
-					//}
+					}
 				}
 			}
 
