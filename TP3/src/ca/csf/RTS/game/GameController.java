@@ -145,6 +145,8 @@ public class GameController {
 				if (Keyboard.isKeyPressed(Key.D)) {
 					if (gameView.getCenter().x + (gameView.getSize().x / 2) < Game.MAP_SIZE * Tile.TILE_SIZE) {
 						gameView.move(dt * SENSITIVITY, 0);
+					} else {
+						gameView.setCenter((Game.MAP_SIZE * Tile.TILE_SIZE) - gameView.getSize().x / 2, gameView.getCenter().y);
 					}
 				}
 				if (Keyboard.isKeyPressed(Key.A)) {
@@ -157,11 +159,15 @@ public class GameController {
 				if (Keyboard.isKeyPressed(Key.S)) {
 					if (gameView.getCenter().y + (gameView.getSize().y / 2) < Game.MAP_SIZE * Tile.TILE_SIZE) {
 						gameView.move(0, dt * SENSITIVITY);
+					}else {
+						gameView.setCenter(gameView.getCenter().x, (Game.MAP_SIZE * Tile.TILE_SIZE) - gameView.getSize().y / 2);
 					}
 				}
 				if (Keyboard.isKeyPressed(Key.W)) {
 					if (gameView.getCenter().y - gameView.getSize().y / 2 > 0) {
 						gameView.move(0, dt * -SENSITIVITY);
+					} else {
+						gameView.setCenter(gameView.getCenter().x, gameView.getSize().y / 2);
 					}
 				}
 
@@ -169,14 +175,6 @@ public class GameController {
 				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
 				if (mousePos.x < gameView.getCenter().x + (gameView.getSize().x / 2)) {
 					if (Mouse.isButtonPressed(Button.LEFT)) {
-
-						// pour empecher que la selection depasse de la vue
-						if (mousePos.x > gameView.getSize().x && mousePos.x > Game.MAP_SIZE * Tile.TILE_SIZE) {
-							mousePos = new Vector2f(mousePos.x - (gameView.getSize().x / 2 - gameView.getCenter().x), mousePos.y);
-						}
-						if (mousePos.y > gameView.getSize().y && mousePos.y > Game.MAP_SIZE * Tile.TILE_SIZE) {
-							mousePos = new Vector2f(mousePos.x, mousePos.y - (gameView.getSize().y / 2 - gameView.getCenter().y));
-						}
 
 						if (isLeftButtonPressed) {
 							selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y - selection.getPosition().y));
@@ -196,7 +194,7 @@ public class GameController {
 					}
 					// pour les selection dans le UI
 				} else {
-					
+
 				}
 			}
 

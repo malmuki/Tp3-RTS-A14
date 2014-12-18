@@ -73,7 +73,7 @@ public class Game implements GameEventHandler {
 		}
 
 		add(new TownCenter(map[MAP_SIZE - 10][MAP_SIZE - 10], computer, this));
-		for (int i = 1; i < 12; i += 2) {
+		for (int i = 2; i < 13; i += 2) {
 			add(new Worker(map[MAP_SIZE - i][MAP_SIZE - 12], computer, this));
 		}
 		
