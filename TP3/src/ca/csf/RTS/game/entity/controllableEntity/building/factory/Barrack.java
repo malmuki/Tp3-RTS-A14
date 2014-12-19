@@ -19,12 +19,12 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Barrack extends Factory {
 
-	private static String TEXTURE_PATH = "./ressource/buildings.png";
+	private static final String TEXTURE_PATH = "./ressource/buildings.png";
 	private static Texture texture;
-	private static final String NAME = "Barrack";
+	public static final String NAME = "Barrack";
 	public static final Vector2i DIMENSION = new Vector2i(6, 6);
 
-  public Barrack(Tile originTile, Team team, GameEventHandler game) {
+	public Barrack(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, team, game, DIMENSION, team.getBarrackModel().getHealthMax());
 		try {
 			if (texture == null) {
@@ -65,7 +65,7 @@ public class Barrack extends Factory {
 			switch (trainingQueue.get(0)) {
 			case FOOTMAN:
 				game.add(new FootMan(tile, team, game));
-				SoundPlayer.playSound(1,0);
+				SoundPlayer.playSound(1, 0);
 				break;
 			default:
 				break;
