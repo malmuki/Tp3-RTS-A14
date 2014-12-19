@@ -70,9 +70,9 @@ public class MoveTest {
 	@Test
 	public void whenNotNextToDestinationTile_andAsNext_andNextIsNotEmpty_andIsNotTarget_thenBlocked() {
 		move = new Move(game.map[0][4], worker);
-		game.map[0][2].setOnTile(new Worker(game.map[0][2], new Team("Idiot", Color.BLUE), game));
+		game.add(new Worker(game.map[0][2], new Team("Idiot", Color.BLUE), game));
+		worker.setTarget(game.map[0][2].getOnTile());
 		move.action(Human.MOVE_DELAY);
-		worker.getStateStack().pop().action(Human.MOVE_DELAY);
 		worker.getStateStack().pop().action(Human.MOVE_DELAY);
 
 		assertEquals(StateInteraction.blocked, worker.getStateStack().pop().action(Human.MOVE_DELAY));
