@@ -481,7 +481,7 @@ public class GameController {
 		case FOOTMAN:
 			return footman;
 		case WORKER:
-			return worker;
+			return footman;
 		default:
 			return rockIconTexture;
 		}
@@ -495,8 +495,11 @@ public class GameController {
 			for (RectangleShape rect : buildingTabRectangle) {
 				rect.setFillColor(Color.WHITE);
 			}
+			for (RectangleShape queueRect : trainingQueueRectangle){
+				queueRect.setFillColor(Color.TRANSPARENT);
+				queueRect.setTexture(null);
+			}
 			
-
 			switch (game.getAllSelected().get(0).getName()) {
 			case "Footman":
 				FootMan entityFootman = (FootMan) game.getAllSelected().get(0);
@@ -548,6 +551,7 @@ public class GameController {
 				if(!factoryQueue.getQueue().isEmpty()){
 					for(int i = 0; i < factoryQueue.getQueue().size(); i++){
 						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue.getQueue().get(i)));
+						trainingQueueRectangle[i].setFillColor(Color.WHITE);
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training)entityTownCenter.getStateStack().peek()).getPourcentageDone()));
 				}
@@ -574,6 +578,7 @@ public class GameController {
 				if(!factoryQueue2.getQueue().isEmpty()){
 					for(int i = 0; i < factoryQueue2.getQueue().size(); i++){
 						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue2.getQueue().get(i)));
+						trainingQueueRectangle[i].setFillColor(Color.WHITE);
 					}
 					for (int i = factoryQueue2.getQueue().size(); i < 5; i++){
 						trainingQueueRectangle[i].setTexture(null);
