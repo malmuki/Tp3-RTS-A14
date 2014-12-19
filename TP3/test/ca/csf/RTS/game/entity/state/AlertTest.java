@@ -30,7 +30,7 @@ public class AlertTest {
 	public void whenDeltaEqual_0f_andNoTargetFound_thenIsNotFinished() {
 		assertEquals(StateInteraction.notFinished, alert.action(0f));
 	}
-
+ 
 	@Test
 	public void whenDeltaEqual_0f_andTargetShouldBeFound_thenIsNotFinished() {
 		game.add(new FootMan(game.map[0][1], new Team("Ennemy", Color.BLUE), game));

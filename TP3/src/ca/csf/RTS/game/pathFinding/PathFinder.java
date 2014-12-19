@@ -13,16 +13,6 @@ import ca.csf.RTS.game.entity.state.Gathering;
 import ca.csf.RTS.game.entity.state.Move;
 
 public class PathFinder {
-	// To make path finding faster, I use a system called binary heap.
-	// The idea and tutorial came from this web site:
-	// http://www.policyalmanac.org/games/binaryHeaps.htm
-	// It uses more memory because of the arrays below that are constantly
-	// maintained but it's
-	// (supposedly) 2 -3 times faster than having ArrayLists that you keep
-	// sorted, which is really
-	// needed to move multiple units a long distance and to have units on alert
-	// constantly
-
 	private static Tile[][] map;
 
 	private static int[] closedList = new int[Game.MAP_SIZE * Game.MAP_SIZE];
