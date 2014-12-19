@@ -24,4 +24,8 @@ public class Training implements State {
 			}
 		}
 	}
+	
+	public float getPourcentageDone(){
+		return timeElapsed/ trainer.getNextInQueue().time() * 100;
+	}
 }
