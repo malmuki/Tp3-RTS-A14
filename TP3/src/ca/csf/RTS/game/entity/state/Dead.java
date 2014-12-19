@@ -7,5 +7,4 @@ public class Dead implements State {
 
 		return StateInteraction.dead;
 	}
-
 }

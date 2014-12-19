@@ -3,6 +3,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2i;
 
@@ -20,30 +21,33 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class WatchTower extends Building implements Fighter, Watcher {
 
-	private static String TEXTURE_PATH = "./ressource/watchtower.png";
-	private static final String NAME = "WatchTower";
-	private final int RANGE;
-	private final int DAMAGE;
-	private final float ATTACK_DELAY;
-	public static final Vector2i DIMENSION = new Vector2i(3, 3);
-	private static Texture texture;
-
-	public WatchTower(Tile originTile, Team team, GameEventHandler game) {
-		super(originTile, team, game, DIMENSION, team.getWatchTowerModel().getHealthMax());
-		RANGE = team.getWatchTowerModel().getRange();
-		DAMAGE = team.getWatchTowerModel().getDamage();
-		ATTACK_DELAY = team.getWatchTowerModel().getAttackDelay();
-		try {
-			if (texture == null) {
-				texture = new Texture();
-				texture.loadFromFile(Paths.get(TEXTURE_PATH));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		sprite.setTexture(texture);
-		setSpritePos();
-	}
+  private static String TEXTURE_PATH = "./ressource/buildings.png";
+  private static final String NAME = "WatchTower";
+  private final int RANGE;
+  private final int DAMAGE;
+  private final float ATTACK_DELAY;
+  public static final Vector2i DIMENSION = new Vector2i(3, 3);
+  private static Texture texture;
+	
+  public WatchTower(Tile originTile, Team team, GameEventHandler game) {
+    super(originTile, team, game, DIMENSION, team.getWatchTowerModel().getHealthMax());
+    RANGE = team.getWatchTowerModel().getRange();
+    DAMAGE = team.getWatchTowerModel().getDamage();
+    ATTACK_DELAY = team.getWatchTowerModel().getAttackDelay();
+    try {
+      if (texture == null) {
+        texture = new Texture();
+        texture.loadFromFile(Paths.get(TEXTURE_PATH));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    stateStack.push(getDefaultState());
+    sprite.setTexture(texture);
+    sprite.setTextureRect(new IntRect(400, 134, 61, 63));
+    setSpritePos();
+  }
 
 	@Override
 	public void attack() {
@@ -72,7 +76,7 @@ public class WatchTower extends Building implements Fighter, Watcher {
 
 				if (stateStack.isEmpty()) {
 					if (target != null) {
-						stateStack.push(new Attack(this));
+						stateStack.push(new Alert(this));
 					} else {
 						stateStack.push(getDefaultState());
 					}

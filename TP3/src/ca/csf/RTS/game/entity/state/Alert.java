@@ -28,4 +28,5 @@ public class Alert implements State {
 			return StateInteraction.notFinished;
 		}
 	}
+
 }

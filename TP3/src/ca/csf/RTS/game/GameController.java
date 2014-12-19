@@ -29,6 +29,7 @@ import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.game.audio.MusicPlayer;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
@@ -71,14 +72,10 @@ public class GameController {
 	private Font arial = new Font();
 	private int UISizeWidth = VideoMode.getDesktopMode().width;
 	private int UISizeHeight = VideoMode.getDesktopMode().height;
-	private RectangleShape guiRectangle = new RectangleShape(new Vector2f(
-			UISizeWidth, UISizeHeight));
-	private RectangleShape rockRessource = new RectangleShape(new Vector2f(
-			UISizeWidth * 0.18f, UISizeHeight * 0.04f));
-	private RectangleShape treeRessource = new RectangleShape(new Vector2f(
-			UISizeWidth * 0.47f, UISizeHeight * 0.10f));
-	private RectangleShape selectedEntityIcon = new RectangleShape(
-			new Vector2f(UISizeWidth * 0.65f, UISizeHeight * 0.18f));
+	private RectangleShape guiRectangle = new RectangleShape(new Vector2f(UISizeWidth, UISizeHeight));
+	private RectangleShape rockRessource = new RectangleShape(new Vector2f(UISizeWidth * 0.18f, UISizeHeight * 0.04f));
+	private RectangleShape treeRessource = new RectangleShape(new Vector2f(UISizeWidth * 0.47f, UISizeHeight * 0.10f));
+	private RectangleShape selectedEntityIcon = new RectangleShape(new Vector2f(UISizeWidth * 0.65f, UISizeHeight * 0.18f));
 	private ArrayList<Texture> buildingImageButtons = new ArrayList<Texture>(9);
 	private RectangleShape[] buildingTabRectangle = new RectangleShape[6];
 	private RectangleShape[] trainingQueueRectangle = new RectangleShape[5];
@@ -129,8 +126,7 @@ public class GameController {
 		game.newGame();
 
 		RenderWindow window = new RenderWindow();
-		window.create(VideoMode.getDesktopMode(), Menu.TITLE,
-				WindowStyle.FULLSCREEN);
+		window.create(VideoMode.getDesktopMode(), Menu.TITLE, WindowStyle.FULLSCREEN);
 
 		window.setFramerateLimit(0);
 
@@ -150,17 +146,17 @@ public class GameController {
 		selection.setOutlineColor(Color.BLACK);
 		selection.setOutlineThickness(SELECTION_THICKNESS);
 
-		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE
-				* Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
+		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE * Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
 		map.setTexture(gazon);
-		map.setTextureRect(new IntRect(0, 0,
-				(int) (Game.MAP_SIZE * Tile.TILE_SIZE),
-				(int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
+		map.setTextureRect(new IntRect(0, 0, (int) (Game.MAP_SIZE * Tile.TILE_SIZE), (int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
 
 		MusicPlayer.musicStop();
 		MusicPlayer.playMusic(1);
 		while (window.isOpen()) {
 
+			if (game.isVictorious()) {
+				return;
+			}
 			if (isFocused) {
 				MusicPlayer.musicPlaylist();
 
@@ -187,63 +183,46 @@ public class GameController {
 				window.display();
 
 				if (Keyboard.isKeyPressed(Key.D)) {
-					if (gameView.getCenter().x + (gameView.getSize().x / 2) < Game.MAP_SIZE
-							* Tile.TILE_SIZE) {
+					if (gameView.getCenter().x + (gameView.getSize().x / 2) < Game.MAP_SIZE * Tile.TILE_SIZE) {
 						gameView.move(dt * SENSITIVITY, 0);
 					} else {
-						gameView.setCenter((Game.MAP_SIZE * Tile.TILE_SIZE)
-								- gameView.getSize().x / 2,
-								gameView.getCenter().y);
+						gameView.setCenter((Game.MAP_SIZE * Tile.TILE_SIZE) - gameView.getSize().x / 2, gameView.getCenter().y);
 					}
 				}
 				if (Keyboard.isKeyPressed(Key.A)) {
 					if (gameView.getCenter().x - gameView.getSize().x / 2 > 0) {
 						gameView.move(dt * -SENSITIVITY, 0);
 					} else {
-						gameView.setCenter(gameView.getSize().x / 2,
-								gameView.getCenter().y);
+						gameView.setCenter(gameView.getSize().x / 2, gameView.getCenter().y);
 					}
 				}
 				if (Keyboard.isKeyPressed(Key.S)) {
-					if (gameView.getCenter().y + (gameView.getSize().y / 2) < Game.MAP_SIZE
-							* Tile.TILE_SIZE) {
+					if (gameView.getCenter().y + (gameView.getSize().y / 2) < Game.MAP_SIZE * Tile.TILE_SIZE) {
 						gameView.move(0, dt * SENSITIVITY);
 					} else {
-						gameView.setCenter(
-								gameView.getCenter().x,
-								(Game.MAP_SIZE * Tile.TILE_SIZE)
-										- gameView.getSize().y / 2);
+						gameView.setCenter(gameView.getCenter().x, (Game.MAP_SIZE * Tile.TILE_SIZE) - gameView.getSize().y / 2);
 					}
 				}
 				if (Keyboard.isKeyPressed(Key.W)) {
 					if (gameView.getCenter().y - gameView.getSize().y / 2 > 0) {
 						gameView.move(0, dt * -SENSITIVITY);
 					} else {
-						gameView.setCenter(gameView.getCenter().x,
-								gameView.getSize().y / 2);
+						gameView.setCenter(gameView.getCenter().x, gameView.getSize().y / 2);
 					}
 				}
 
 				// pour la selection des units et des buildings
-				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse
-						.getPosition().x, Mouse.getPosition().y));
+				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
 				if (buildingPlacer.getFillColor() == Color.TRANSPARENT) {
-					if (mousePos.x < gameView.getCenter().x
-							+ (gameView.getSize().x / 2)) {
+					if (mousePos.x < gameView.getCenter().x + (gameView.getSize().x / 2)) {
 						if (Mouse.isButtonPressed(Button.LEFT)) {
 
 							if (isLeftButtonPressed) {
-								selection.setSize(new Vector2f(mousePos.x
-										- selection.getPosition().x, mousePos.y
-										- selection.getPosition().y));
-								game.selectEntity(selection.getPosition(),
-										mousePos);
+								selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y - selection.getPosition().y));
+								game.selectEntity(selection.getPosition(), mousePos);
 							} else {
 								isLeftButtonPressed = true;
-								selection.setPosition(window
-										.mapPixelToCoords(new Vector2i(Mouse
-												.getPosition().x, Mouse
-												.getPosition().y)));
+								selection.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
 							}
 						} else {
 							isLeftButtonPressed = false;
@@ -257,72 +236,51 @@ public class GameController {
 						// pour les selection dans le UI
 					} else {
 						if (Mouse.isButtonPressed(Button.LEFT)) {
-							if (mousePos.x >= guiView.getSize().x + UISizeWidth
-									* GUI_SCALE * 0.20f
-									&& mousePos.x <= guiView.getSize().x
-											+ UISizeWidth * GUI_SCALE * 0.48f
-									&& mousePos.y >= UISizeHeight * 0.20f
-									&& mousePos.y <= UISizeHeight * 0.28f) {
-								game.btnAction(0, this);
-							} else if (mousePos.x >= guiView.getSize().x
-									+ UISizeWidth * GUI_SCALE * 0.55f
-									&& mousePos.x <= guiView.getSize().x
-											+ UISizeWidth * GUI_SCALE * 0.83f
-									&& mousePos.y >= UISizeHeight * 0.20f
-									&& mousePos.y <= UISizeHeight * 0.28f) {
-								game.btnAction(1, this);
-							} else if (mousePos.x >= guiView.getSize().x
-									+ UISizeWidth * GUI_SCALE * 0.20f
-									&& mousePos.x <= guiView.getSize().x
-											+ UISizeWidth * GUI_SCALE * 0.48f
-									&& mousePos.y >= UISizeHeight * 0.30f
-									&& mousePos.y <= UISizeHeight * 0.38f) {
-								game.btnAction(2, this);
-							} else if (mousePos.x >= guiView.getSize().x
-									+ UISizeWidth * GUI_SCALE * 0.55f
-									&& mousePos.x <= guiView.getSize().x
-											+ UISizeWidth * GUI_SCALE * 0.83f
-									&& mousePos.y >= UISizeHeight * 0.30f
-									&& mousePos.y <= UISizeHeight * 0.38f) {
-								game.btnAction(3, this);
-							} else if (mousePos.x >= guiView.getSize().x
-									+ UISizeWidth * GUI_SCALE * 0.20f
-									&& mousePos.x <= guiView.getSize().x
-											+ UISizeWidth * GUI_SCALE * 0.48f
-									&& mousePos.y >= UISizeHeight * 0.40f
-									&& mousePos.y <= UISizeHeight * 0.48f) {
-								game.btnAction(4, this);
-							} else if (mousePos.x >= guiView.getSize().x
-									+ UISizeWidth * GUI_SCALE * 0.55f
-									&& mousePos.x <= guiView.getSize().x
-											+ UISizeWidth * GUI_SCALE * 0.83f
-									&& mousePos.y >= UISizeHeight * 0.40f
-									&& mousePos.y <= UISizeHeight * 0.48f) {
-								game.btnAction(5, this);
+							if (!isLeftButtonPressed) {
+								isLeftButtonPressed = true;
+								if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.20f
+										&& mousePos.y <= UISizeHeight * 0.28f) {
+									game.btnAction(0, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.20f
+										&& mousePos.y <= UISizeHeight * 0.28f) {
+									game.btnAction(1, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.30f
+										&& mousePos.y <= UISizeHeight * 0.38f) {
+									game.btnAction(2, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.30f
+										&& mousePos.y <= UISizeHeight * 0.38f) {
+									game.btnAction(3, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.40f
+										&& mousePos.y <= UISizeHeight * 0.48f) {
+									game.btnAction(4, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.40f
+										&& mousePos.y <= UISizeHeight * 0.48f) {
+									game.btnAction(5, this);
+								}
 							}
+						} else {
+							isLeftButtonPressed = false;
 						}
 					}
 				} else {
-					if (mousePos.x < gameView.getCenter().x
-							+ (gameView.getSize().x / 2)) {
+					if (mousePos.x < gameView.getCenter().x + (gameView.getSize().x / 2)) {
+						buildingPlacer.setSize(new Vector2f(Vector2i.mul(game.getBuildingSize(), (int) Tile.TILE_SIZE)));
 						buildingPlacer.setPosition(mousePos);
-						if (game.canPlace(
-								new Vector2i(Vector2f.div(mousePos,
-										Tile.TILE_SIZE)), game
-										.getBuildingSize())) {
-							buildingPlacer.setSize(new Vector2f(Vector2i.mul(
-									game.getBuildingSize(),
-									(int) Tile.TILE_SIZE)));
-							buildingPlacer.setFillColor(new Color(Color.GREEN,
-									100));
+						if (game.canPlace(new Vector2i(Vector2f.div(mousePos, Tile.TILE_SIZE)), game.getBuildingSize())) {
+							buildingPlacer.setSize(new Vector2f(Vector2i.mul(game.getBuildingSize(), (int) Tile.TILE_SIZE)));
+							buildingPlacer.setFillColor(new Color(Color.GREEN, 100));
 							if (Mouse.isButtonPressed(Button.LEFT)) {
-								game.build(new Vector2i(Vector2f.div(mousePos,
-										Tile.TILE_SIZE)));
+								game.build(new Vector2i(Vector2f.div(mousePos, Tile.TILE_SIZE)));
 								clearBuilding();
 							}
 						} else {
-							buildingPlacer.setFillColor(new Color(Color.RED,
-									100));
+							buildingPlacer.setFillColor(new Color(Color.RED, 100));
 							if (Mouse.isButtonPressed(Button.LEFT)) {
 								clearBuilding();
 								// play blocked sound
@@ -372,111 +330,81 @@ public class GameController {
 	private void initializeGUI() {
 
 		for (int i = 0; i < 6; i++) {
-			buildingTabRectangle[i] = new RectangleShape(new Vector2f(
-					UISizeWidth * 0.28f, UISizeHeight * 0.08f));
+			buildingTabRectangle[i] = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
 		}
-		
-		for(int i = 0; i < 5; i++){
-			trainingQueueRectangle[i] = new RectangleShape(new Vector2f(
-					UISizeWidth * 0.10f, UISizeHeight * 0.08f));
+
+		for (int i = 0; i < 5; i++) {
+			trainingQueueRectangle[i] = new RectangleShape(new Vector2f(UISizeWidth * 0.10f, UISizeHeight * 0.08f));
 		}
 
 		labelTreeRessource.setFont(arial);
 		labelTreeRessource.setCharacterSize(50);
 		labelTreeRessource.setColor(Color.WHITE);
-		labelTreeRessource.setScale(UISizeWidth * 0.0015f,
-				UISizeHeight * 0.0005f);
+		labelTreeRessource.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
 
 		labelRockRessource.setFont(arial);
 		labelRockRessource.setCharacterSize(50);
 		labelRockRessource.setColor(Color.WHITE);
-		labelRockRessource.setScale(UISizeWidth * 0.0015f,
-				UISizeHeight * 0.0005f);
+		labelRockRessource.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
 
 		selectedEntityHP.setFont(arial);
 		selectedEntityHP.setCharacterSize(40);
 		selectedEntityHP.setColor(Color.CYAN);
-		selectedEntityHP
-				.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
+		selectedEntityHP.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
 
 		selectedEntityName.setFont(arial);
 		selectedEntityName.setCharacterSize(40);
 		selectedEntityName.setColor(Color.CYAN);
-		selectedEntityName.setScale(UISizeWidth * 0.0015f,
-				UISizeHeight * 0.0005f);
+		selectedEntityName.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
 
 		selectedEntityDamage.setFont(arial);
 		selectedEntityDamage.setCharacterSize(40);
 		selectedEntityDamage.setColor(Color.CYAN);
-		selectedEntityDamage.setScale(UISizeWidth * 0.0015f,
-				UISizeHeight * 0.0005f);
+		selectedEntityDamage.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
 
 		selectedEntityRange.setFont(arial);
 		selectedEntityRange.setCharacterSize(40);
 		selectedEntityRange.setColor(Color.CYAN);
-		selectedEntityRange.setScale(UISizeWidth * 0.0015f,
-				UISizeHeight * 0.0005f);
+		selectedEntityRange.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
 
 		selectedEntityAttackSpeed.setFont(arial);
 		selectedEntityAttackSpeed.setCharacterSize(40);
 		selectedEntityAttackSpeed.setColor(Color.CYAN);
-		selectedEntityAttackSpeed.setScale(UISizeWidth * 0.0015f,
-				UISizeHeight * 0.0005f);
-		
+		selectedEntityAttackSpeed.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
+
 		progressPourcentageUnit.setFont(arial);
 		progressPourcentageUnit.setCharacterSize(40);
 		progressPourcentageUnit.setColor(Color.CYAN);
-		progressPourcentageUnit.setScale(UISizeWidth * 0.0015f,
-				UISizeHeight * 0.0005f);
+		progressPourcentageUnit.setScale(UISizeWidth * 0.0015f, UISizeHeight * 0.0005f);
 
-		buildingTabRectangle[0].setPosition(UISizeWidth * 0.20f,
-				UISizeHeight * 0.20f);
-		buildingTabRectangle[1].setPosition(UISizeWidth * 0.55f,
-				UISizeHeight * 0.20f);
-		buildingTabRectangle[2].setPosition(UISizeWidth * 0.20f,
-				UISizeHeight * 0.30f);
-		buildingTabRectangle[3].setPosition(UISizeWidth * 0.55f,
-				UISizeHeight * 0.30f);
-		buildingTabRectangle[4].setPosition(UISizeWidth * 0.20f,
-				UISizeHeight * 0.40f);
-		buildingTabRectangle[5].setPosition(UISizeWidth * 0.55f,
-				UISizeHeight * 0.40f);
-		
-		trainingQueueRectangle[0].setPosition(UISizeWidth * 0.15f,
-				UISizeHeight * 0.50f);
-		trainingQueueRectangle[1].setPosition(UISizeWidth * 0.30f,
-				UISizeHeight * 0.50f);
-		trainingQueueRectangle[2].setPosition(UISizeWidth * 0.45f,
-				UISizeHeight * 0.50f);
-		trainingQueueRectangle[3].setPosition(UISizeWidth * 0.60f,
-				UISizeHeight * 0.50f);
-		trainingQueueRectangle[4].setPosition(UISizeWidth * 0.75f,
-				UISizeHeight * 0.50f);
+		buildingTabRectangle[0].setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.20f);
+		buildingTabRectangle[1].setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.20f);
+		buildingTabRectangle[2].setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.30f);
+		buildingTabRectangle[3].setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.30f);
+		buildingTabRectangle[4].setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.40f);
+		buildingTabRectangle[5].setPosition(UISizeWidth * 0.55f, UISizeHeight * 0.40f);
 
+		trainingQueueRectangle[0].setPosition(UISizeWidth * 0.15f, UISizeHeight * 0.50f);
+		trainingQueueRectangle[1].setPosition(UISizeWidth * 0.30f, UISizeHeight * 0.50f);
+		trainingQueueRectangle[2].setPosition(UISizeWidth * 0.45f, UISizeHeight * 0.50f);
+		trainingQueueRectangle[3].setPosition(UISizeWidth * 0.60f, UISizeHeight * 0.50f);
+		trainingQueueRectangle[4].setPosition(UISizeWidth * 0.75f, UISizeHeight * 0.50f);
 
 		rockRessource.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.05f);
 		treeRessource.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.1f);
-		selectedEntityName.setPosition(UISizeWidth * 0.20f,
-				UISizeHeight * 0.62f);
-		selectedEntityIcon.setPosition(UISizeWidth * 0.20f,
-				UISizeHeight * 0.65f);
+		selectedEntityName.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.62f);
+		selectedEntityIcon.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.65f);
 		selectedEntityHP.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.85f);
-		selectedEntityDamage.setPosition(UISizeWidth * 0.20f,
-				UISizeHeight * 0.875f);
-		selectedEntityRange.setPosition(UISizeWidth * 0.20f,
-				UISizeHeight * 0.90f);
-		selectedEntityAttackSpeed.setPosition(UISizeWidth * 0.20f,
-				UISizeHeight * 0.925f);
-		progressPourcentageUnit.setPosition(UISizeWidth * 0.20f,
-				UISizeHeight * 0.59f);
-		labelRockRessource.setPosition(UISizeWidth * 0.50f,
-				UISizeHeight * 0.055f);
-		labelTreeRessource.setPosition(UISizeWidth * 0.50f,
-				UISizeHeight * 0.11f);
+		selectedEntityDamage.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.875f);
+		selectedEntityRange.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.90f);
+		selectedEntityAttackSpeed.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.925f);
+		progressPourcentageUnit.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.59f);
+		labelRockRessource.setPosition(UISizeWidth * 0.50f, UISizeHeight * 0.055f);
+		labelTreeRessource.setPosition(UISizeWidth * 0.50f, UISizeHeight * 0.11f);
 
 	}
-	
-	private Texture getPortrait(Trainee trainee){
+
+	private Texture getPortrait(Trainee trainee) {
 
 		switch (trainee) {
 		case FOOTMAN:
@@ -485,7 +413,7 @@ public class GameController {
 			return worker;
 		default:
 			return rockIconTexture;
-	}
+		}
 	}
 
 	private void drawGUI(RenderWindow window, Game game) throws IOException {
@@ -496,11 +424,11 @@ public class GameController {
 			for (RectangleShape rect : buildingTabRectangle) {
 				rect.setFillColor(Color.WHITE);
 			}
-			for (RectangleShape queueRect : trainingQueueRectangle){
+			for (RectangleShape queueRect : trainingQueueRectangle) {
 				queueRect.setFillColor(Color.TRANSPARENT);
 				queueRect.setTexture(null);
 			}
-			
+
 			switch (game.getAllSelected().get(0).getName()) {
 			case "Footman":
 				FootMan entityFootman = (FootMan) game.getAllSelected().get(0);
@@ -539,7 +467,7 @@ public class GameController {
 					// selectedUnitIcon.setTexture(worker);
 				}
 				break;
-			case "Town Center":
+			case "TownCenter":
 				TownCenter entityTownCenter = (TownCenter) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityTownCenter.getName());
 				selectedEntityDamage.setString("");
@@ -548,15 +476,17 @@ public class GameController {
 				selectedEntityHP.setString("Health : " + (entityTownCenter.getHP()) + " / " + entityTownCenter.getMaxHealth());
 				buildingImageButtons.add(worker);
 				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
-				Factory factoryQueue = (Factory)game.getAllSelected().get(0);
-				if(!factoryQueue.getQueue().isEmpty()){
-					for(int i = 0; i < factoryQueue.getQueue().size(); i++){
+				Factory factoryQueue = (Factory) game.getAllSelected().get(0);
+				if (!factoryQueue.getQueue().isEmpty()) {
+					for (int i = 0; i < factoryQueue.getQueue().size(); i++) {
 						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue.getQueue().get(i)));
 						trainingQueueRectangle[i].setFillColor(Color.WHITE);
 					}
-					progressPourcentageUnit.setString(Float.toString(((Training)entityTownCenter.getStateStack().peek()).getPourcentageDone()));
+					progressPourcentageUnit.setString(Float.toString(((Training) entityTownCenter.getStateStack().peek()).getPourcentageDone()));
+				}else {
+					progressPourcentageUnit.setString("");
 				}
-				for(int i = 1; i < 6; i++){
+				for (int i = 1; i < 6; i++) {
 					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
 				}
 				if (!selectedEntityIcon.equals(towncenter)) {
@@ -572,19 +502,21 @@ public class GameController {
 				selectedEntityHP.setString("Health : " + (entityBarrack.getHP()) + " / " + entityBarrack.getMaxHealth());
 				buildingImageButtons.add(footman);
 				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
-				for(int i = 1; i < 6; i++){
+				for (int i = 1; i < 6; i++) {
 					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
 				}
-				Factory factoryQueue2 = (Factory)game.getAllSelected().get(0);
-				if(!factoryQueue2.getQueue().isEmpty()){
-					for(int i = 0; i < factoryQueue2.getQueue().size(); i++){
+				Factory factoryQueue2 = (Factory) game.getAllSelected().get(0);
+				if (!factoryQueue2.getQueue().isEmpty()) {
+					for (int i = 0; i < factoryQueue2.getQueue().size(); i++) {
 						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue2.getQueue().get(i)));
 						trainingQueueRectangle[i].setFillColor(Color.WHITE);
 					}
-					for (int i = factoryQueue2.getQueue().size(); i < 5; i++){
+					for (int i = factoryQueue2.getQueue().size(); i < 5; i++) {
 						trainingQueueRectangle[i].setTexture(null);
 					}
-					progressPourcentageUnit.setString(Float.toString(((Training)entityBarrack.getStateStack().peek()).getPourcentageDone()));
+					progressPourcentageUnit.setString(Float.toString(((Training) entityBarrack.getStateStack().peek()).getPourcentageDone()));
+				}else {
+					progressPourcentageUnit.setString("");
 				}
 				if (!selectedEntityIcon.equals(barrack)) {
 					selectedEntityIcon.setTexture(barrack);
@@ -606,7 +538,7 @@ public class GameController {
 				}
 				break;
 			case "Forge":
-			    Forge entityForge = (Forge) game.getAllSelected().get(0);
+				Forge entityForge = (Forge) game.getAllSelected().get(0);
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
@@ -614,27 +546,27 @@ public class GameController {
 				for (RectangleShape rect : buildingTabRectangle) {
 					rect.setFillColor(Color.TRANSPARENT);
 				}
-                selectedEntityName.setString(entityForge.getName());
-                selectedEntityHP.setString("Health : " + (entityForge.getHP()) + " / " + entityForge.getMaxHealth());
-                buildingImageButtons.add(footman);
-                buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
-                for(int i = 1; i < 6; i++){
-                    buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
-                }
-                Factory factoryQueue3 = (Factory)game.getAllSelected().get(0);
-                if(!factoryQueue3.getQueue().isEmpty()){
-                    for(int i = 0; i < factoryQueue3.getQueue().size(); i++){
-                        trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue3.getQueue().get(i)));
-                        trainingQueueRectangle[i].setFillColor(Color.WHITE);
-                    }
-                    for (int i = factoryQueue3.getQueue().size(); i < 5; i++){
-                        trainingQueueRectangle[i].setTexture(null);
-                    }
-                    progressPourcentageUnit.setString(Float.toString(((Training)factoryQueue3.getStateStack().peek()).getPourcentageDone()));
-                }
-                if (!selectedEntityIcon.equals(barrack)) {
-                    selectedEntityIcon.setTexture(barrack);
-                }
+				selectedEntityName.setString(entityForge.getName());
+				selectedEntityHP.setString("Health : " + (entityForge.getHP()) + " / " + entityForge.getMaxHealth());
+				buildingImageButtons.add(footman);
+				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
+				for (int i = 1; i < 6; i++) {
+					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
+				}
+				Factory factoryQueue3 = (Factory) game.getAllSelected().get(0);
+				if (!factoryQueue3.getQueue().isEmpty()) {
+					for (int i = 0; i < factoryQueue3.getQueue().size(); i++) {
+						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue3.getQueue().get(i)));
+						trainingQueueRectangle[i].setFillColor(Color.WHITE);
+					}
+					for (int i = factoryQueue3.getQueue().size(); i < 5; i++) {
+						trainingQueueRectangle[i].setTexture(null);
+					}
+					progressPourcentageUnit.setString(Float.toString(((Training) factoryQueue3.getStateStack().peek()).getPourcentageDone()));
+				}
+				if (!selectedEntityIcon.equals(barrack)) {
+					selectedEntityIcon.setTexture(barrack);
+				}
 				break;
 			case "Tree":
 				Tree entityTree = (Tree) game.getAllSelected().get(0);
@@ -664,10 +596,18 @@ public class GameController {
 				if (!selectedEntityIcon.equals(rockIconTexture)) {
 					selectedEntityIcon.setTexture(rockIconTexture);
 				}
-			case "Fondation":
-				//TODO
 				break;
 			default:
+				Fondation fondation = (Fondation) game.getAllSelected().get(0);
+				selectedEntityName.setString(fondation.getName());
+				selectedEntityHP.setString("");
+				selectedEntityDamage.setString("");
+				selectedEntityRange.setString("");
+				selectedEntityAttackSpeed.setString("");
+				progressPourcentageUnit.setString("");
+				for (RectangleShape rect : buildingTabRectangle) {
+					rect.setFillColor(Color.TRANSPARENT);
+				}
 				break;
 			}
 		} else {
@@ -675,7 +615,7 @@ public class GameController {
 			for (RectangleShape rect : buildingTabRectangle) {
 				rect.setFillColor(Color.TRANSPARENT);
 			}
-			for (RectangleShape queueRect : trainingQueueRectangle){
+			for (RectangleShape queueRect : trainingQueueRectangle) {
 				queueRect.setFillColor(Color.TRANSPARENT);
 				queueRect.setTexture(null);
 			}

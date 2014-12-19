@@ -51,6 +51,46 @@ public class DirectionFinder {
 			}
 		}
 	}
+	
+	public static RelativePosition getDirection(ControlableEntity source, Tile tile) {
+		// left
+		if (source.getCenter().x > tile.getMapLocation().x) {
+			// top
+			if (source.getCenter().y > tile.getMapLocation().y) {
+				return RelativePosition.TOP_LEFT;
+				// bottom
+			} else if (source.getCenter().y < tile.getMapLocation().y) {
+				return RelativePosition.BOTTOM_LEFT;
+				// middle
+			} else {
+				return RelativePosition.LEFT;
+			}
+			// right
+		} else if (source.getCenter().x < tile.getMapLocation().x) {
+			// top
+			if (source.getCenter().y > tile.getMapLocation().y) {
+				return RelativePosition.TOP_RIGHT;
+				// bottom
+			} else if (source.getCenter().y < tile.getMapLocation().y) {
+				return RelativePosition.BOTTOM_RIGHT;
+				// middle
+			} else {
+				return RelativePosition.RIGHT;
+			}
+			// middle
+		} else {
+			// top
+			if (source.getCenter().y > tile.getMapLocation().y) {
+				return RelativePosition.TOP;
+				// bottom
+			} else if (source.getCenter().y < tile.getMapLocation().y) {
+				return RelativePosition.BOTTOM;
+				// middle
+			} else {
+				return null;
+			}
+		}
+	}
 
 	public static Tile getClosestLocation(ControlableEntity source) {
 		// determine la case la plus proche de la source par rapport a ou elle est

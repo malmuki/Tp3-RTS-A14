@@ -1,6 +1,10 @@
 package ca.csf.RTS.game;
 
+import java.util.ArrayList;
+
 import org.jsfml.graphics.Color;
+
+import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.unitsModel.BarrackModel;
 import ca.csf.RTS.game.unitsModel.FootManModel;
 import ca.csf.RTS.game.unitsModel.ForgeModel;
@@ -13,6 +17,7 @@ public class Team {
 	private int stone = 150;
 	private String name;
 	private Color color;
+	private ArrayList<Entity> entitys;
 
 	// Units models, to be changed through upgrades
 	private FootManModel footManModel;
@@ -25,6 +30,7 @@ public class Team {
 	public Team(String name, Color color) {
 		this.name = name;
 		this.color = color;
+		entitys = new ArrayList<Entity>();
 		footManModel = new FootManModel();
 		workerModel = new WorkerModel();
 		townCenterModel = new TownCenterModel();
@@ -97,5 +103,17 @@ public class Team {
 
 	public Color getColor() {
 		return color;
+	}
+
+	public ArrayList<Entity> getEntitys() {
+		return entitys;
+	}
+
+	public void addEntity(Entity entitys) {
+		this.entitys.add(entitys);
+	}
+
+	public void removeEntity(Entity entity) {
+		this.entitys.remove(entity);
 	}
 }
