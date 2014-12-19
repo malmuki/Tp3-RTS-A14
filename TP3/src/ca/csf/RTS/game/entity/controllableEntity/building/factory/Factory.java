@@ -74,7 +74,12 @@ public abstract class Factory extends Building {
 	}
 
 	public Trainee getNextInQueue() {
-		return trainingQueue.get(0);
+		if (!trainingQueue.isEmpty()) {
+			return trainingQueue.get(0);
+		}else {
+			return null;
+		}
+		
 	}
 
 	public void addToQueue(int index) {
