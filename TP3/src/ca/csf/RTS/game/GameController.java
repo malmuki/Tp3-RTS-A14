@@ -290,6 +290,7 @@ public class GameController {
 					if (Mouse.isButtonPressed(Button.RIGHT)) {
 						clearBuilding();
 					}
+					selection.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
 				}
 			}
 
@@ -483,7 +484,7 @@ public class GameController {
 						trainingQueueRectangle[i].setFillColor(Color.WHITE);
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) entityTownCenter.getStateStack().peek()).getPourcentageDone()));
-				}else {
+				} else {
 					progressPourcentageUnit.setString("");
 				}
 				for (int i = 1; i < 6; i++) {
@@ -515,7 +516,7 @@ public class GameController {
 						trainingQueueRectangle[i].setTexture(null);
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) entityBarrack.getStateStack().peek()).getPourcentageDone()));
-				}else {
+				} else {
 					progressPourcentageUnit.setString("");
 				}
 				if (!selectedEntityIcon.equals(barrack)) {

@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.jsfml.graphics.Texture;
+
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Fightable;
@@ -39,6 +41,7 @@ public class FootMan extends Human implements Fighter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		SoundPlayer.playSound(1, 0);
 		sprite.setTexture(texture);
 		setSpritePos();
 	}
@@ -54,12 +57,20 @@ public class FootMan extends Human implements Fighter {
 	}
 
 	@Override
+	public void order(Tile target) {
+		super.order(target);
+		SoundPlayer.playSound(1, 3);
+	}
+	
+	@Override
 	public void order(Entity target) {
 		if (target.getTeam().getName() != "Nature" && target.getTeam() != this.team) {
 			setTarget(target);
 			stateStack.push(new Attack(this));
+			SoundPlayer.playSound(1, 4);
 		} else {
 			stateStack.push(new Move(target.getTilesOrigin(), this));
+			SoundPlayer.playSound(1, 3);
 		}
 	}
 
