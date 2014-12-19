@@ -3,6 +3,7 @@ package ca.csf.RTS.game;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.Font;
@@ -25,6 +26,7 @@ import org.jsfml.window.event.KeyEvent;
 import org.jsfml.graphics.Text;
 
 import ca.csf.RTS.Menu.model.Menu;
+import ca.csf.RTS.game.audio.MusicPlayer;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
@@ -34,7 +36,6 @@ import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
 import ca.csf.RTS.game.entity.ressource.Tree;
-import ca.csf.RTS.game.sound.MusicPlayer;
 
 public class GameController {
 
@@ -79,7 +80,6 @@ public class GameController {
 		music = new MusicPlayer();
 		game = new Game();
 		try {
-			// temp
 			arial.loadFromFile(Paths.get("./ressource/ARIBLK.TTF"));
 			towncenter = new Texture();
 			towncenter.loadFromFile(Paths.get("./ressource/towncenter.png"));
@@ -143,24 +143,25 @@ public class GameController {
 		map.setTexture(gazon);
 		map.setTextureRect(new IntRect(0, 0, (int) (Game.MAP_SIZE * Tile.TILE_SIZE), (int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
 
-		music.playMusic(1);
+		MusicPlayer.musicStop();
+		MusicPlayer.playMusic(1);
 		while (window.isOpen()) {
 
 			if (isFocused) {
-				music.musicPlaylist();
+				MusicPlayer.musicPlaylist();
 
 				float dt = frameClock.restart().asSeconds();
 				game.doTasks(dt);
 				// pour obtenir le temps depuis la derniere frame
-				
+
 				window.setView(guiView);
 				// draw the GUI
 				drawGUI(window, game);
-				
+
 				window.setView(gameView);
 
 				window.draw(map);
-				
+
 				// dessine toutes les entitys
 				for (GameObject gameObject : game.getAllEntity()) {
 					gameObject.draw(window);
@@ -312,7 +313,7 @@ public class GameController {
 
 	private void initializeGUI() {
 
-		for (int i = 0; i < 6;i++) {
+		for (int i = 0; i < 6; i++) {
 			buildingTabRectangle[i] = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
 		}
 
@@ -430,8 +431,6 @@ public class GameController {
 				if (!selectedEntityIcon.equals(towncenter)) {
 					selectedEntityIcon.setTexture(towncenter);
 				}
-				// TODO
-				// Set building tab to show trainable units
 				break;
 			case "Barrack":
 				Barrack entityBarrack = (Barrack) game.getAllSelected().get(0);
@@ -448,8 +447,6 @@ public class GameController {
 				if (!selectedEntityIcon.equals(barrack)) {
 					selectedEntityIcon.setTexture(barrack);
 				}
-				// TODO
-				// Set building tab to show trainable units
 				break;
 			case "WatchTower":
 				WatchTower entityWatchTower = (WatchTower) game.getAllSelected().get(0);

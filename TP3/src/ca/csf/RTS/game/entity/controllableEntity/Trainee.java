@@ -2,8 +2,8 @@ package ca.csf.RTS.game.entity.controllableEntity;
 
 public enum Trainee {
 	// wood cost, stone cost, time
-	FOOTMAN(50, 0, 15f), WORKER(50, 0, 10f), BARRACK(150, 150, 1.0f), TOWN_CENTER(500, 500, 1.0F),WATCH_TOWER(150,50,20.0f),FORGE(200,200,30.0f), FOOTMAN_UPGRADE(100, 100, 1f), WORKER_UPGRADE(100, 100, 1f), TOWER_UPGRADE(
-			100, 100, 1f);
+	FOOTMAN(50, 0, 15f), WORKER(50, 0, 10f), BARRACK(150, 150, 1.0f), TOWN_CENTER(500, 500, 1.0F), WATCH_TOWER(150, 50, 2.0f), FORGE(200, 200, 30.0f), FOOTMAN_UPGRADE(
+			100, 100, 1f), WORKER_UPGRADE(100, 100, 1f), TOWER_UPGRADE(100, 100, 1f);
 	private int woodCost;
 	private int stoneCost;
 	private float time;
@@ -19,10 +19,10 @@ public enum Trainee {
 	}
 
 	public int stoneCost() {
-		return woodCost;
+		return stoneCost;
 	}
 
 	public int woodCost() {
-		return stoneCost;
+		return woodCost;
 	}
 }
