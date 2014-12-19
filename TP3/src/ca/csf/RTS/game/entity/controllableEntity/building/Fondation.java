@@ -69,7 +69,7 @@ public class Fondation extends Building {
 
 	@Override
 	public String getName() {
-		return building.getName();
+		return building.getName() + " ";
 	}
 
 	@Override
