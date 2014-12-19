@@ -1,18 +1,28 @@
 package ca.csf.RTS.game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.audio.SoundLoader;
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.Trainee;
+import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
+import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Forge;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
+import ca.csf.RTS.game.entity.ressource.Stone;
 import ca.csf.RTS.game.entity.ressource.Tree;
+import ca.csf.RTS.game.pathFinding.DirectionFinder;
 import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Game implements GameEventHandler {
@@ -33,7 +43,14 @@ public class Game implements GameEventHandler {
 	private Team computer;
 	private Team nature;
 
+	private Worker builder;
+	private Vector2i buildingSize;
+	private Trainee targetTrainee;
+
 	public Game() {
+
+		SoundLoader.initialize();
+
 		selectedList = new ArrayList<Entity>();
 		entityList = new ArrayList<Entity>();
 		toBeDeleted = new ArrayList<Entity>();
@@ -61,6 +78,7 @@ public class Game implements GameEventHandler {
 
 	public void newGame() {
 		PathFinder.initialisePathFinder(map);
+		DirectionFinder.initialise(map);
 
 		player = new Team(TEAM_PLAYER, Color.YELLOW);
 		computer = new Team(TEAM_COMPUTER, Color.RED);
@@ -76,18 +94,40 @@ public class Game implements GameEventHandler {
 		for (int i = 2; i < 13; i += 2) {
 			add(new Worker(map[MAP_SIZE - i][MAP_SIZE - 12], computer, this));
 		}
-		
-		add(new Tree(map[15][15], nature, this));
-		add(new Tree(map[17][15], nature, this));
+
+		Random random = new Random();
+
+		placeTree(1000, random);
+		placeStone(200, random);
+
 	}
 
-	public void allo() {
-		if (selectedList.get(0).getName() == "Barrack") {
-			((Barrack) selectedList.get(0)).addToQueue(0);
-		} else {
-			((TownCenter) selectedList.get(0)).addToQueue(0);
-		}
+	public void placeTree(int nbTree, Random random) {
+		int x = random.nextInt(MAP_SIZE);
+		int y = random.nextInt(MAP_SIZE);
 
+		if (nbTree > 0) {
+			if (map[x][y].getOnTile() == null) {
+				add(new Tree(map[x][y], nature, this));
+				placeTree(nbTree - 1, random);
+			} else {
+				placeTree(nbTree, random);
+			}
+		}
+	}
+
+	public void placeStone(int nbStone, Random random) {
+		int x = random.nextInt(MAP_SIZE);
+		int y = random.nextInt(MAP_SIZE);
+
+		if (nbStone > 0) {
+			if (map[x][y].getOnTile() == null) {
+				add(new Stone(map[x][y], nature, this));
+				placeStone(nbStone - 1, random);
+			} else {
+				placeStone(nbStone, random);
+			}
+		}
 	}
 
 	public ArrayList<Entity> getAllEntity() {
@@ -162,20 +202,51 @@ public class Game implements GameEventHandler {
 
 	@Override
 	public void add(Entity entity) {
-		toBeCreated.add(entity);
-		for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
-			for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
-				map[i][j].setOnTile(entity);
+		if (canPlace(entity)) {
+			toBeCreated.add(entity);
+			for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
+				for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
+					map[i][j].setOnTile(entity);
+				}
 			}
 		}
+	}
+
+	private boolean canPlace(Entity entity) {
+		if (entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x >= MAP_SIZE
+				|| entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y >= MAP_SIZE) {
+			return false;
+		}
+
+		for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
+			for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
+				if (map[i][j].getOnTile() != null) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean canPlace(Vector2i pos, Vector2i dim) {
+		if (pos.x + dim.x >= MAP_SIZE || pos.y + dim.y >= MAP_SIZE) {
+			return false;
+		}
+
+		for (int i = pos.x; i < pos.x + dim.x; i++) {
+			for (int j = pos.y; j < pos.y + dim.y; j++) {
+				if (map[i][j].getOnTile() != null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	@Override
 	public void remove(Entity entity) {
 		toBeDeleted.add(entity);
 		selectedList.remove(entity);
-		entity.getTeam().removeUnit(entity);
-
 		for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
 			for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
 				map[i][j].setOnTile(null);
@@ -186,4 +257,75 @@ public class Game implements GameEventHandler {
 	public Team getPlayerTeam() {
 		return player;
 	}
+
+	public void btnAction(int index, GameController gameController) {
+		if (selectedList.isEmpty()) {
+			return;
+		}
+		switch (selectedList.get(0).getName()) {
+		case "Forge":
+			break;
+		case "Barrack":
+			((Factory) selectedList.get(0)).addToQueue(index);
+			break;
+		case "Town Center":
+			((Factory) selectedList.get(0)).addToQueue(index);
+			break;
+		case "Worker":
+			builder = (Worker) selectedList.get(0);
+			targetTrainee = builder.getBuildingOrder(index);
+			buildingSize = builder.getBuildingSize(targetTrainee);
+			gameController.setBuildingColor();
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void build(Vector2i pos) {
+		if (builder.getTeam().substractWood(targetTrainee.woodCost())) {
+			if (builder.getTeam().substractStone(targetTrainee.stoneCost())) {
+				builder.build(targetTrainee);
+				Fondation fondation = null;
+				switch (targetTrainee) {
+				case BARRACK:
+					Barrack barrack = new Barrack(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(barrack);
+					break;
+				case TOWN_CENTER:
+					TownCenter townCenter = new TownCenter(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(townCenter);
+					break;
+				case FORGE:
+					Forge forge = new Forge(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(forge);
+					break;
+				case WATCH_TOWER:
+					WatchTower tower = new WatchTower(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(tower);
+					break;
+				default:
+					break;
+				}
+				add(fondation);
+				builder.setTarget(fondation);
+			} else {
+				builder.getTeam().addWood(targetTrainee.woodCost());
+
+				SoundPlayer.playSound(2);
+			}
+		} else {
+			SoundPlayer.playSound(3);
+		}
+	}
+
+	public Vector2i getBuildingSize() {
+		return buildingSize;
+	}
+
+	public void clearBuilding() {
+		buildingSize = null;
+		builder = null;
+	}
+
 }

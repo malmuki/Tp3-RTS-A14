@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.stage.StageStyle;
 import ca.csf.RTS.Menu.controller.MenuController;
 import ca.csf.RTS.eventHandler.MenuEventHandler;
+import ca.csf.RTS.game.audio.MusicPlayer;
 import ca.csf.simpleFx.SimpleFXApplication;
 import ca.csf.simpleFx.SimpleFXApplicationLauncher;
 import ca.csf.simpleFx.SimpleFXScene;
@@ -17,7 +18,7 @@ public class Menu extends SimpleFXApplication {
 	public static final String TITLE = "RTS TP3 2014";
 
 	private ArrayList<MenuEventHandler> menuEventHandler;
-	
+
 	public void run(String[] args) {
 		SimpleFXApplicationLauncher.startSimpleFXApplication(Menu.class, args);
 	}
@@ -25,17 +26,19 @@ public class Menu extends SimpleFXApplication {
 	@Override
 	public void start() {
 		try {
-			SimpleFXScene simpleFXScene = new SimpleFXScene(MenuController.class.getResource(MENUWINDOW_PATH),
-					MenuController.class.getResource(CSS_PATH), new MenuController());
+			SimpleFXScene simpleFXScene = new SimpleFXScene(MenuController.class.getResource(MENUWINDOW_PATH), MenuController.class.getResource(CSS_PATH),
+					new MenuController());
 			SimpleFXStage simpleFXStage = new SimpleFXStage(TITLE, StageStyle.DECORATED, simpleFXScene, this);
 			simpleFXStage.setResizable(false);
+			MusicPlayer.initialize();
+			MusicPlayer.playMusic(0);
 			simpleFXStage.show();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	
-	public void addEvent(MenuEventHandler Handler){
+
+	public void addEvent(MenuEventHandler Handler) {
 		menuEventHandler.add(Handler);
 	}
 }

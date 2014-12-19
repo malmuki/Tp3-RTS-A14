@@ -7,6 +7,7 @@ import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
@@ -27,12 +28,11 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	protected RectangleShape lifeBorder;
 	protected Entity target;
 
-	public ControlableEntity(Tile originTile, int healthMax, Team team, GameEventHandler game) {
+	public ControlableEntity(Tile originTile, Team team, GameEventHandler game, int healthMax) {
 		super(originTile, team, game);
-		this.healthMax = healthMax;
-		healthCurrent = healthMax;
 		stateStack = new Stack<State>();
-
+		this.healthMax = healthMax;
+		healthCurrent = this.healthMax;
 		lifeBar = new RectangleShape(new Vector2f(LIFE_BAR_W, LIFE_BAR_H));
 		lifeBar.setFillColor(Color.GREEN);
 		lifeBorder = new RectangleShape(new Vector2f(LIFE_BAR_W, LIFE_BAR_H));
@@ -47,15 +47,14 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		lifeBar.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
 		lifeBorder.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
 
-		
-		lifeBar.setSize(new Vector2f((float)healthCurrent / (float)healthMax * LIFE_BAR_W, LIFE_BAR_H));
+		lifeBar.setSize(new Vector2f((float) healthCurrent / (float) healthMax * LIFE_BAR_W, LIFE_BAR_H));
 
 		if (selected) {
 			lifeBorder.setOutlineColor(Color.BLUE);
 		} else {
 			lifeBorder.setOutlineColor(team.getColor());
 		}
-		
+
 		lifeBar.draw(target, RenderStates.DEFAULT);
 		lifeBorder.draw(target, RenderStates.DEFAULT);
 	}
@@ -77,9 +76,9 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	public int getHP() {
 		return healthCurrent;
 	}
-	
+
 	@Override
-	public int getMaxHealth(){
+	public int getMaxHealth() {
 		return healthMax;
 	}
 
@@ -90,4 +89,9 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	public void setTarget(Entity target) {
 		this.target = target;
 	}
+
+	public abstract Vector2i getCenter();
+	
+	protected abstract State getDefaultState();
+
 }

@@ -12,17 +12,18 @@ import ca.csf.simpleFx.SimpleFXController;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
 
-public class MenuController extends SimpleFXController implements MenuEventHandler{
+public class MenuController extends SimpleFXController implements MenuEventHandler {
 	@FXML
 	private Button btnOptions;
-	
+
 	@FXML
 	public Slider volumeMusicSlider;
 	private GameController gameController;
-	
+
 	private static final String OPTIONSWINDOW_PATH = "../vue/OptionsWindow.fxml";
 	private static final String CSS_OPTIONS_PATH = "../vue/options.css";
 	private static final String TITLE = "Options";
+
 	public MenuController() {
 		gameController = new GameController();
 	}
@@ -31,8 +32,8 @@ public class MenuController extends SimpleFXController implements MenuEventHandl
 	public void startGame() throws IOException {
 		getSimpleFxStage().close();
 		// Create the window
-			gameController.newGame();
-		
+		gameController.newGame();
+
 	}
 
 	@FXML
@@ -47,10 +48,10 @@ public class MenuController extends SimpleFXController implements MenuEventHandl
 			ex.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void dragRelease() {
-		//gameController.getMusic().setVolume(((int) volumeMusicSlider.getValue()));
+		// gameController.getMusic().setVolume(((int) volumeMusicSlider.getValue()));
 	}
 
 }
