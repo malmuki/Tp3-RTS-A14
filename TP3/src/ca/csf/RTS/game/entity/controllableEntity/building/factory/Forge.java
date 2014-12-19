@@ -13,9 +13,9 @@ import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.state.State;
-import ca.csf.RTS.upgrades.FootmanUpgrade;
-import ca.csf.RTS.upgrades.WatchTowerUpgrade;
-import ca.csf.RTS.upgrades.WorkerUpgrade;
+import ca.csf.RTS.game.upgrades.FootmanUpgrade;
+import ca.csf.RTS.game.upgrades.WatchTowerUpgrade;
+import ca.csf.RTS.game.upgrades.WorkerUpgrade;
 
 public class Forge extends Factory {
 

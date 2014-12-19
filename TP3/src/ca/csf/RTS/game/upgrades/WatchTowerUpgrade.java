@@ -1,4 +1,4 @@
-package ca.csf.RTS.upgrades;
+package ca.csf.RTS.game.upgrades;
 
 import ca.csf.RTS.game.Team;
 
