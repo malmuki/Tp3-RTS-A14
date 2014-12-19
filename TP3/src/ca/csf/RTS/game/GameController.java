@@ -423,15 +423,14 @@ public class GameController {
 				selectedEntityAttackSpeed.setString("");
 				selectedEntityHP.setString("Health : " + (entityTownCenter.getHP()) + " / " + entityTownCenter.getMaxHealth());
 				buildingImageButtons.add(worker);
-				for (RectangleShape rect : buildingTabRectangle) {
-					rect.setFillColor(Color.TRANSPARENT);
-				}
 				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
+				
+				for(int i = 1; i < 6; i++){
+					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
+				}
 				if (!selectedEntityIcon.equals(towncenter)) {
 					selectedEntityIcon.setTexture(towncenter);
 				}
-				// TODO
-				// Set building tab to show trainable units
 				break;
 			case "Barrack":
 				Barrack entityBarrack = (Barrack) game.getAllSelected().get(0);
@@ -441,15 +440,13 @@ public class GameController {
 				selectedEntityAttackSpeed.setString("");
 				selectedEntityHP.setString("Health : " + (entityBarrack.getHP()) + " / " + entityBarrack.getMaxHealth());
 				buildingImageButtons.add(footman);
-				for (RectangleShape rect : buildingTabRectangle) {
-					rect.setFillColor(Color.TRANSPARENT);
+				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
+				for(int i = 1; i < 6; i++){
+					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
 				}
-				buildingTabRectangle[1].setTexture(buildingImageButtons.get(0));
 				if (!selectedEntityIcon.equals(barrack)) {
 					selectedEntityIcon.setTexture(barrack);
 				}
-				// TODO
-				// Set building tab to show trainable units
 				break;
 			case "WatchTower":
 				WatchTower entityWatchTower = (WatchTower) game.getAllSelected().get(0);
