@@ -1,37 +1,36 @@
 package ca.csf.RTS.game.unitsModel;
 
-
 public class FootManModel extends Model {
-  private int range = 1;
-  private int damage = 10;
-  private float attackDelay = 1.0f;
-  
-  public FootManModel() {
-    healthMax = 100;
-  }
+	private int range = 1;
+	private int damage = 10;
+	private float attackDelay = 1.0f;
 
-  public int getRange() {
-    return range;
-  }
+	public FootManModel() {
+		healthMax = 100;
+	}
 
-  public int getDamage() {
-    return damage;
-  }
+	public int getRange() {
+		return range;
+	}
 
-  public float getAttackDelay() {
-    return attackDelay;
-  }
+	public int getDamage() {
+		return damage;
+	}
 
-  public void upgradeRange(int amount) {
-    range += amount;
-  }
+	public float getAttackDelay() {
+		return attackDelay;
+	}
 
-  public void upgradeDamage(int amount) {
-    damage += amount;
-  }
+	public void upgradeRange(int amount) {
+		range += amount;
+	}
 
-  public void upgradeAttackDelay(float amount) {
-    attackDelay -= amount;
-  }
+	public void upgradeDamage(int amount) {
+		damage += amount;
+	}
+
+	public void upgradeAttackDelay(float amount) {
+		attackDelay -= amount;
+	}
 
 }

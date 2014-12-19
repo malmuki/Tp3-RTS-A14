@@ -15,7 +15,7 @@ public abstract class Human extends ControlableEntity implements Watcher {
 
 	private static final float MOVE_DELAY = 0.18f;
 
-	public Human(Tile originTile,  Team team, GameEventHandler game, int healthMax) {
+	public Human(Tile originTile, Team team, GameEventHandler game, int healthMax) {
 		super(originTile, team, game, healthMax);
 	}
 

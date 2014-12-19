@@ -17,7 +17,7 @@ public class Menu extends SimpleFXApplication {
 	public static final String TITLE = "RTS TP3 2014";
 
 	private ArrayList<MenuEventHandler> menuEventHandler;
-	
+
 	public void run(String[] args) {
 		SimpleFXApplicationLauncher.startSimpleFXApplication(Menu.class, args);
 	}
@@ -25,8 +25,8 @@ public class Menu extends SimpleFXApplication {
 	@Override
 	public void start() {
 		try {
-			SimpleFXScene simpleFXScene = new SimpleFXScene(MenuController.class.getResource(MENUWINDOW_PATH),
-					MenuController.class.getResource(CSS_PATH), new MenuController());
+			SimpleFXScene simpleFXScene = new SimpleFXScene(MenuController.class.getResource(MENUWINDOW_PATH), MenuController.class.getResource(CSS_PATH),
+					new MenuController());
 			SimpleFXStage simpleFXStage = new SimpleFXStage(TITLE, StageStyle.DECORATED, simpleFXScene, this);
 			simpleFXStage.setResizable(false);
 			simpleFXStage.show();
@@ -34,8 +34,8 @@ public class Menu extends SimpleFXApplication {
 			ex.printStackTrace();
 		}
 	}
-	
-	public void addEvent(MenuEventHandler Handler){
+
+	public void addEvent(MenuEventHandler Handler) {
 		menuEventHandler.add(Handler);
 	}
 }

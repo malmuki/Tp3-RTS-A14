@@ -4,8 +4,8 @@ public class Building implements State {
 
 	@Override
 	public StateInteraction action(float deltaTime) {
-		return null;
-		
+		return StateInteraction.ended;
+
 	}
 
 }

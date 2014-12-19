@@ -20,6 +20,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class WatchTower extends Building implements Fighter, Watcher {
 
+	
   private static String TEXTURE_PATH = "./ressource/tower.png";
   private static final String NAME = "WatchTower";
   private final int RANGE;
@@ -28,6 +29,7 @@ public class WatchTower extends Building implements Fighter, Watcher {
   private static final Vector2i DIMENSION = new Vector2i(3, 3);
   private static Texture texture;
 
+	
   public WatchTower(Tile originTile, Team team, GameEventHandler game) {
     super(originTile, team, game, DIMENSION, team.getWatchTowerModel().getHealthMax());
     RANGE = team.getWatchTowerModel().getRange();

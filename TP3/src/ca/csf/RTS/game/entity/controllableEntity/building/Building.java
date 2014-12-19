@@ -12,7 +12,7 @@ public abstract class Building extends ControlableEntity {
 		super(originTile, team, game, healthMax);
 		this.dimensions = dimension;
 	}
-	
+
 	@Override
 	public boolean isObstacle() {
 		return true;

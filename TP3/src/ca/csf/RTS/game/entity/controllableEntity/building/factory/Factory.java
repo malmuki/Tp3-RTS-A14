@@ -21,7 +21,7 @@ public abstract class Factory extends Building {
 
 	public Factory(Tile originTile, Team team, GameEventHandler game, Vector2i dimension, int healthMax) {
 		super(originTile, team, game, dimension, healthMax);
-		
+
 		rallyPoint = null;
 		trainingQueue = new ArrayList<Trainee>();
 	}
@@ -39,7 +39,7 @@ public abstract class Factory extends Building {
 				stateStack.pop();
 				if (trainingQueue.isEmpty()) {
 					stateStack.push(getDefaultState());
-				}else {
+				} else {
 					stateStack.push(new Training(this));
 				}
 				break;
@@ -67,8 +67,8 @@ public abstract class Factory extends Building {
 	public void order(Tile target) {
 		rallyPoint = target;
 	}
-	
-	public Trainee getNextInQueue(){
+
+	public Trainee getNextInQueue() {
 		return trainingQueue.get(0);
 	}
 
