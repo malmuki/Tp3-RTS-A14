@@ -91,4 +91,7 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	}
 
 	public abstract Vector2i getCenter();
+	
+	protected abstract State getDefaultState();
+
 }

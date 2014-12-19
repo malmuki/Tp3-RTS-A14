@@ -11,7 +11,6 @@ import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.building.Building;
-import ca.csf.RTS.game.entity.state.State;
 import ca.csf.RTS.game.entity.state.Training;
 
 public abstract class Factory extends Building {
@@ -95,8 +94,6 @@ public abstract class Factory extends Building {
 	}
 
 	public abstract boolean spawnNext();
-
-	protected abstract State getDefaultState();
 
 	protected abstract Trainee getTrainable(int index);
 }

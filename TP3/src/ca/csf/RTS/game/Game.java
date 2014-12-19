@@ -11,6 +11,7 @@ import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
+import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
@@ -218,10 +219,9 @@ public class Game implements GameEventHandler {
 		}
 		return true;
 	}
-	
+
 	public boolean canPlace(Vector2i pos, Vector2i dim) {
-		if (pos.x + dim.x >= MAP_SIZE
-				|| pos.y + dim.y >= MAP_SIZE) {
+		if (pos.x + dim.x >= MAP_SIZE || pos.y + dim.y >= MAP_SIZE) {
 			return false;
 		}
 
@@ -276,20 +276,30 @@ public class Game implements GameEventHandler {
 	}
 
 	public void build(Vector2i pos) {
-		builder.build(targetTrainee);
-		switch (targetTrainee) {
-		case BARRACK:
-			Barrack barrack = new Barrack(map[pos.x][pos.y], builder.getTeam(), this);
-			builder.setTarget(barrack);
-			add(barrack);
-			break;
-		case TOWN_CENTER:
-			TownCenter townCenter = new TownCenter(map[pos.x][pos.y], builder.getTeam(), this);
-			builder.setTarget(townCenter);
-			add(townCenter);
-			break;
-		default:
-			break;
+		if (builder.getTeam().substractWood(targetTrainee.woodCost())) {
+			if (builder.getTeam().substractStone(targetTrainee.stoneCost())) {
+				builder.build(targetTrainee);
+				Fondation fondation = null;
+				switch (targetTrainee) {
+				case BARRACK:
+					Barrack barrack = new Barrack(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(barrack);
+					break;
+				case TOWN_CENTER:
+					TownCenter townCenter = new TownCenter(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(townCenter);
+					break;
+				default:
+					break;
+				}
+				add(fondation);
+				builder.setTarget(fondation);
+			} else {
+				builder.getTeam().addWood(targetTrainee.woodCost());
+				//TODO son manque de ressource
+			}
+		} else {
+			//TODO son manque de ressource
 		}
 	}
 
@@ -303,5 +313,3 @@ public class Game implements GameEventHandler {
 	}
 
 }
-
-
