@@ -157,8 +157,10 @@ public class Game implements GameEventHandler {
 
 		for (int i = (int) selection1.x; i < selection2.x; i++) {
 			for (int j = (int) selection1.y; j < selection2.y; j++) {
-				if (map[i][j].getOnTile() != null) {
-					toHighlight.add(map[i][j].getOnTile());
+				if (map[i][j].getOnTile() != null && map[i][j].getOnTile().getTeam() != computer) {
+					if (!toHighlight.contains(map[i][j].getOnTile())) {
+						toHighlight.add(map[i][j].getOnTile());
+					}
 				}
 			}
 		}
@@ -333,7 +335,7 @@ public class Game implements GameEventHandler {
 	public boolean isVictorious() {
 		if (computer.getEntitys().isEmpty()) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}

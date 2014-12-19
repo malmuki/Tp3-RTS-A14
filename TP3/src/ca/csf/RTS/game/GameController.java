@@ -10,6 +10,7 @@ import org.jsfml.graphics.Font;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.graphics.Text;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
@@ -23,19 +24,18 @@ import org.jsfml.window.VideoMode;
 import org.jsfml.window.WindowStyle;
 import org.jsfml.window.event.Event;
 import org.jsfml.window.event.KeyEvent;
-import org.jsfml.graphics.Text;
 
 import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.game.audio.MusicPlayer;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Forge;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
-import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
@@ -290,6 +290,7 @@ public class GameController {
 					if (Mouse.isButtonPressed(Button.RIGHT)) {
 						clearBuilding();
 					}
+					selection.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
 				}
 			}
 
@@ -483,7 +484,7 @@ public class GameController {
 						trainingQueueRectangle[i].setFillColor(Color.WHITE);
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) entityTownCenter.getStateStack().peek()).getPourcentageDone()));
-				}else {
+				} else {
 					progressPourcentageUnit.setString("");
 				}
 				for (int i = 1; i < 6; i++) {
@@ -515,7 +516,7 @@ public class GameController {
 						trainingQueueRectangle[i].setTexture(null);
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) entityBarrack.getStateStack().peek()).getPourcentageDone()));
-				}else {
+				} else {
 					progressPourcentageUnit.setString("");
 				}
 				if (!selectedEntityIcon.equals(barrack)) {

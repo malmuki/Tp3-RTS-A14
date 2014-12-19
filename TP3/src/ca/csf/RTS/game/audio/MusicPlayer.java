@@ -43,7 +43,7 @@ public class MusicPlayer {
 
 		music = musicList.get(song);
 		// Change some parameters & make sure it's not already playing
-		music.setVolume(25);
+		music.setVolume(15);
 		music.setLoop(false);
 
 		// Play it

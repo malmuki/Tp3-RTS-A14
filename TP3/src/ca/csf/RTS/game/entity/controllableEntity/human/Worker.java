@@ -9,6 +9,7 @@ import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
@@ -56,7 +57,14 @@ public class Worker extends Human {
 	}
 
 	@Override
+	public void order(Tile target) {
+		super.order(target);
+		SoundPlayer.playSound(0, 3);
+	}
+	
+	@Override
 	public void order(Entity target) {
+		SoundPlayer.playSound(0, 3);
 		stateStack.clear();
 		if (target.getTeam().getName() == "Nature") {
 			setTarget(target);
