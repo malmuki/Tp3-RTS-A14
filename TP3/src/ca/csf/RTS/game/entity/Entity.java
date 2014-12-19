@@ -17,7 +17,6 @@ public abstract class Entity extends GameObject {
 		selected = false;
 		this.tilesOrigin = tiles;
 		this.team = team;
-		team.addUnit(this);
 	}
 
 	public Tile getTilesOrigin() {

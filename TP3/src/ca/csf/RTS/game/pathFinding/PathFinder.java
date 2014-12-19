@@ -251,11 +251,11 @@ public class PathFinder {
 			// if in range
 			if (listsGCost[parentID] <= maxG && closedListContains(x, y) == 0) {
 				if (map[x][y].getOnTile() == null || searchForTeam == map[x][y].getOnTile().getTeam().getName() || !map[x][y].hasObstacle()) { // if it's not
-																																					// in the
-																																					// closed
-																																					// list
-																																					// and it
-																																					// has no
+																																				// in the
+																																				// closed
+																																				// list
+																																				// and it
+																																				// has no
 					// obstacle and it's parent's G is not too high
 					int openListID = openListContains(x, y); // search for the tile in the openList
 					if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)
@@ -388,8 +388,8 @@ public class PathFinder {
 	}
 
 	public static Tile findSpawningSpot(Factory factory) {
-		for (int i = factory.getTilesOrigin().getMapLocation().x - 1; i < factory.getTilesOrigin().getMapLocation().x + factory.getDimention().x + 2; i++) {
-			for (int j = factory.getTilesOrigin().getMapLocation().y - 1; j < factory.getTilesOrigin().getMapLocation().y + factory.getDimention().y + 2; j++) {
+		for (int i = factory.getTilesOrigin().getMapLocation().x - 1; i < factory.getTilesOrigin().getMapLocation().x + factory.getDimention().x + 1; i++) {
+			for (int j = factory.getTilesOrigin().getMapLocation().y - 1; j < factory.getTilesOrigin().getMapLocation().y + factory.getDimention().y + 1; j++) {
 				if ((i >= 0 && i < Game.MAP_SIZE) && (j >= 0 && j < Game.MAP_SIZE)) {
 					if (map[i][j].getOnTile() == null) {
 						return map[i][j];
