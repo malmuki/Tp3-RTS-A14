@@ -10,9 +10,9 @@ import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
-import ca.csf.RTS.game.entity.controllableEntity.building.factory.Trainee;
 import ca.csf.RTS.game.entity.state.Building;
 import ca.csf.RTS.game.entity.state.Gathering;
 import ca.csf.RTS.game.entity.state.Idle;
@@ -102,8 +102,8 @@ public class Worker extends Human {
 		return NAME;
 	}
 
-	public void build() {
-		stateStack.push(new Building());
+	public void build(Trainee target) {
+		stateStack.push(new Building(this, target));
 	}
 
 	public Trainee getBuildingOrder(int index) {

@@ -9,8 +9,8 @@ import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.building.Building;
-import ca.csf.RTS.game.entity.state.State;
 import ca.csf.RTS.game.entity.state.Training;
 
 public abstract class Factory extends Building {
@@ -46,8 +46,8 @@ public abstract class Factory extends Building {
 
 			case dead:
 				for (Trainee trainee : trainingQueue) {
-					team.addStone(trainee.stoneCost);
-					team.addWood(trainee.woodCost);
+					team.addStone(trainee.stoneCost());
+					team.addWood(trainee.woodCost());
 				}
 				game.remove(this);
 				break;
@@ -78,10 +78,10 @@ public abstract class Factory extends Building {
 
 	public void addToQueue(int index) {
 		if (trainingQueue.size() < MAX_QUEUE) {
-			if (getTrainable(index).woodCost <= team.getWood()) {
-				if (getTrainable(index).stoneCost <= team.getStoned()) {
-					team.substractStone(getTrainable(index).stoneCost);
-					team.substractWood(getTrainable(index).woodCost);
+			if (getTrainable(index).woodCost() <= team.getWood()) {
+				if (getTrainable(index).stoneCost() <= team.getStoned()) {
+					team.substractStone(getTrainable(index).stoneCost());
+					team.substractWood(getTrainable(index).woodCost());
 					if (trainingQueue.isEmpty()) {
 						stateStack.push(new Training(this));
 					}
@@ -98,8 +98,6 @@ public abstract class Factory extends Building {
 	}
 
 	public abstract boolean spawnNext();
-
-	protected abstract State getDefaultState();
 
 	protected abstract Trainee getTrainable(int index);
 }

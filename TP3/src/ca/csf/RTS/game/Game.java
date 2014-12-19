@@ -10,6 +10,9 @@ import org.jsfml.system.Vector2i;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.Trainee;
+import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
@@ -37,6 +40,7 @@ public class Game implements GameEventHandler {
 
 	private Worker builder;
 	private Vector2i buildingSize;
+	private Trainee targetTrainee;
 
 	public Game() {
 		selectedList = new ArrayList<Entity>();
@@ -215,10 +219,9 @@ public class Game implements GameEventHandler {
 		}
 		return true;
 	}
-	
+
 	public boolean canPlace(Vector2i pos, Vector2i dim) {
-		if (pos.x + dim.x >= MAP_SIZE
-				|| pos.y + dim.y >= MAP_SIZE) {
+		if (pos.x + dim.x >= MAP_SIZE || pos.y + dim.y >= MAP_SIZE) {
 			return false;
 		}
 
@@ -263,7 +266,8 @@ public class Game implements GameEventHandler {
 			break;
 		case "Worker":
 			builder = (Worker) selectedList.get(0);
-			buildingSize = builder.getBuildingSize(builder.getBuildingOrder(index));
+			targetTrainee = builder.getBuildingOrder(index);
+			buildingSize = builder.getBuildingSize(targetTrainee);
 			gameController.setBuildingColor();
 			break;
 		default:
@@ -272,10 +276,33 @@ public class Game implements GameEventHandler {
 	}
 
 	public void build(Vector2i pos) {
-		builder.build();
+		if (builder.getTeam().substractWood(targetTrainee.woodCost())) {
+			if (builder.getTeam().substractStone(targetTrainee.stoneCost())) {
+				builder.build(targetTrainee);
+				Fondation fondation = null;
+				switch (targetTrainee) {
+				case BARRACK:
+					Barrack barrack = new Barrack(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(barrack);
+					break;
+				case TOWN_CENTER:
+					TownCenter townCenter = new TownCenter(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(townCenter);
+					break;
+				default:
+					break;
+				}
+				add(fondation);
+				builder.setTarget(fondation);
+			} else {
+				builder.getTeam().addWood(targetTrainee.woodCost());
+				//TODO son manque de ressource
+			}
+		} else {
+			//TODO son manque de ressource
+		}
 	}
 
-	
 	public Vector2i getBuildingSize() {
 		return buildingSize;
 	}
@@ -286,5 +313,3 @@ public class Game implements GameEventHandler {
 	}
 
 }
-
-
