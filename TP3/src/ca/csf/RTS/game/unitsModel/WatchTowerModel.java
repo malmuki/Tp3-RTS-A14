@@ -6,7 +6,7 @@ public class WatchTowerModel extends Model {
 		healthMax = 450;
 	}
 
-	private int range = 1;
+	private int range = 10;
 	private int damage = 10;
 	private float attackDelay = 1.0f;
 

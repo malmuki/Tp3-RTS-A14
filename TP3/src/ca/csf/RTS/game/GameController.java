@@ -29,9 +29,11 @@ import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.game.audio.MusicPlayer;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Forge;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
@@ -152,6 +154,9 @@ public class GameController {
 		MusicPlayer.playMusic(1);
 		while (window.isOpen()) {
 
+			if (game.isVictorious()) {
+				return;
+			}
 			if (isFocused) {
 				MusicPlayer.musicPlaylist();
 
@@ -265,6 +270,7 @@ public class GameController {
 					}
 				} else {
 					if (mousePos.x < gameView.getCenter().x + (gameView.getSize().x / 2)) {
+						buildingPlacer.setSize(new Vector2f(Vector2i.mul(game.getBuildingSize(), (int) Tile.TILE_SIZE)));
 						buildingPlacer.setPosition(mousePos);
 						if (game.canPlace(new Vector2i(Vector2f.div(mousePos, Tile.TILE_SIZE)), game.getBuildingSize())) {
 							buildingPlacer.setSize(new Vector2f(Vector2i.mul(game.getBuildingSize(), (int) Tile.TILE_SIZE)));
@@ -528,12 +534,34 @@ public class GameController {
 				}
 				break;
 			case "Forge":
+				Forge entityForge = (Forge) game.getAllSelected().get(0);
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
 				progressPourcentageUnit.setString("");
 				for (RectangleShape rect : buildingTabRectangle) {
 					rect.setFillColor(Color.TRANSPARENT);
+				}
+				selectedEntityName.setString(entityForge.getName());
+				selectedEntityHP.setString("Health : " + (entityForge.getHP()) + " / " + entityForge.getMaxHealth());
+				buildingImageButtons.add(footman);
+				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
+				for (int i = 1; i < 6; i++) {
+					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
+				}
+				Factory factoryQueue3 = (Factory) game.getAllSelected().get(0);
+				if (!factoryQueue3.getQueue().isEmpty()) {
+					for (int i = 0; i < factoryQueue3.getQueue().size(); i++) {
+						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue3.getQueue().get(i)));
+						trainingQueueRectangle[i].setFillColor(Color.WHITE);
+					}
+					for (int i = factoryQueue3.getQueue().size(); i < 5; i++) {
+						trainingQueueRectangle[i].setTexture(null);
+					}
+					progressPourcentageUnit.setString(Float.toString(((Training) factoryQueue3.getStateStack().peek()).getPourcentageDone()));
+				}
+				if (!selectedEntityIcon.equals(barrack)) {
+					selectedEntityIcon.setTexture(barrack);
 				}
 				break;
 			case "Tree":
@@ -564,10 +592,18 @@ public class GameController {
 				if (!selectedEntityIcon.equals(rockIconTexture)) {
 					selectedEntityIcon.setTexture(rockIconTexture);
 				}
-			case "Fondation":
-				// TODO
 				break;
 			default:
+				Fondation fondation = (Fondation) game.getAllSelected().get(0);
+				selectedEntityName.setString(fondation.getName());
+				selectedEntityHP.setString("");
+				selectedEntityDamage.setString("");
+				selectedEntityRange.setString("");
+				selectedEntityAttackSpeed.setString("");
+				progressPourcentageUnit.setString("");
+				for (RectangleShape rect : buildingTabRectangle) {
+					rect.setFillColor(Color.TRANSPARENT);
+				}
 				break;
 			}
 		} else {

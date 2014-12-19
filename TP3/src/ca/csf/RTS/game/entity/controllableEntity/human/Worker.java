@@ -3,6 +3,7 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2i;
 
@@ -25,7 +26,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Worker extends Human {
 
-	private static String TEXTURE_PATH = "./ressource/worker.gif";
+	private static String TEXTURE_PATH = "./ressource/worker.png";
 	private Texture texture;
 	private static final String NAME = "Worker";
 	private static final int RESSOURCE_SEARCH_RANGE = 35; // this accounts for
@@ -43,8 +44,10 @@ public class Worker extends Human {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		sprite.setTextureRect(new IntRect(15, 5, 28, 32));
 		sprite.setTexture(texture);
 		setSpritePos();
+		stateStack.push(getDefaultState());
 	}
 
 	@Override
