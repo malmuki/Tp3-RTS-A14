@@ -10,6 +10,8 @@ import org.jsfml.system.Vector2i;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.Trainee;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
@@ -37,6 +39,7 @@ public class Game implements GameEventHandler {
 
 	private Worker builder;
 	private Vector2i buildingSize;
+	private Trainee targetTrainee;
 
 	public Game() {
 		selectedList = new ArrayList<Entity>();
@@ -263,7 +266,8 @@ public class Game implements GameEventHandler {
 			break;
 		case "Worker":
 			builder = (Worker) selectedList.get(0);
-			buildingSize = builder.getBuildingSize(builder.getBuildingOrder(index));
+			targetTrainee = builder.getBuildingOrder(index);
+			buildingSize = builder.getBuildingSize(targetTrainee);
 			gameController.setBuildingColor();
 			break;
 		default:
@@ -272,10 +276,23 @@ public class Game implements GameEventHandler {
 	}
 
 	public void build(Vector2i pos) {
-		builder.build();
+		builder.build(targetTrainee);
+		switch (targetTrainee) {
+		case BARRACK:
+			Barrack barrack = new Barrack(map[pos.x][pos.y], builder.getTeam(), this);
+			builder.setTarget(barrack);
+			add(barrack);
+			break;
+		case TOWN_CENTER:
+			TownCenter townCenter = new TownCenter(map[pos.x][pos.y], builder.getTeam(), this);
+			builder.setTarget(townCenter);
+			add(townCenter);
+			break;
+		default:
+			break;
+		}
 	}
 
-	
 	public Vector2i getBuildingSize() {
 		return buildingSize;
 	}
