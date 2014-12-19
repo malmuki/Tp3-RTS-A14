@@ -3,6 +3,7 @@ package ca.csf.RTS.game.entity;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
+
 import ca.csf.RTS.eventHandler.GameEventHandler;
 
 public abstract class GameObject {
