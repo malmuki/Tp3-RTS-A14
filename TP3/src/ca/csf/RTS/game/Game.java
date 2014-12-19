@@ -204,6 +204,7 @@ public class Game implements GameEventHandler {
 	public void add(Entity entity) {
 		if (canPlace(entity)) {
 			toBeCreated.add(entity);
+			entity.getTeam().addEntity(entity);
 			for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
 				for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
 					map[i][j].setOnTile(entity);
@@ -247,6 +248,7 @@ public class Game implements GameEventHandler {
 	public void remove(Entity entity) {
 		toBeDeleted.add(entity);
 		selectedList.remove(entity);
+		entity.getTeam().removeEntity(entity);
 		for (int i = entity.getTilesOrigin().getMapLocation().x; i < entity.getTilesOrigin().getMapLocation().x + entity.getDimention().x; i++) {
 			for (int j = entity.getTilesOrigin().getMapLocation().y; j < entity.getTilesOrigin().getMapLocation().y + entity.getDimention().y; j++) {
 				map[i][j].setOnTile(null);
@@ -326,6 +328,14 @@ public class Game implements GameEventHandler {
 	public void clearBuilding() {
 		buildingSize = null;
 		builder = null;
+	}
+
+	public boolean isVictorious() {
+		if (computer.getEntitys().isEmpty()) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

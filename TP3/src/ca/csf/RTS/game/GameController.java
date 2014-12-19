@@ -154,6 +154,9 @@ public class GameController {
 		MusicPlayer.playMusic(1);
 		while (window.isOpen()) {
 
+			if (game.isVictorious()) {
+				return;
+			}
 			if (isFocused) {
 				MusicPlayer.musicPlaylist();
 
