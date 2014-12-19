@@ -529,7 +529,7 @@ public class GameController {
 				Factory factoryQueue = (Factory)game.getAllSelected().get(0);
 				if(!factoryQueue.getQueue().isEmpty()){
 					for(int i = 0; i < 5; i++){
-						trainingQueueRectangle[i].setTexture(factoryQueue.getQueue().get(i).);
+						//trainingQueueRectangle[i].setTexture(factoryQueue.getQueue().get(i).);
 					}
 					factoryQueue.getNextInQueue();
 				}
