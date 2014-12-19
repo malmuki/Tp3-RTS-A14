@@ -13,7 +13,8 @@ import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
-import ca.csf.RTS.game.entity.state.*;
+import ca.csf.RTS.game.entity.state.Dead;
+import ca.csf.RTS.game.entity.state.State;
 
 public abstract class ControlableEntity extends Entity implements Fightable {
 
