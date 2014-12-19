@@ -25,7 +25,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Worker extends Human {
 
-	private static String TEXTURE_PATH = "./ressource/worker.gif";
+	private static String TEXTURE_PATH = "./ressource/worker.png";
 	private Texture texture;
 	private static final String NAME = "Worker";
 	private static final int RESSOURCE_SEARCH_RANGE = 35; // this accounts for
