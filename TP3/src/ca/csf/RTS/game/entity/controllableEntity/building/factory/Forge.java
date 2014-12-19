@@ -10,6 +10,7 @@ import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.state.State;
 import ca.csf.RTS.upgrades.FootmanUpgrade;
 import ca.csf.RTS.upgrades.WatchTowerUpgrade;

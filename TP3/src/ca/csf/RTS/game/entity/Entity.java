@@ -25,9 +25,7 @@ public abstract class Entity extends GameObject {
 
 	@Override
 	protected void setSpritePos() {
-		// if the entity take 1 tile but the sprite is bigger that the tile
 		sprite.setPosition(tilesOrigin.getMapLocation().x * Tile.TILE_SIZE, tilesOrigin.getMapLocation().y * Tile.TILE_SIZE);
-
 	}
 
 	public Vector2i getDimention() {

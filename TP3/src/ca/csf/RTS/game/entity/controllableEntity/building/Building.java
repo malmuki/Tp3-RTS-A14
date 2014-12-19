@@ -1,5 +1,6 @@
 package ca.csf.RTS.game.entity.controllableEntity.building;
 
+import org.jsfml.graphics.Sprite;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
@@ -16,5 +17,9 @@ public abstract class Building extends ControlableEntity {
 	@Override
 	public boolean isObstacle() {
 		return true;
+	}
+
+	protected Sprite getSprite() {
+		return sprite;
 	}
 }

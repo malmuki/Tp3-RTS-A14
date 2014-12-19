@@ -101,7 +101,7 @@ public class WatchTower extends Building implements Fighter, Watcher {
 		}
 	}
 
-	private State getDefaultState() {
+	protected State getDefaultState() {
 		return new Alert(this);
 	}
 
