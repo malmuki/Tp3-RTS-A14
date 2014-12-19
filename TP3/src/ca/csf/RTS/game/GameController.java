@@ -467,7 +467,7 @@ public class GameController {
 					// selectedUnitIcon.setTexture(worker);
 				}
 				break;
-			case "Town Center":
+			case "TownCenter":
 				TownCenter entityTownCenter = (TownCenter) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityTownCenter.getName());
 				selectedEntityDamage.setString("");
@@ -483,6 +483,8 @@ public class GameController {
 						trainingQueueRectangle[i].setFillColor(Color.WHITE);
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) entityTownCenter.getStateStack().peek()).getPourcentageDone()));
+				}else {
+					progressPourcentageUnit.setString("");
 				}
 				for (int i = 1; i < 6; i++) {
 					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
@@ -513,6 +515,8 @@ public class GameController {
 						trainingQueueRectangle[i].setTexture(null);
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) entityBarrack.getStateStack().peek()).getPourcentageDone()));
+				}else {
+					progressPourcentageUnit.setString("");
 				}
 				if (!selectedEntityIcon.equals(barrack)) {
 					selectedEntityIcon.setTexture(barrack);
