@@ -13,6 +13,7 @@ import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
@@ -259,10 +260,10 @@ public class Game implements GameEventHandler {
 			// selectedList.get(0).
 			break;
 		case "Barrack":
-
+			((Factory) selectedList.get(0)).addToQueue(index);
 			break;
 		case "Town Center":
-
+			((Factory) selectedList.get(0)).addToQueue(index);
 			break;
 		case "Worker":
 			builder = (Worker) selectedList.get(0);
@@ -296,10 +297,10 @@ public class Game implements GameEventHandler {
 				builder.setTarget(fondation);
 			} else {
 				builder.getTeam().addWood(targetTrainee.woodCost());
-				//TODO son manque de ressource
+				// TODO son manque de ressource
 			}
 		} else {
-			//TODO son manque de ressource
+			// TODO son manque de ressource
 		}
 	}
 
