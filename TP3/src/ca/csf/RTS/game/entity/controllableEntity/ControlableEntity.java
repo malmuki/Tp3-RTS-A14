@@ -3,7 +3,6 @@ package ca.csf.RTS.game.entity.controllableEntity;
 import java.util.Stack;
 
 import org.jsfml.graphics.Color;
-import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
@@ -39,29 +38,21 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		lifeBorder.setOutlineColor(team.getColor());
 		lifeBorder.setOutlineThickness(2);
 		lifeBorder.setFillColor(Color.TRANSPARENT);
-		sprite.setTextureRect(new IntRect(column, row, height, height));
 	}
-
-	int row = 5;
-	int column = 15;
-	int height = 32;
-	int width = 28;
 
 	public void draw(RenderTarget target) {
 		// if (!isEmpty()) {
 		// this.setAnimation(this.getStateStack().peek().getStateName());
 		// }
-		if (this.getName() == "Worker") {
 
 			super.draw(target);
 			lifeBar.setPosition((sprite.getTextureRect().width / 3 + 1 + sprite.getPosition().x), sprite.getPosition().y - 6);
 			lifeBorder.setPosition((sprite.getTextureRect().width / 3 + 1 + sprite.getPosition().x), sprite.getPosition().y - 6);
 
-		} else {
-			super.draw(target);
-			lifeBar.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
-			lifeBorder.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
-		}
+	//	} else {
+			//super.draw(target);
+			//lifeBar.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
+		//	lifeBorder.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
 
 		lifeBar.setSize(new Vector2f((float) healthCurrent / (float) healthMax * LIFE_BAR_W, LIFE_BAR_H));
 

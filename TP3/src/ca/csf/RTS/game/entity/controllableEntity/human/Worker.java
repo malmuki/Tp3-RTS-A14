@@ -3,6 +3,7 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2i;
 
@@ -43,7 +44,11 @@ public class Worker extends Human {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		int row = 5;
+		int column = 15;
+		int height = 32;
+		int width = 28;
+		sprite.setTextureRect(new IntRect(column, row, width, height));
 		sprite.setTexture(texture);
 		setSpritePos();
 	}
