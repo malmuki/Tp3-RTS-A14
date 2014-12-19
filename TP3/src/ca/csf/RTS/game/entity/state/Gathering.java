@@ -6,8 +6,8 @@ import ca.csf.RTS.game.pathFinding.DirectionFinder;
 
 public class Gathering implements State {
 
-	private static final float MIN_COLLECT_TIME = 0.5f;
-	private static final int RESSOURCES_PER_COLLECT_TIME = 2;
+	public static final float MIN_COLLECT_TIME = 0.5f;
+	public static final int RESSOURCES_PER_COLLECT_TIME = 2;
 
 	private Worker worker;
 	private float timeElapse = 0f;

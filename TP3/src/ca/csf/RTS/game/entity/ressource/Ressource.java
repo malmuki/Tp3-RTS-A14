@@ -8,6 +8,7 @@ import ca.csf.RTS.game.entity.Tile;
 public abstract class Ressource extends Entity {
 
 	protected final int ressourceMax;
+
 	protected int ressourceLeft;
 
 	public Ressource(Tile tile, int ressourceMax, GameEventHandler game, Team team) {
@@ -41,5 +42,9 @@ public abstract class Ressource extends Entity {
 
 	public int getRessources() {
 		return ressourceLeft;
+	}
+	
+	public int getRessourceMax() {
+		return ressourceMax;
 	}
 }
