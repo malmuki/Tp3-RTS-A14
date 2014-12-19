@@ -33,7 +33,8 @@ public class Game implements GameEventHandler {
 	public static final String TEAM_COMPUTER = "Ennemy";
 	public static final String TEAM_NATURE = "Nature";
 
-	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
+	//TODO pour les test
+	public Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
 	private ArrayList<Entity> entityList;
 	private ArrayList<Entity> selectedList;
 	private ArrayList<Entity> toBeDeleted;

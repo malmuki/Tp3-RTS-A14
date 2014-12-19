@@ -85,7 +85,6 @@ public class SoundLoader {
 	}
 
 	public static SoundBuffer getCombat(int typeOne, int typeTwo) {
-		// TODO randomize soundType SoundType + 1 to 4 = range aka 4 sounds per type
 		// Loads the sound related to the type of attack versus the type of armor.
 
 		return soundBufferCombatList.get(typeOne);
