@@ -3,6 +3,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building.factory;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2i;
 
@@ -17,7 +18,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class TownCenter extends Factory {
 
-	private static String TEXTURE_PATH = "./ressource/towncenter.png";
+	private static String TEXTURE_PATH = "./ressource/buildings.png";
 	private static Texture texture;
 	private static final String NAME = "Town Center";
 	public static final Vector2i DIMENSION = new Vector2i(8, 8);
@@ -33,6 +34,7 @@ public class TownCenter extends Factory {
 			e.printStackTrace();
 		}
 		sprite.setTexture(texture);
+		sprite.setTextureRect(new IntRect(134, 3, 130, 130));
 		setSpritePos();
 	}
 

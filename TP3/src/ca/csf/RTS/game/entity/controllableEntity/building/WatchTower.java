@@ -3,6 +3,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2i;
 
@@ -21,7 +22,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 public class WatchTower extends Building implements Fighter, Watcher {
 
 	
-  private static String TEXTURE_PATH = "./ressource/watchtower.png";
+  private static String TEXTURE_PATH = "./ressource/buildings.png";
   private static final String NAME = "WatchTower";
   private final int RANGE;
   private final int DAMAGE;
@@ -44,6 +45,7 @@ public class WatchTower extends Building implements Fighter, Watcher {
       e.printStackTrace();
     }
     sprite.setTexture(texture);
+    sprite.setTextureRect(new IntRect(400, 134, 61, 63));
     setSpritePos();
   }
 
