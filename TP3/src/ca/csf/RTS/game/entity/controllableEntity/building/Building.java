@@ -20,6 +20,6 @@ public abstract class Building extends ControlableEntity {
 	}
 
 	protected Sprite getSprite() {
-		return null;
+		return sprite;
 	}
 }
