@@ -26,6 +26,7 @@ import org.jsfml.window.event.KeyEvent;
 import org.jsfml.graphics.Text;
 
 import ca.csf.RTS.Menu.model.Menu;
+import ca.csf.RTS.game.audio.MusicPlayer;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
@@ -38,7 +39,6 @@ import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
 import ca.csf.RTS.game.entity.ressource.Tree;
 import ca.csf.RTS.game.entity.state.Training;
-import ca.csf.RTS.game.sound.MusicPlayer;
 
 public class GameController {
 
@@ -89,7 +89,6 @@ public class GameController {
 		music = new MusicPlayer();
 		game = new Game();
 		try {
-			// temp
 			arial.loadFromFile(Paths.get("./ressource/ARIBLK.TTF"));
 			towncenter = new Texture();
 			towncenter.loadFromFile(Paths.get("./ressource/towncenter.png"));
@@ -157,11 +156,12 @@ public class GameController {
 				(int) (Game.MAP_SIZE * Tile.TILE_SIZE),
 				(int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
 
-		music.playMusic(1);
+		MusicPlayer.musicStop();
+		MusicPlayer.playMusic(1);
 		while (window.isOpen()) {
 
 			if (isFocused) {
-				music.musicPlaylist();
+				MusicPlayer.musicPlaylist();
 
 				float dt = frameClock.restart().asSeconds();
 				game.doTasks(dt);
@@ -452,7 +452,7 @@ public class GameController {
 		trainingQueueRectangle[4].setPosition(UISizeWidth * 0.75f,
 				UISizeHeight * 0.50f);
 
-		
+
 		rockRessource.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.05f);
 		treeRessource.setPosition(UISizeWidth * 0.20f, UISizeHeight * 0.1f);
 		selectedEntityName.setPosition(UISizeWidth * 0.20f,
@@ -476,7 +476,7 @@ public class GameController {
 	}
 	
 	private Texture getPortrait(Trainee trainee){
-		
+
 		switch (trainee) {
 		case FOOTMAN:
 			return footman;
@@ -484,7 +484,7 @@ public class GameController {
 			return worker;
 		default:
 			return rockIconTexture;
-		}
+	}
 	}
 
 	private void drawGUI(RenderWindow window, Game game) throws IOException {

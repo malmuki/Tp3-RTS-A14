@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="ressource"/>
+	<classpathentry excluding="musics/|musics/|sounds/" kind="src" path="ressource"/>
 	<classpathentry kind="lib" path="lib/SimpleFX.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/TP3/lib/SimpleFX.jar!/doc"/>

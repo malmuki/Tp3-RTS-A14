@@ -1,0 +1,16 @@
+./ressource/sounds/Warnings/error.wav
+./ressource/sounds/Warnings/KnightNoFood1.wav
+./ressource/sounds/Warnings/KnightNoGold1.wav
+./ressource/sounds/Warnings/KnightNoLumber1.wav
+./ressource/sounds/Warnings/KnightUpgradeComplete1.wav
+./ressource/sounds/Buildings/PeasantCannotBuildThere1.wav
+./ressource/sounds/Buildings/BuildingPlacement.wav
+./ressource/sounds/Buildings/BuildingConstruction.wav
+./ressource/sounds/Buildings/PeasantBuildingComplete1.wav
+./ressource/sounds/Buildings/BuildingDeath.wav
+./ressource/sounds/Combat/AxeMediumChopWood1.wav
+./ressource/sounds/Ambient/TreeFall1.wav
+./ressource/sounds/Combat/MetalLightSliceStone2.wav
+./ressource/sounds/Combat/MetalLightChopFlesh1.wav
+./ressource/sounds/Combat/MetalMediumChopFlesh1.wav
+./ressource/sounds/Combat/RangerMissile1.wav

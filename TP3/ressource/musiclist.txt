@@ -1,3 +1,5 @@
-./ressource/wc2intro.ogg
-./ressource/wc2all1.ogg
-./ressource/wc2all2.ogg
+./ressource/musics/wc2intro.ogg
+./ressource/musics/wc2all1.ogg
+./ressource/musics/wc2all2.ogg
+./ressource/musics/wc2all3.ogg
+./ressource/musics/wc2all4.ogg

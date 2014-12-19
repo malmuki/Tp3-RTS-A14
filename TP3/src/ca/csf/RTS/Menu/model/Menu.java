@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.stage.StageStyle;
 import ca.csf.RTS.Menu.controller.MenuController;
 import ca.csf.RTS.eventHandler.MenuEventHandler;
+import ca.csf.RTS.game.audio.MusicPlayer;
 import ca.csf.simpleFx.SimpleFXApplication;
 import ca.csf.simpleFx.SimpleFXApplicationLauncher;
 import ca.csf.simpleFx.SimpleFXScene;
@@ -29,6 +30,8 @@ public class Menu extends SimpleFXApplication {
 					new MenuController());
 			SimpleFXStage simpleFXStage = new SimpleFXStage(TITLE, StageStyle.DECORATED, simpleFXScene, this);
 			simpleFXStage.setResizable(false);
+			MusicPlayer.initialize();
+			MusicPlayer.playMusic(0);
 			simpleFXStage.show();
 		} catch (Exception ex) {
 			ex.printStackTrace();

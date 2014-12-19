@@ -2,6 +2,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building;
 
 import org.jsfml.system.Vector2i;
 
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.Idle;
@@ -15,7 +16,7 @@ public class Fondation extends Building {
 		super(building.getTilesOrigin(), building.getTeam(), building.getGame(), building.getDimention(), building.getTeam().getWatchTowerModel()
 				.getHealthMax());
 		this.building = building;
-		
+
 		sprite = building.getSprite();
 		setSpritePos();
 	}
@@ -23,6 +24,7 @@ public class Fondation extends Building {
 	public void transform() {
 		game.remove(this);
 		game.add(building);
+		SoundPlayer.playSound(8);
 	}
 
 	@Override
@@ -43,10 +45,6 @@ public class Fondation extends Building {
 		if (!stateStack.isEmpty()) {
 
 			switch (stateStack.peek().action(deltaTime)) {
-
-			case notFinished:
-			case noTargetSighted:
-				break;
 
 			case ended:
 				stateStack.pop();
