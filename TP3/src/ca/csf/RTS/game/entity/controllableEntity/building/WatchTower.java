@@ -20,27 +20,32 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class WatchTower extends Building implements Fighter, Watcher {
 
-	private static String TEXTURE_PATH = "./ressource/tower.png";
-	private static final String NAME = "WatchTower";
-	private static final int RANGE = 10;
-	private static final int DAMAGE = 20;
-	private static final float ATTACK_DELAY = 2.5f;
-	private static Texture texture;
-	public static final Vector2i DIMENSION = new Vector2i(3, 3);
+	
+  private static String TEXTURE_PATH = "./ressource/tower.png";
+  private static final String NAME = "WatchTower";
+  private final int RANGE;
+  private final int DAMAGE;
+  private final float ATTACK_DELAY;
+  private static final Vector2i DIMENSION = new Vector2i(3, 3);
+  private static Texture texture;
 
-	public WatchTower(Tile originTile, Team team, GameEventHandler game) {
-		super(originTile, team, game, DIMENSION, team.getWatchTowerModel().getHealthMax());
-		try {
-			if (texture == null) {
-				texture = new Texture();
-				texture.loadFromFile(Paths.get(TEXTURE_PATH));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		sprite.setTexture(texture);
-		setSpritePos();
-	}
+	
+  public WatchTower(Tile originTile, Team team, GameEventHandler game) {
+    super(originTile, team, game, DIMENSION, team.getWatchTowerModel().getHealthMax());
+    RANGE = team.getWatchTowerModel().getRange();
+    DAMAGE = team.getWatchTowerModel().getDamage();
+    ATTACK_DELAY = team.getWatchTowerModel().getAttackDelay();
+    try {
+      if (texture == null) {
+        texture = new Texture();
+        texture.loadFromFile(Paths.get(TEXTURE_PATH));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    sprite.setTexture(texture);
+    setSpritePos();
+  }
 
 	@Override
 	public void attack() {

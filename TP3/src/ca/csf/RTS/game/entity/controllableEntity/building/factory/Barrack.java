@@ -21,7 +21,7 @@ public class Barrack extends Factory {
 	private static final String NAME = "Barrack";
 	public static final Vector2i DIMENSION = new Vector2i(6, 6);
 
-	public Barrack(Tile originTile, Team team, GameEventHandler game, int healthModifier) {
+  public Barrack(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, team, game, DIMENSION, team.getBarrackModel().getHealthMax());
 		try {
 			if (texture == null) {
