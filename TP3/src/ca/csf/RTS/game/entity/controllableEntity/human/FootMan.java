@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import org.jsfml.graphics.Texture;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Game;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
@@ -20,7 +21,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class FootMan extends Human implements Fighter {
 
-	private static String TEXTURE_PATH = "./ressource/Soldat.png";
+	private static final String TEXTURE_PATH = "./ressource/Soldat.png";
 	private static Texture texture;
 	public static final String NAME = "Footman";
 	private final int RANGE;
@@ -64,7 +65,7 @@ public class FootMan extends Human implements Fighter {
 
 	@Override
 	public void order(Entity target) {
-		if (target.getTeam().getName() != "Nature" && target.getTeam() != this.team) {
+		if (target.getTeam().getName() != Game.TEAM_NATURE && target.getTeam() != this.team) {
 			setTarget(target);
 			stateStack.push(new Attack(this));
 			SoundPlayer.playSound(1, 4);

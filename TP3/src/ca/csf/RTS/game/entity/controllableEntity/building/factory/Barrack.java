@@ -19,7 +19,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Barrack extends Factory {
 
-	private static String TEXTURE_PATH = "./ressource/buildings.png";
+	private static final String TEXTURE_PATH = "./ressource/buildings.png";
 	private static Texture texture;
 	public static final String NAME = "Barrack";
 	public static final Vector2i DIMENSION = new Vector2i(6, 6);

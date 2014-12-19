@@ -19,7 +19,7 @@ import ca.csf.RTS.upgrades.WorkerUpgrade;
 
 public class Forge extends Factory {
 
-	private static String TEXTURE_PATH = "./ressource/buildings.png";
+	private static final String TEXTURE_PATH = "./ressource/buildings.png";
 	private static Texture texture;
 	public static final String NAME = "Forge";
 	public static final Vector2i DIMENSION = new Vector2i(5, 7);

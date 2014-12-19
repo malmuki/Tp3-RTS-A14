@@ -10,6 +10,7 @@ import org.jsfml.audio.SoundBuffer;
 
 public class SoundLoader {
 
+	private static final String RESSOURCE_SOUNDLIST_PATH = "./ressource/soundlist.txt";
 	private static ArrayList<SoundBuffer> soundBufferUnitsList = new ArrayList<SoundBuffer>();
 	private static ArrayList<SoundBuffer> soundBufferEventsList = new ArrayList<SoundBuffer>();
 	private static ArrayList<SoundBuffer> soundBufferAmbientList = new ArrayList<SoundBuffer>();
@@ -17,7 +18,7 @@ public class SoundLoader {
 
 	public static void initialize() {
 		try {
-			BufferedReader read = new BufferedReader(new FileReader(new File("./ressource/soundlist.txt")));
+			BufferedReader read = new BufferedReader(new FileReader(new File(RESSOURCE_SOUNDLIST_PATH)));
 			String line;
 			int temp = 1;
 			SoundBuffer soundBuffer = new SoundBuffer();

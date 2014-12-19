@@ -21,7 +21,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class WatchTower extends Building implements Fighter, Watcher {
 
-	private static String TEXTURE_PATH = "./ressource/buildings.png";
+	private static final String TEXTURE_PATH = "./ressource/buildings.png";
 	public static final String NAME = "WatchTower";
 	private final int RANGE;
 	private final int DAMAGE;
