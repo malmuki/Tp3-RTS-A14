@@ -60,8 +60,8 @@ public abstract class Factory extends Building {
 			stateStack.push(getDefaultState());
 		}
 	}
-	
-	public ArrayList<Trainee> getQueue(){
+
+	public ArrayList<Trainee> getQueue() {
 		return trainingQueue;
 	}
 

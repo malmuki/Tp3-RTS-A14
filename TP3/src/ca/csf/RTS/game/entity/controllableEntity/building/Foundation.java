@@ -8,11 +8,12 @@ import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.State;
 
-public class Fondation extends Building {
+public class Foundation extends Building {
 
+	public static final String NAME = "Foundation";
 	private Building building;
 
-	public Fondation(Building building) {
+	public Foundation(Building building) {
 		super(building.getTilesOrigin(), building.getTeam(), building.getGame(), building.getDimention(), building.getTeam().getWatchTowerModel()
 				.getHealthMax());
 		this.building = building;

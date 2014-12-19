@@ -21,7 +21,7 @@ public class Forge extends Factory {
 
 	private static String TEXTURE_PATH = "./ressource/buildings.png";
 	private static Texture texture;
-	private static final String NAME = "Forge";
+	public static final String NAME = "Forge";
 	public static final Vector2i DIMENSION = new Vector2i(5, 7);
 
 	public Forge(Tile originTile, Team team, GameEventHandler game) {
@@ -39,11 +39,11 @@ public class Forge extends Factory {
 		setSpritePos();
 	}
 
-  @Override
+	@Override
 	public void order(Entity onTile) {
 	}
 
-  @Override
+	@Override
 	public void order(Tile target) {
 	}
 
@@ -57,40 +57,38 @@ public class Forge extends Factory {
 		return NAME;
 	}
 
-
-  @Override
-  public boolean spawnNext() {
-    switch (trainingQueue.get(0)) {
-      case FOOTMAN_UPGRADE:
-        FootmanUpgrade.applyUpgrade(this.getTeam());
-        break;
-      case WORKER_UPGRADE:
-        WorkerUpgrade.applyUpgrade(this.getTeam());
-        break;
-      case TOWER_UPGRADE:
-        WatchTowerUpgrade.applyUpgrade(this.getTeam());
-        break;
-      default:
-        break;
-    }
-    return true;
-  }
+	@Override
+	public boolean spawnNext() {
+		switch (trainingQueue.get(0)) {
+		case FOOTMAN_UPGRADE:
+			FootmanUpgrade.applyUpgrade(this.getTeam());
+			break;
+		case WORKER_UPGRADE:
+			WorkerUpgrade.applyUpgrade(this.getTeam());
+			break;
+		case TOWER_UPGRADE:
+			WatchTowerUpgrade.applyUpgrade(this.getTeam());
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
 
 	@Override
 	protected State getDefaultState() {
 		return null;
 	}
 
-	
-  @Override
-  protected Trainee getTrainable(int index) {
-    switch (index) {
-      case 0:
-        return Trainee.FOOTMAN;
-      default:
-        return null;
-    }
-  }
+	@Override
+	protected Trainee getTrainable(int index) {
+		switch (index) {
+		case 0:
+			return Trainee.FOOTMAN;
+		default:
+			return null;
+		}
+	}
 
 	@Override
 	public Vector2i getCenter() {

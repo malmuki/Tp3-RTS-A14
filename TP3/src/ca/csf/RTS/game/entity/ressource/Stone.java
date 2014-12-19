@@ -13,7 +13,7 @@ import ca.csf.RTS.game.entity.Tile;
 public class Stone extends Ressource {
 
 	private static Texture texture;
-	private static final String NAME = "Stone";
+	public static final String NAME = "Stone";
 	private static final int RESSOURCE_MAX = 400;
 	private static final Vector2i SIZE = new Vector2i(2, 2);
 

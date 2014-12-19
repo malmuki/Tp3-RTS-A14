@@ -29,7 +29,7 @@ public class Worker extends Human {
 
 	private static String TEXTURE_PATH = "./ressource/worker.png";
 	private Texture texture;
-	private static final String NAME = "Worker";
+	public static final String NAME = "Worker";
 	private static final int RESSOURCE_SEARCH_RANGE = 35; // this accounts for
 															// 10 per horizontal
 															// move and 14 for
@@ -61,7 +61,7 @@ public class Worker extends Human {
 		super.order(target);
 		SoundPlayer.playSound(0, 3);
 	}
-	
+
 	@Override
 	public void order(Entity target) {
 		SoundPlayer.playSound(0, 3);

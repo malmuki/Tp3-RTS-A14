@@ -46,14 +46,14 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		// this.setAnimation(this.getStateStack().peek().getStateName());
 		// }
 
-			super.draw(target);
-			lifeBar.setPosition((sprite.getTextureRect().width / 3 + 1 + sprite.getPosition().x), sprite.getPosition().y - 6);
-			lifeBorder.setPosition((sprite.getTextureRect().width / 3 + 1 + sprite.getPosition().x), sprite.getPosition().y - 6);
+		super.draw(target);
+		lifeBar.setPosition((sprite.getTextureRect().width / 3 + 1 + sprite.getPosition().x), sprite.getPosition().y - 6);
+		lifeBorder.setPosition((sprite.getTextureRect().width / 3 + 1 + sprite.getPosition().x), sprite.getPosition().y - 6);
 
-	//	} else {
-			//super.draw(target);
-			//lifeBar.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
-		//	lifeBorder.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
+		// } else {
+		// super.draw(target);
+		// lifeBar.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
+		// lifeBorder.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
 
 		lifeBar.setSize(new Vector2f((float) healthCurrent / (float) healthMax * LIFE_BAR_W, LIFE_BAR_H));
 

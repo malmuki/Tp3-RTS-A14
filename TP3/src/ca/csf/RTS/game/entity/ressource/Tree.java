@@ -12,7 +12,7 @@ import ca.csf.RTS.game.entity.Tile;
 public class Tree extends Ressource {
 
 	private static Texture texture;
-	private static final String NAME = "Tree";
+	public static final String NAME = "Tree";
 	private static final int RESSOURCE_MAX = 150;
 
 	public Tree(Tile originTile, Team team, GameEventHandler game) {

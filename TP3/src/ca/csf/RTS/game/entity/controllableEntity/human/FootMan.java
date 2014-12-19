@@ -22,7 +22,7 @@ public class FootMan extends Human implements Fighter {
 
 	private static String TEXTURE_PATH = "./ressource/Soldat.png";
 	private static Texture texture;
-	private static final String NAME = "Footman";
+	public static final String NAME = "Footman";
 	private final int RANGE;
 	private final int DAMAGE;
 	private final float ATTACK_DELAY;
@@ -61,7 +61,7 @@ public class FootMan extends Human implements Fighter {
 		super.order(target);
 		SoundPlayer.playSound(1, 3);
 	}
-	
+
 	@Override
 	public void order(Entity target) {
 		if (target.getTeam().getName() != "Nature" && target.getTeam() != this.team) {

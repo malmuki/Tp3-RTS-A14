@@ -30,7 +30,7 @@ import ca.csf.RTS.game.audio.MusicPlayer;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
-import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
+import ca.csf.RTS.game.entity.controllableEntity.building.Foundation;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
@@ -44,9 +44,25 @@ import ca.csf.RTS.game.entity.state.Training;
 
 public class GameController {
 
+	private static final String RESSOURCES_STR = "Ressources : ";
+	private static final String APS_STR = "APS : ";
+	private static final String RANGE_STR = "Range : ";
+	private static final String HEALTH_STR = "Health : ";
+	private static final String DAMAGE_STR = "Damage : ";
 	private static final float SENSITIVITY = 250;
 	private static final int SELECTION_THICKNESS = 2;
 	private static final float GUI_SCALE = 0.15f;
+	private static final String PATH_FONT = "./ressource/ARIBLK.TTF";
+	private static final String PATH_TOWNCENTER_TEX = "./ressource/towncenter.png";
+	private static final String PATH_BARRACK_TEX = "./ressource/barrack.png";
+	private static final String PATH_TREE_TEX = "./ressource/tree.png";
+	private static final String PATH_STONE_TEX = "./ressource/rock.png";
+	private static final String PATH_WATCHTOWER_TEX = "./ressource/watchtower.png";
+	private static final String PATH_FOOTMAN_TEX = "./ressource/Soldat.png";
+	private static final int UISizeWidth = VideoMode.getDesktopMode().width;
+	private static final int UISizeHeight = VideoMode.getDesktopMode().height;
+	private static final String PATH_GUI_TEX = "./ressource/GUI.png";
+	private static final String PATH_GAZON_TEX = "./ressource/gazon.jpg";
 	private Game game;
 	private Texture gui;
 	private Texture gazon;
@@ -70,8 +86,6 @@ public class GameController {
 	private Text selectedEntityAttackSpeed = new Text();
 	private Text progressPourcentageUnit = new Text();
 	private Font arial = new Font();
-	private int UISizeWidth = VideoMode.getDesktopMode().width;
-	private int UISizeHeight = VideoMode.getDesktopMode().height;
 	private RectangleShape guiRectangle = new RectangleShape(new Vector2f(UISizeWidth, UISizeHeight));
 	private RectangleShape rockRessource = new RectangleShape(new Vector2f(UISizeWidth * 0.18f, UISizeHeight * 0.04f));
 	private RectangleShape treeRessource = new RectangleShape(new Vector2f(UISizeWidth * 0.47f, UISizeHeight * 0.10f));
@@ -87,29 +101,24 @@ public class GameController {
 		music = new MusicPlayer();
 		game = new Game();
 		try {
-			arial.loadFromFile(Paths.get("./ressource/ARIBLK.TTF"));
+			arial.loadFromFile(Paths.get(PATH_FONT));
 			towncenter = new Texture();
-			towncenter.loadFromFile(Paths.get("./ressource/towncenter.png"));
+			towncenter.loadFromFile(Paths.get(PATH_TOWNCENTER_TEX));
 			barrack = new Texture();
-			barrack.loadFromFile(Paths.get("./ressource/barrack.png"));
+			barrack.loadFromFile(Paths.get(PATH_BARRACK_TEX));
 			forge = new Texture();
-			// forge.loadFromFile(Paths.get("./ressource/forge.png"));
 			watchtower = new Texture();
-			watchtower.loadFromFile(Paths.get("./ressource/watchtower.png"));
-			treeSprite = new Texture();
-			treeSprite.loadFromFile(Paths.get("./ressource/Tree_Sprite.png"));
+			watchtower.loadFromFile(Paths.get(PATH_WATCHTOWER_TEX));
 			footman = new Texture();
-			footman.loadFromFile(Paths.get("./ressource/Soldat.png"));
-			worker = new Texture();
-			// worker.loadFromFile(Paths.get("./ressource/Worker.png"));
+			footman.loadFromFile(Paths.get(PATH_FOOTMAN_TEX));
 			treeIconTexture = new Texture();
-			treeIconTexture.loadFromFile(Paths.get("./ressource/tree.png"));
+			treeIconTexture.loadFromFile(Paths.get(PATH_TREE_TEX));
 			rockIconTexture = new Texture();
-			rockIconTexture.loadFromFile(Paths.get("./ressource/rock.png"));
+			rockIconTexture.loadFromFile(Paths.get(PATH_STONE_TEX));
 			gui = new Texture();
-			gui.loadFromFile(Paths.get("./ressource/GUI.png"));
+			gui.loadFromFile(Paths.get(PATH_GUI_TEX));
 			gazon = new Texture();
-			gazon.loadFromFile(Paths.get("./ressource/gazon.jpg"));
+			gazon.loadFromFile(Paths.get(PATH_GAZON_TEX));
 			gazon.setRepeated(true);
 			gazon.setSmooth(true);
 			initializeGUI();
@@ -431,13 +440,13 @@ public class GameController {
 			}
 
 			switch (game.getAllSelected().get(0).getName()) {
-			case "Footman":
+			case FootMan.NAME:
 				FootMan entityFootman = (FootMan) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityFootman.getName());
-				selectedEntityDamage.setString("Damage : " + (entityFootman.getDamage()));
-				selectedEntityHP.setString("Health : " + (entityFootman.getHP()) + " / " + entityFootman.getMaxHealth());
-				selectedEntityRange.setString("Range : " + (entityFootman.getRange()));
-				selectedEntityAttackSpeed.setString("APS : " + (1 / (entityFootman.getAttackDelay())));
+				selectedEntityDamage.setString(GameController.DAMAGE_STR + (entityFootman.getDamage()));
+				selectedEntityHP.setString(HEALTH_STR + (entityFootman.getHP()) + " / " + entityFootman.getMaxHealth());
+				selectedEntityRange.setString(RANGE_STR + (entityFootman.getRange()));
+				selectedEntityAttackSpeed.setString(APS_STR + (1 / (entityFootman.getAttackDelay())));
 				progressPourcentageUnit.setString("");
 				for (RectangleShape rect : buildingTabRectangle) {
 					rect.setFillColor(Color.TRANSPARENT);
@@ -447,11 +456,11 @@ public class GameController {
 				}
 
 				break;
-			case "Worker":
-				selectedEntityName.setString("Worker");
+			case Worker.NAME:
+				selectedEntityName.setString(Worker.NAME);
 				Worker entityWorker = (Worker) game.getAllSelected().get(0);
 				selectedEntityDamage.setString("");
-				selectedEntityHP.setString("Health : " + (entityWorker.getHP()) + " / " + entityWorker.getMaxHealth());
+				selectedEntityHP.setString(HEALTH_STR + (entityWorker.getHP()) + " / " + entityWorker.getMaxHealth());
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
 				progressPourcentageUnit.setString("");
@@ -464,17 +473,14 @@ public class GameController {
 				}
 				buildingTabRectangle[4].setFillColor(Color.TRANSPARENT);
 				buildingTabRectangle[5].setFillColor(Color.TRANSPARENT);
-				if (!selectedEntityIcon.equals(entityWorker.getHP())) {
-					// selectedUnitIcon.setTexture(worker);
-				}
 				break;
-			case "TownCenter":
+			case TownCenter.NAME:
 				TownCenter entityTownCenter = (TownCenter) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityTownCenter.getName());
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
-				selectedEntityHP.setString("Health : " + (entityTownCenter.getHP()) + " / " + entityTownCenter.getMaxHealth());
+				selectedEntityHP.setString(HEALTH_STR + (entityTownCenter.getHP()) + " / " + entityTownCenter.getMaxHealth());
 				buildingImageButtons.add(worker);
 				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
 				Factory factoryQueue = (Factory) game.getAllSelected().get(0);
@@ -494,13 +500,13 @@ public class GameController {
 					selectedEntityIcon.setTexture(towncenter);
 				}
 				break;
-			case "Barrack":
+			case Barrack.NAME:
 				Barrack entityBarrack = (Barrack) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityBarrack.getName());
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
-				selectedEntityHP.setString("Health : " + (entityBarrack.getHP()) + " / " + entityBarrack.getMaxHealth());
+				selectedEntityHP.setString(HEALTH_STR + (entityBarrack.getHP()) + " / " + entityBarrack.getMaxHealth());
 				buildingImageButtons.add(footman);
 				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
 				for (int i = 1; i < 6; i++) {
@@ -523,22 +529,22 @@ public class GameController {
 					selectedEntityIcon.setTexture(barrack);
 				}
 				break;
-			case "WatchTower":
+			case WatchTower.NAME:
 				WatchTower entityWatchTower = (WatchTower) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityWatchTower.getName());
-				selectedEntityDamage.setString("Damage : " + (entityWatchTower.getDamage()));
-				selectedEntityRange.setString("Range : " + (entityWatchTower.getRange()));
-				selectedEntityAttackSpeed.setString("APS : " + (1 / (entityWatchTower.getAttackDelay())));
+				selectedEntityDamage.setString(GameController.DAMAGE_STR + (entityWatchTower.getDamage()));
+				selectedEntityRange.setString(RANGE_STR + (entityWatchTower.getRange()));
+				selectedEntityAttackSpeed.setString(APS_STR + (1 / (entityWatchTower.getAttackDelay())));
 				progressPourcentageUnit.setString("");
 				for (RectangleShape rect : buildingTabRectangle) {
 					rect.setFillColor(Color.TRANSPARENT);
 				}
-				selectedEntityHP.setString("Health : " + (entityWatchTower.getHP()) + " / " + entityWatchTower.getMaxHealth());
+				selectedEntityHP.setString(HEALTH_STR + (entityWatchTower.getHP()) + " / " + entityWatchTower.getMaxHealth());
 				if (!selectedEntityIcon.equals(watchtower)) {
 					selectedEntityIcon.setTexture(watchtower);
 				}
 				break;
-			case "Forge":
+			case Forge.NAME:
 				Forge entityForge = (Forge) game.getAllSelected().get(0);
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
@@ -548,7 +554,7 @@ public class GameController {
 					rect.setFillColor(Color.TRANSPARENT);
 				}
 				selectedEntityName.setString(entityForge.getName());
-				selectedEntityHP.setString("Health : " + (entityForge.getHP()) + " / " + entityForge.getMaxHealth());
+				selectedEntityHP.setString(HEALTH_STR + (entityForge.getHP()) + " / " + entityForge.getMaxHealth());
 				buildingImageButtons.add(footman);
 				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
 				for (int i = 1; i < 6; i++) {
@@ -569,10 +575,10 @@ public class GameController {
 					selectedEntityIcon.setTexture(barrack);
 				}
 				break;
-			case "Tree":
+			case Tree.NAME:
 				Tree entityTree = (Tree) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityTree.getName());
-				selectedEntityHP.setString("Ressources : " + (entityTree.getRessources()));
+				selectedEntityHP.setString(RESSOURCES_STR + (entityTree.getRessources()));
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
@@ -584,10 +590,10 @@ public class GameController {
 					selectedEntityIcon.setTexture(treeSprite);
 				}
 				break;
-			case "Stone":
+			case Stone.NAME:
 				Stone entityRock = (Stone) game.getAllSelected().get(0);
 				selectedEntityName.setString(entityRock.getName());
-				selectedEntityHP.setString("Ressources : " + (entityRock.getRessources()));
+				selectedEntityHP.setString(RESSOURCES_STR + (entityRock.getRessources()));
 				selectedEntityRange.setString("");
 				selectedEntityDamage.setString("");
 				selectedEntityAttackSpeed.setString("");
@@ -599,8 +605,8 @@ public class GameController {
 				}
 				break;
 			default:
-				Fondation fondation = (Fondation) game.getAllSelected().get(0);
-				selectedEntityName.setString(fondation.getName());
+				Foundation foundation = (Foundation) game.getAllSelected().get(0);
+				selectedEntityName.setString(foundation.getName());
 				selectedEntityHP.setString("");
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");

@@ -51,7 +51,7 @@ public class DirectionFinder {
 			}
 		}
 	}
-	
+
 	public static RelativePosition getDirection(ControlableEntity source, Tile tile) {
 		// left
 		if (source.getCenter().x > tile.getMapLocation().x) {
