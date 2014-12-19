@@ -8,6 +8,8 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.audio.SoundLoader;
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
@@ -46,6 +48,9 @@ public class Game implements GameEventHandler {
 	private Trainee targetTrainee;
 
 	public Game() {
+
+		SoundLoader.initialize();
+
 		selectedList = new ArrayList<Entity>();
 		entityList = new ArrayList<Entity>();
 		toBeDeleted = new ArrayList<Entity>();
@@ -259,7 +264,6 @@ public class Game implements GameEventHandler {
 		}
 		switch (selectedList.get(0).getName()) {
 		case "Forge":
-			// selectedList.get(0).
 			break;
 		case "Barrack":
 			((Factory) selectedList.get(0)).addToQueue(index);
@@ -307,10 +311,11 @@ public class Game implements GameEventHandler {
 				builder.setTarget(fondation);
 			} else {
 				builder.getTeam().addWood(targetTrainee.woodCost());
-				// TODO son manque de ressource
+
+				SoundPlayer.playSound(2);
 			}
 		} else {
-			// TODO son manque de ressource
+			SoundPlayer.playSound(3);
 		}
 	}
 

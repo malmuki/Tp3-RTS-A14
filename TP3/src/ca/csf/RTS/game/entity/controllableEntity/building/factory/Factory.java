@@ -6,6 +6,7 @@ import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
@@ -87,13 +88,13 @@ public abstract class Factory extends Building {
 					}
 					trainingQueue.add(getTrainable(index));
 				} else {
-					// spam un son de pas assez de stone!!!!
+					SoundPlayer.playSound(2);
 				}
 			} else {
-				// spam un son de pas assez de wood!!!!
+				SoundPlayer.playSound(3);
 			}
 		} else {
-			// spam un son de pas assez de place dans la queue!!!!
+			SoundPlayer.playSound(0);
 		}
 	}
 

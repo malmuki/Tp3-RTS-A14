@@ -1,32 +1,32 @@
-package ca.csf.RTS.game.sound;
+package ca.csf.RTS.game.audio;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import org.jsfml.audio.Music;
 import org.jsfml.audio.SoundSource.Status;
-import org.jsfml.system.Time;
 
 public class MusicPlayer {
 
-	Music music = new Music();
-	Music[] musicList = new Music[100];
+	private static Music music = new Music();
+	private static ArrayList<Music> musicList = new ArrayList<Music>();
 
-	int playlistMax = 0;
-	int playlistPlayed = 0;
+	private static int playlistMax = 0;
+	private static int playlistPlayed = 0;
 
-	public MusicPlayer() {
+	public static void initialize() {
 		// Music list
 		try {
 			BufferedReader read = new BufferedReader(new FileReader(new File("./ressource/musiclist.txt")));
-			String line;
+			String line = new String();
 			Music musicBuffer = new Music();
 
 			while ((line = read.readLine()) != null) {
 				musicBuffer.openFromFile(Paths.get(line));
-				musicList[playlistMax] = musicBuffer;
+				musicList.add(musicBuffer);
 				musicBuffer = new Music();
 				playlistMax++;
 			}
@@ -39,27 +39,31 @@ public class MusicPlayer {
 
 	}
 
-	public void playMusic(int song) {
+	public static void playMusic(int song) {
 
-		music = musicList[song];
-		// Change some parameters
-		music.setVolume(10);
-		music.setPlayingOffset(Time.getSeconds(120));
+		music = musicList.get(song);
+		// Change some parameters & make sure it's not already playing
+		music.setVolume(25);
 		music.setLoop(false);
 
 		// Play it
 		music.play();
 	}
 
-	public void musicPlaylist() {
+	public static void musicPlaylist() {
 		if (music.getStatus() == Status.STOPPED) {
 			if (playlistPlayed >= playlistMax) {
-				this.playMusic(0);
+				MusicPlayer.playMusic(0);
 				playlistPlayed = 0;
 			} else {
-				this.playMusic(playlistPlayed);
+				MusicPlayer.playMusic(playlistPlayed);
 				playlistPlayed++;
 			}
 		}
 	}
+
+	public static void musicStop() {
+		music.stop();
+	}
+
 }
