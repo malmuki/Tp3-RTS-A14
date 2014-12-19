@@ -3,8 +3,6 @@ package ca.csf.RTS.game;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.Font;
@@ -78,7 +76,6 @@ public class GameController {
 	private RectangleShape buildingPlacer;
 
 	public GameController() {
-		Arrays.fill(buildingTabRectangle, new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f)));
 		music = new MusicPlayer();
 		game = new Game();
 		try {
@@ -315,6 +312,10 @@ public class GameController {
 
 	private void initializeGUI() {
 
+		for (int i = 0; i < 6;i++) {
+			buildingTabRectangle[i] = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
+		}
+
 		labelTreeRessource.setFont(arial);
 		labelTreeRessource.setCharacterSize(50);
 		labelTreeRessource.setColor(Color.WHITE);
@@ -532,7 +533,6 @@ public class GameController {
 		window.draw(selectedEntityAttackSpeed);
 		window.draw(labelTreeRessource);
 		window.draw(labelRockRessource);
-		buildingTabRectangle[1].setFillColor(new Color(Color.WHITE, 255));
 		for (int i = 0; i <= 5; i++) {
 			window.draw(buildingTabRectangle[i]);
 		}
