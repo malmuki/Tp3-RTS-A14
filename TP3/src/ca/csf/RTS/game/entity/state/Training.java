@@ -28,8 +28,4 @@ public class Training implements State {
 	public int getPourcentageDone(){
 		return (int) (timeElapsed/ trainer.getNextInQueue().time() * 100);
 	}
-	
-	public String getStateName() {
-		return "Training";
-	}
 }

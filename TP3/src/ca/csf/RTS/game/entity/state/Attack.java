@@ -41,9 +41,4 @@ public class Attack implements State {
 		return StateInteraction.ended;
 	}
 
-	//@Override
-//	public String getStateName() {
-	//	return "Attack";
-	//}
-
 }

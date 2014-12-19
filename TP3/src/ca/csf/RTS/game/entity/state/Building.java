@@ -32,9 +32,4 @@ public class Building implements State {
 			return StateInteraction.targetTooFar;
 		}
 	}
-
-//@Override
-//	public String getStateName() {
-//		return "Building";
-//	}
 }

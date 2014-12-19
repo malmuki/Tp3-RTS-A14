@@ -59,9 +59,4 @@ public class Gathering implements State {
 			return StateInteraction.ended;
 		}
 	}
-
-//	@Override
-//	public String getStateName() {
-//		return "Gathering";
-//	}
 }

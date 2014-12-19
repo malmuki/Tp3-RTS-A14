@@ -11,8 +11,4 @@ public class Idle implements State {
 
 	}
 
-//	@Override
-//	public String getStateName() {
-//		return "Idle";
-//	}
 }
