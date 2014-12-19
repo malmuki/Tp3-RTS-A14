@@ -236,31 +236,36 @@ public class GameController {
 						// pour les selection dans le UI
 					} else {
 						if (Mouse.isButtonPressed(Button.LEFT)) {
-							if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
-									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.20f
-									&& mousePos.y <= UISizeHeight * 0.28f) {
-								game.btnAction(0, this);
-							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
-									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.20f
-									&& mousePos.y <= UISizeHeight * 0.28f) {
-								game.btnAction(1, this);
-							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
-									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.30f
-									&& mousePos.y <= UISizeHeight * 0.38f) {
-								game.btnAction(2, this);
-							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
-									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.30f
-									&& mousePos.y <= UISizeHeight * 0.38f) {
-								game.btnAction(3, this);
-							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
-									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.40f
-									&& mousePos.y <= UISizeHeight * 0.48f) {
-								game.btnAction(4, this);
-							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
-									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.40f
-									&& mousePos.y <= UISizeHeight * 0.48f) {
-								game.btnAction(5, this);
+							if (!isLeftButtonPressed) {
+								isLeftButtonPressed = true;
+								if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.20f
+										&& mousePos.y <= UISizeHeight * 0.28f) {
+									game.btnAction(0, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.20f
+										&& mousePos.y <= UISizeHeight * 0.28f) {
+									game.btnAction(1, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.30f
+										&& mousePos.y <= UISizeHeight * 0.38f) {
+									game.btnAction(2, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.30f
+										&& mousePos.y <= UISizeHeight * 0.38f) {
+									game.btnAction(3, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.40f
+										&& mousePos.y <= UISizeHeight * 0.48f) {
+									game.btnAction(4, this);
+								} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+										&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.40f
+										&& mousePos.y <= UISizeHeight * 0.48f) {
+									game.btnAction(5, this);
+								}
 							}
+						} else {
+							isLeftButtonPressed = false;
 						}
 					}
 				} else {
@@ -268,6 +273,7 @@ public class GameController {
 						buildingPlacer.setSize(new Vector2f(Vector2i.mul(game.getBuildingSize(), (int) Tile.TILE_SIZE)));
 						buildingPlacer.setPosition(mousePos);
 						if (game.canPlace(new Vector2i(Vector2f.div(mousePos, Tile.TILE_SIZE)), game.getBuildingSize())) {
+							buildingPlacer.setSize(new Vector2f(Vector2i.mul(game.getBuildingSize(), (int) Tile.TILE_SIZE)));
 							buildingPlacer.setFillColor(new Color(Color.GREEN, 100));
 							if (Mouse.isButtonPressed(Button.LEFT)) {
 								game.build(new Vector2i(Vector2f.div(mousePos, Tile.TILE_SIZE)));
@@ -477,6 +483,8 @@ public class GameController {
 						trainingQueueRectangle[i].setFillColor(Color.WHITE);
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) entityTownCenter.getStateStack().peek()).getPourcentageDone()));
+				}else {
+					progressPourcentageUnit.setString("");
 				}
 				for (int i = 1; i < 6; i++) {
 					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
@@ -507,6 +515,8 @@ public class GameController {
 						trainingQueueRectangle[i].setTexture(null);
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) entityBarrack.getStateStack().peek()).getPourcentageDone()));
+				}else {
+					progressPourcentageUnit.setString("");
 				}
 				if (!selectedEntityIcon.equals(barrack)) {
 					selectedEntityIcon.setTexture(barrack);
