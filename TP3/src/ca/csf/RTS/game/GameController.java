@@ -79,14 +79,12 @@ public class GameController {
 	private RectangleShape buildingTabRectangle6 = new RectangleShape(new Vector2f(UISizeWidth * 0.28f, UISizeHeight * 0.08f));
 
 	// temporary
-	private Texture spriteTest = new Texture();
+	private RectangleShape buildingPlacer;
 
 	public GameController() {
 		music = new MusicPlayer();
 		game = new Game();
 		try {
-			// temp
-			spriteTest.loadFromFile(Paths.get("./ressource/barrack.png"));
 			// temp
 			arial.loadFromFile(Paths.get("./ressource/ARIBLK.TTF"));
 			towncenter = new Texture();
@@ -115,6 +113,9 @@ public class GameController {
 			gazon.setSmooth(true);
 			initializeGUI();
 
+			buildingPlacer = new RectangleShape();
+			buildingPlacer.setFillColor(Color.TRANSPARENT);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -126,7 +127,7 @@ public class GameController {
 		RenderWindow window = new RenderWindow();
 		window.create(VideoMode.getDesktopMode(), Menu.TITLE, WindowStyle.FULLSCREEN);
 
-		window.setFramerateLimit(60);
+		window.setFramerateLimit(0);
 
 		// declare une nouvelle vue pour pouvoir la deplacer
 		View defaultView = (View) window.getDefaultView();
@@ -170,7 +171,7 @@ public class GameController {
 				for (GameObject gameObject : game.getAllEntity()) {
 					gameObject.draw(window);
 				}
-
+				window.draw(buildingPlacer);
 				window.draw(selection);
 
 				// Display what was drawn
@@ -207,53 +208,76 @@ public class GameController {
 
 				// pour la selection des units et des buildings
 				Vector2f mousePos = window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y));
-				if (mousePos.x < gameView.getCenter().x + (gameView.getSize().x / 2)) {
-					if (Mouse.isButtonPressed(Button.LEFT)) {
+				if (buildingPlacer.getFillColor() == Color.TRANSPARENT) {
+					if (mousePos.x < gameView.getCenter().x + (gameView.getSize().x / 2)) {
+						if (Mouse.isButtonPressed(Button.LEFT)) {
 
-						if (isLeftButtonPressed) {
-							selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y - selection.getPosition().y));
-							game.selectEntity(selection.getPosition(), mousePos);
+							if (isLeftButtonPressed) {
+								selection.setSize(new Vector2f(mousePos.x - selection.getPosition().x, mousePos.y - selection.getPosition().y));
+								game.selectEntity(selection.getPosition(), mousePos);
+							} else {
+								isLeftButtonPressed = true;
+								selection.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
+							}
 						} else {
-							isLeftButtonPressed = true;
-							selection.setPosition(window.mapPixelToCoords(new Vector2i(Mouse.getPosition().x, Mouse.getPosition().y)));
+							isLeftButtonPressed = false;
+							selection.setSize(new Vector2f(0, 0));
 						}
+
+						if (Mouse.isButtonPressed(Button.RIGHT)) {
+
+							game.giveOrder(mousePos);
+						}
+						// pour les selection dans le UI
 					} else {
-						isLeftButtonPressed = false;
-						selection.setSize(new Vector2f(0, 0));
-					}
-
-					if (Mouse.isButtonPressed(Button.RIGHT)) {
-
-						game.giveOrder(mousePos);
-					}
-					// pour les selection dans le UI
-				} else {
-					if (Mouse.isButtonPressed(Button.LEFT)) {
-						if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
-								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.20f
-								&& mousePos.y <= UISizeHeight * 0.28f) {
-							game.btnAction(0);
-						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
-								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.20f
-								&& mousePos.y <= UISizeHeight * 0.28f) {
-							game.btnAction(1);
-						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
-								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.30f
-								&& mousePos.y <= UISizeHeight * 0.38f) {
-							game.btnAction(2);
-						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
-								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.30f
-								&& mousePos.y <= UISizeHeight * 0.38f) {
-							game.btnAction(3);
-						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
-								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.40f
-								&& mousePos.y <= UISizeHeight * 0.48f) {
-							game.btnAction(4);
-						} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
-								&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.40f
-								&& mousePos.y <= UISizeHeight * 0.488f) {
-							game.btnAction(5);
+						if (Mouse.isButtonPressed(Button.LEFT)) {
+							if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.20f
+									&& mousePos.y <= UISizeHeight * 0.28f) {
+								game.btnAction(0, this);
+							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.20f
+									&& mousePos.y <= UISizeHeight * 0.28f) {
+								game.btnAction(1, this);
+							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.30f
+									&& mousePos.y <= UISizeHeight * 0.38f) {
+								game.btnAction(2, this);
+							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.30f
+									&& mousePos.y <= UISizeHeight * 0.38f) {
+								game.btnAction(3, this);
+							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.20f
+									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.48f && mousePos.y >= UISizeHeight * 0.40f
+									&& mousePos.y <= UISizeHeight * 0.48f) {
+								game.btnAction(4, this);
+							} else if (mousePos.x >= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.55f
+									&& mousePos.x <= guiView.getSize().x + UISizeWidth * GUI_SCALE * 0.83f && mousePos.y >= UISizeHeight * 0.40f
+									&& mousePos.y <= UISizeHeight * 0.48f) {
+								game.btnAction(5, this);
+							}
 						}
+					}
+				} else {
+					if (mousePos.x < gameView.getCenter().x + (gameView.getSize().x / 2)) {
+						buildingPlacer.setPosition(mousePos);
+						if (game.canPlace(new Vector2i(Vector2f.div(mousePos, Tile.TILE_SIZE)), game.getBuildingSize())) {
+							buildingPlacer.setSize(new Vector2f(Vector2i.mul(game.getBuildingSize(), (int) Tile.TILE_SIZE)));
+							buildingPlacer.setFillColor(new Color(Color.GREEN, 100));
+							if (Mouse.isButtonPressed(Button.LEFT)) {
+								game.build(new Vector2i(Vector2f.div(mousePos, Tile.TILE_SIZE)));
+								clearBuilding();
+							}
+						} else {
+							buildingPlacer.setFillColor(new Color(Color.RED, 100));
+							if (Mouse.isButtonPressed(Button.LEFT)) {
+								clearBuilding();
+								// play blocked sound
+							}
+						}
+					}
+					if (Mouse.isButtonPressed(Button.RIGHT)) {
+						clearBuilding();
 
 					}
 				}
@@ -266,8 +290,6 @@ public class GameController {
 				case KEY_PRESSED:
 					if (keyEvent.key == Key.ESCAPE) {
 						window.close();
-					} else if (keyEvent.key == Key.NUM0) {
-						game.allo();
 					}
 					break;
 				case LOST_FOCUS:
@@ -283,10 +305,17 @@ public class GameController {
 			}
 		}
 	}
-	
-	//public void {
-		
-	//}
+
+	// clear the placer
+	private void clearBuilding() {
+		buildingPlacer.setFillColor(Color.TRANSPARENT);
+		buildingPlacer.setSize(new Vector2f(0, 0));
+		game.clearBuilding();
+	}
+
+	public void setBuildingColor() {
+		buildingPlacer.setFillColor(new Color(Color.GREEN, 100));
+	}
 
 	private void initializeGUI() {
 
@@ -547,4 +576,3 @@ public class GameController {
 		return music;
 	}
 }
-

@@ -251,11 +251,11 @@ public class PathFinder {
 			// if in range
 			if (listsGCost[parentID] <= maxG && closedListContains(x, y) == 0) {
 				if (map[x][y].getOnTile() == null || searchForTeam == map[x][y].getOnTile().getTeam().getName() || !map[x][y].hasObstacle()) { // if it's not
-																																					// in the
-																																					// closed
-																																					// list
-																																					// and it
-																																					// has no
+																																				// in the
+																																				// closed
+																																				// list
+																																				// and it
+																																				// has no
 					// obstacle and it's parent's G is not too high
 					int openListID = openListContains(x, y); // search for the tile in the openList
 					if (openListID != 0) { // if the openList already contains the tile, adjust it's parent (if necessary)

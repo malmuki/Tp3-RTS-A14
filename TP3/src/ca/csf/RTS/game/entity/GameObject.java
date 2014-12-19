@@ -16,15 +16,15 @@ public abstract class GameObject {
 	}
 
 	protected abstract void setSpritePos();
-	
+
 	public abstract String getName();
 
 	public void draw(RenderTarget target) {
 		sprite.setOrigin(0, 0);
 		sprite.draw(target, RenderStates.DEFAULT);
 	}
-	
-	public GameEventHandler getGame(){
+
+	public GameEventHandler getGame() {
 		return game;
 	}
 }

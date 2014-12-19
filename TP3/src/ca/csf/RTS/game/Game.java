@@ -2,6 +2,7 @@ package ca.csf.RTS.game;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import org.jsfml.graphics.Color;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -9,7 +10,7 @@ import org.jsfml.system.Vector2i;
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
-import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
+import ca.csf.RTS.game.entity.controllableEntity.building.Building;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
@@ -30,6 +31,10 @@ public class Game implements GameEventHandler {
 	private ArrayList<Entity> selectedList;
 	private ArrayList<Entity> toBeDeleted;
 	private ArrayList<Entity> toBeCreated;
+
+	private Worker builder;
+	private Building buildingBuilding;
+	private Vector2i buildingSize;
 
 	private Team player;
 	private Team computer;
@@ -113,15 +118,6 @@ public class Game implements GameEventHandler {
 				placeStone(nbStone, random);
 			}
 		}
-	}
-
-	public void allo() {
-		if (selectedList.get(0).getName() == "Barrack") {
-			((Barrack) selectedList.get(0)).addToQueue(0);
-		} else if (selectedList.get(0).getName() == "Town Center") {
-			((TownCenter) selectedList.get(0)).addToQueue(0);
-		}
-
 	}
 
 	public ArrayList<Entity> getAllEntity() {
@@ -222,6 +218,21 @@ public class Game implements GameEventHandler {
 		return true;
 	}
 
+	public boolean canPlace(Vector2i pos, Vector2i dim) {
+		if (pos.x + dim.x >= MAP_SIZE || pos.y + dim.y >= MAP_SIZE) {
+			return false;
+		}
+
+		for (int i = pos.x; i < pos.x + dim.x; i++) {
+			for (int j = pos.y; j < pos.y + dim.y; j++) {
+				if (map[i][j].getOnTile() != null) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	@Override
 	public void remove(Entity entity) {
 		toBeDeleted.add(entity);
@@ -237,7 +248,41 @@ public class Game implements GameEventHandler {
 		return player;
 	}
 
-	public void btnAction(int i) {
+	public void btnAction(int index, GameController gameController) {
+		switch (selectedList.get(0).getName()) {
+		case "Forge":
+			// selectedList.get(0).
+			break;
+		case "Barrack":
 
+			break;
+		case "Town Center":
+
+			break;
+		case "Worker":
+			builder = (Worker) selectedList.get(0);
+			buildingSize = builder.getBuildingSize(builder.getBuildingOrder(index));
+			gameController.setBuildingColor();
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void build(Vector2i pos) {
+		builder.build();
+	}
+
+	public Building getBuildingBuilding() {
+		return buildingBuilding;
+	}
+
+	public Vector2i getBuildingSize() {
+		return buildingSize;
+	}
+
+	public void clearBuilding() {
+		buildingSize = null;
+		builder = null;
 	}
 }

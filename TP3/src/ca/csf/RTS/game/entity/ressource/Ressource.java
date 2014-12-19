@@ -29,16 +29,17 @@ public abstract class Ressource extends Entity {
 	public boolean isObstacle() {
 		return true;
 	}
-	
-	public int removeRessources(int quantity){
+
+	public int removeRessources(int quantity) {
 		if (ressourceLeft >= quantity) {
 			ressourceLeft -= quantity;
 			return quantity;
-		}else {
+		} else {
 			return ressourceLeft;
 		}
 	}
-	public int getRessources(){
+
+	public int getRessources() {
 		return ressourceLeft;
 	}
 }

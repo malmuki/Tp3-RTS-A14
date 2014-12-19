@@ -11,12 +11,12 @@ import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Tile;
 
 public class Stone extends Ressource {
-	
+
 	private static Texture texture;
 	private static final String NAME = "Stone";
 	private static final int RESSOURCE_MAX = 400;
-	private static final Vector2i SIZE = new Vector2i(2,2);
-	
+	private static final Vector2i SIZE = new Vector2i(2, 2);
+
 	public Stone(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, RESSOURCE_MAX, game, team);
 		try {

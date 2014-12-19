@@ -47,15 +47,14 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 		lifeBar.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
 		lifeBorder.setPosition((sprite.getTexture().getSize().x / 2 + sprite.getPosition().x), sprite.getPosition().y - 12);
 
-		
-		lifeBar.setSize(new Vector2f((float)healthCurrent / (float)healthMax * LIFE_BAR_W, LIFE_BAR_H));
+		lifeBar.setSize(new Vector2f((float) healthCurrent / (float) healthMax * LIFE_BAR_W, LIFE_BAR_H));
 
 		if (selected) {
 			lifeBorder.setOutlineColor(Color.BLUE);
 		} else {
 			lifeBorder.setOutlineColor(team.getColor());
 		}
-		
+
 		lifeBar.draw(target, RenderStates.DEFAULT);
 		lifeBorder.draw(target, RenderStates.DEFAULT);
 	}
@@ -77,20 +76,19 @@ public abstract class ControlableEntity extends Entity implements Fightable {
 	public int getHP() {
 		return healthCurrent;
 	}
-	
+
 	@Override
-	public int getMaxHealth(){
+	public int getMaxHealth() {
 		return healthMax;
 	}
 
 	public Entity getTarget() {
 		return target;
 	}
-	
 
 	public void setTarget(Entity target) {
 		this.target = target;
 	}
-	
+
 	public abstract Vector2i getCenter();
 }

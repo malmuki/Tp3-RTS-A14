@@ -14,56 +14,58 @@ import ca.csf.RTS.game.entity.state.State;
 
 public class Forge extends Factory {
 
-  private static String TEXTURE_PATH = "./ressource/Soldat.png";
-  private static Texture texture;
-  private static final String NAME = "Forge";
-  private static final Vector2i DIMENSION = new Vector2i(5, 7);
+	private static String TEXTURE_PATH = "./ressource/Soldat.png";
+	private static Texture texture;
+	private static final String NAME = "Forge";
+	public static final Vector2i DIMENSION = new Vector2i(5, 7);
 
-  public Forge(Tile originTile, Team team, GameEventHandler game) {
-    super(originTile, team, game, DIMENSION, team.getForgeModel().getHealthMax());
-    try {
-      if (texture == null) {
-        texture = new Texture();
-        texture.loadFromFile(Paths.get(TEXTURE_PATH));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    sprite.setTexture(texture);
-    setSpritePos();
-  }
+	public Forge(Tile originTile, Team team, GameEventHandler game) {
+		super(originTile, team, game, DIMENSION, team.getForgeModel().getHealthMax());
+		try {
+			if (texture == null) {
+				texture = new Texture();
+				texture.loadFromFile(Paths.get(TEXTURE_PATH));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		sprite.setTexture(texture);
+		setSpritePos();
+	}
 
-  public void order(Entity onTile) {}
+	public void order(Entity onTile) {
+	}
 
-  public void order(Tile target) {}
+	public void order(Tile target) {
+	}
 
-  @Override
-  public void doTasks(float deltaTime) {
+	@Override
+	public void doTasks(float deltaTime) {
 
-  }
+	}
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+	@Override
+	public String getName() {
+		return NAME;
+	}
 
-  @Override
-  public boolean spawnNext() {
-    return false;
-  }
+	@Override
+	public boolean spawnNext() {
+		return false;
+	}
 
-  @Override
-  protected State getDefaultState() {
-    return null;
-  }
+	@Override
+	protected State getDefaultState() {
+		return null;
+	}
 
-  @Override
-  protected Trainee getTrainable(int index) {
-    return null;
-  }
+	@Override
+	protected Trainee getTrainable(int index) {
+		return null;
+	}
 
-@Override
-public Vector2i getCenter() {
-	return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(3, 4));
-}
+	@Override
+	public Vector2i getCenter() {
+		return Vector2i.add(tilesOrigin.getMapLocation(), new Vector2i(3, 4));
+	}
 }
