@@ -37,6 +37,7 @@ import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
 import ca.csf.RTS.game.entity.ressource.Tree;
+import ca.csf.RTS.game.entity.state.Training;
 import ca.csf.RTS.game.sound.MusicPlayer;
 
 public class GameController {
@@ -65,6 +66,7 @@ public class GameController {
 	private Text selectedEntityDamage = new Text();
 	private Text selectedEntityRange = new Text();
 	private Text selectedEntityAttackSpeed = new Text();
+	private Text progressPourcentageUnit = new Text();
 	private Font arial = new Font();
 	private int UISizeWidth = VideoMode.getDesktopMode().width;
 	private int UISizeHeight = VideoMode.getDesktopMode().height;
@@ -419,6 +421,12 @@ public class GameController {
 		selectedEntityAttackSpeed.setColor(Color.CYAN);
 		selectedEntityAttackSpeed.setScale(UISizeWidth * 0.0015f,
 				UISizeHeight * 0.0005f);
+		
+		progressPourcentageUnit.setFont(arial);
+		progressPourcentageUnit.setCharacterSize(40);
+		progressPourcentageUnit.setColor(Color.CYAN);
+		progressPourcentageUnit.setScale(UISizeWidth * 0.0015f,
+				UISizeHeight * 0.0005f);
 
 		buildingTabRectangle[0].setPosition(UISizeWidth * 0.20f,
 				UISizeHeight * 0.20f);
@@ -458,6 +466,8 @@ public class GameController {
 				UISizeHeight * 0.90f);
 		selectedEntityAttackSpeed.setPosition(UISizeWidth * 0.20f,
 				UISizeHeight * 0.925f);
+		progressPourcentageUnit.setPosition(UISizeWidth * 0.20f,
+				UISizeHeight * 0.64f);
 		labelRockRessource.setPosition(UISizeWidth * 0.50f,
 				UISizeHeight * 0.055f);
 		labelTreeRessource.setPosition(UISizeWidth * 0.50f,
@@ -541,16 +551,16 @@ public class GameController {
 				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
 				Factory factoryQueue = (Factory)game.getAllSelected().get(0);
 				if(!factoryQueue.getQueue().isEmpty()){
-					for(int i = 0; i < 5; i++){
+					for(int i = 0; i < factoryQueue.getQueue().size(); i++){
 						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue.getQueue().get(i)));
 					}
-					factoryQueue.getNextInQueue();
+					progressPourcentageUnit.setString(Float.toString(((Training)entityTownCenter.getStateStack().peek()).getPourcentageDone()));
 				}
 				for(int i = 1; i < 6; i++){
 					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
 				}
 				for (RectangleShape trainingRect : trainingQueueRectangle) {
-					trainingRect.setFillColor(Color.WHITE);
+					trainingRect.setFillColor(Color.TRANSPARENT);
 				}
 				if (!selectedEntityIcon.equals(towncenter)) {
 					selectedEntityIcon.setTexture(towncenter);
@@ -570,6 +580,13 @@ public class GameController {
 				}
 				for (RectangleShape trainingRect : trainingQueueRectangle) {
 					trainingRect.setFillColor(Color.TRANSPARENT);
+				}
+				Factory factoryQueue2 = (Factory)game.getAllSelected().get(0);
+				if(!factoryQueue2.getQueue().isEmpty()){
+					for(int i = 0; i < factoryQueue2.getQueue().size(); i++){
+						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue2.getQueue().get(i)));
+					}
+					progressPourcentageUnit.setString(Float.toString(((Training)entityBarrack.getStateStack().peek()).getPourcentageDone()));
 				}
 				if (!selectedEntityIcon.equals(barrack)) {
 					selectedEntityIcon.setTexture(barrack);
