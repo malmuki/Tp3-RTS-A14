@@ -28,4 +28,9 @@ public class Alert implements State {
 			return StateInteraction.notFinished;
 		}
 	}
+
+	@Override
+	public String getStateName() {
+		return "Alert";
+	}
 }

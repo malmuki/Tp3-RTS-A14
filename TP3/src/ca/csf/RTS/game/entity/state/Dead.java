@@ -8,4 +8,9 @@ public class Dead implements State {
 		return StateInteraction.dead;
 	}
 
+	@Override
+	public String getStateName() {
+		return "Dead";
+	}
+
 }
