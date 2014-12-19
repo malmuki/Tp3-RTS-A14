@@ -8,6 +8,7 @@ import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
@@ -62,6 +63,7 @@ public class TownCenter extends Factory {
 			switch (trainingQueue.get(0)) {
 			case WORKER:
 				game.add(new Worker(tile, team, game));
+				SoundPlayer.playSound(0,0);
 				break;
 			default:
 				break;

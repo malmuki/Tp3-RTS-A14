@@ -8,6 +8,7 @@ import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
 import ca.csf.RTS.game.Team;
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
@@ -62,6 +63,7 @@ public class Barrack extends Factory {
 			switch (trainingQueue.get(0)) {
 			case FOOTMAN:
 				game.add(new FootMan(tile, team, game));
+				SoundPlayer.playSound(1,0);
 				break;
 			default:
 				break;
