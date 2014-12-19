@@ -12,8 +12,10 @@ import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
+import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Forge;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
@@ -289,6 +291,14 @@ public class Game implements GameEventHandler {
 				case TOWN_CENTER:
 					TownCenter townCenter = new TownCenter(map[pos.x][pos.y], builder.getTeam(), this);
 					fondation = new Fondation(townCenter);
+					break;
+				case FORGE:
+					Forge forge = new Forge(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(forge);
+					break;
+				case WATCH_TOWER:
+					WatchTower tower = new WatchTower(map[pos.x][pos.y], builder.getTeam(), this);
+					fondation = new Fondation(tower);
 					break;
 				default:
 					break;

@@ -21,12 +21,12 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 public class WatchTower extends Building implements Fighter, Watcher {
 
 	
-  private static String TEXTURE_PATH = "./ressource/tower.png";
+  private static String TEXTURE_PATH = "./ressource/watchtower.png";
   private static final String NAME = "WatchTower";
   private final int RANGE;
   private final int DAMAGE;
   private final float ATTACK_DELAY;
-  private static final Vector2i DIMENSION = new Vector2i(3, 3);
+  public static final Vector2i DIMENSION = new Vector2i(3, 3);
   private static Texture texture;
 
 	

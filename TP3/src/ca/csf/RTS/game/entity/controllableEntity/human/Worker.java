@@ -11,7 +11,9 @@ import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
+import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Forge;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.state.Building;
 import ca.csf.RTS.game.entity.state.Gathering;
@@ -26,7 +28,10 @@ public class Worker extends Human {
 	private static String TEXTURE_PATH = "./ressource/worker.gif";
 	private Texture texture;
 	private static final String NAME = "Worker";
-	private static final int RESSOURCE_SEARCH_RANGE = 35; // this accounts for 10 per horizontal move and 14 for diagonal
+	private static final int RESSOURCE_SEARCH_RANGE = 35; // this accounts for
+															// 10 per horizontal
+															// move and 14 for
+															// diagonal
 
 	public Worker(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, team, game, team.getWorkerModel().getHealthMax());
@@ -112,6 +117,10 @@ public class Worker extends Human {
 			return Trainee.TOWN_CENTER;
 		case 1:
 			return Trainee.BARRACK;
+		case 2:
+			return Trainee.FORGE;
+		case 3:
+			return Trainee.WATCH_TOWER;
 		default:
 			return null;
 		}
@@ -123,6 +132,10 @@ public class Worker extends Human {
 			return Barrack.DIMENSION;
 		case TOWN_CENTER:
 			return TownCenter.DIMENSION;
+		case WATCH_TOWER:
+			return WatchTower.DIMENSION;
+		case FORGE:
+			return Forge.DIMENSION;
 		default:
 			return null;
 		}
