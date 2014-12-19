@@ -42,6 +42,8 @@ public class WatchTower extends Building implements Fighter, Watcher {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    
+    stateStack.push(getDefaultState());
     sprite.setTexture(texture);
     sprite.setTextureRect(new IntRect(400, 134, 61, 63));
     setSpritePos();
@@ -74,7 +76,7 @@ public class WatchTower extends Building implements Fighter, Watcher {
 
 				if (stateStack.isEmpty()) {
 					if (target != null) {
-						stateStack.push(new Attack(this));
+						stateStack.push(new Alert(this));
 					} else {
 						stateStack.push(getDefaultState());
 					}

@@ -268,7 +268,7 @@ public class Game implements GameEventHandler {
 		case "Barrack":
 			((Factory) selectedList.get(0)).addToQueue(index);
 			break;
-		case "Town Center":
+		case "TownCenter":
 			((Factory) selectedList.get(0)).addToQueue(index);
 			break;
 		case "Worker":

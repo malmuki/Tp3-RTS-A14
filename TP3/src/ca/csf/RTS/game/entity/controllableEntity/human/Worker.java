@@ -44,13 +44,10 @@ public class Worker extends Human {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int row = 5;
-		int column = 15;
-		int height = 32;
-		int width = 28;
-		sprite.setTextureRect(new IntRect(column, row, width, height));
+		sprite.setTextureRect(new IntRect(15, 5, 28, 32));
 		sprite.setTexture(texture);
 		setSpritePos();
+		stateStack.push(getDefaultState());
 	}
 
 	@Override
