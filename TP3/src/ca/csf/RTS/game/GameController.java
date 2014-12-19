@@ -32,6 +32,7 @@ import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Forge;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
@@ -605,6 +606,7 @@ public class GameController {
 				}
 				break;
 			case "Forge":
+			    Forge entityForge = (Forge) game.getAllSelected().get(0);
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
@@ -612,6 +614,27 @@ public class GameController {
 				for (RectangleShape rect : buildingTabRectangle) {
 					rect.setFillColor(Color.TRANSPARENT);
 				}
+                selectedEntityName.setString(entityForge.getName());
+                selectedEntityHP.setString("Health : " + (entityForge.getHP()) + " / " + entityForge.getMaxHealth());
+                buildingImageButtons.add(footman);
+                buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
+                for(int i = 1; i < 6; i++){
+                    buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
+                }
+                Factory factoryQueue3 = (Factory)game.getAllSelected().get(0);
+                if(!factoryQueue3.getQueue().isEmpty()){
+                    for(int i = 0; i < factoryQueue3.getQueue().size(); i++){
+                        trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue3.getQueue().get(i)));
+                        trainingQueueRectangle[i].setFillColor(Color.WHITE);
+                    }
+                    for (int i = factoryQueue3.getQueue().size(); i < 5; i++){
+                        trainingQueueRectangle[i].setTexture(null);
+                    }
+                    progressPourcentageUnit.setString(Float.toString(((Training)factoryQueue3.getStateStack().peek()).getPourcentageDone()));
+                }
+                if (!selectedEntityIcon.equals(barrack)) {
+                    selectedEntityIcon.setTexture(barrack);
+                }
 				break;
 			case "Tree":
 				Tree entityTree = (Tree) game.getAllSelected().get(0);
