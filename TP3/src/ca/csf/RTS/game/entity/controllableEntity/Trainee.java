@@ -19,10 +19,10 @@ public enum Trainee {
 	}
 
 	public int stoneCost() {
-		return woodCost;
+		return stoneCost;
 	}
 
 	public int woodCost() {
-		return stoneCost;
+		return woodCost;
 	}
 }
