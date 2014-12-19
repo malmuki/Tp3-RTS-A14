@@ -60,6 +60,10 @@ public abstract class Factory extends Building {
 			stateStack.push(getDefaultState());
 		}
 	}
+	
+	public ArrayList<Trainee> getQueue(){
+		return trainingQueue;
+	}
 
 	public void order(Entity onTile) {
 		rallyPoint = onTile.getTilesOrigin();

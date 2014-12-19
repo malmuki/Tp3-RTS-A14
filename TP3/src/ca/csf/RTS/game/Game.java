@@ -48,9 +48,9 @@ public class Game implements GameEventHandler {
 	private Trainee targetTrainee;
 
 	public Game() {
-		
+
 		SoundLoader.initialize();
-		
+
 		selectedList = new ArrayList<Entity>();
 		entityList = new ArrayList<Entity>();
 		toBeDeleted = new ArrayList<Entity>();
@@ -311,7 +311,7 @@ public class Game implements GameEventHandler {
 				builder.setTarget(fondation);
 			} else {
 				builder.getTeam().addWood(targetTrainee.woodCost());
-				
+
 				SoundPlayer.playSound(2);
 			}
 		} else {
