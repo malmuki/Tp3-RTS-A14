@@ -3,6 +3,7 @@ package ca.csf.RTS.game.entity.controllableEntity.building.factory;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2i;
 
@@ -18,7 +19,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class Barrack extends Factory {
 
-	private static String TEXTURE_PATH = "./ressource/barrack.png";
+	private static String TEXTURE_PATH = "./ressource/buildings.png";
 	private static Texture texture;
 	private static final String NAME = "Barrack";
 	public static final Vector2i DIMENSION = new Vector2i(6, 6);
@@ -34,6 +35,7 @@ public class Barrack extends Factory {
 			e.printStackTrace();
 		}
 		sprite.setTexture(texture);
+		sprite.setTextureRect(new IntRect(303, 457, 100, 100));
 		setSpritePos();
 	}
 
