@@ -73,7 +73,6 @@ public class GameController {
 	private RectangleShape selectedEntityIcon = new RectangleShape(new Vector2f(UISizeWidth * 0.65f, UISizeHeight * 0.18f));
 	private ArrayList<Texture> buildingImageButtons = new ArrayList<Texture>(9);
 	private RectangleShape[] buildingTabRectangle = new RectangleShape[6];
-	
 
 	// temporary
 	private RectangleShape buildingPlacer;
@@ -156,15 +155,15 @@ public class GameController {
 				float dt = frameClock.restart().asSeconds();
 				game.doTasks(dt);
 				// pour obtenir le temps depuis la derniere frame
-
+				
 				window.setView(guiView);
 				// draw the GUI
 				drawGUI(window, game);
-
+				
 				window.setView(gameView);
 
 				window.draw(map);
-
+				
 				// dessine toutes les entitys
 				for (GameObject gameObject : game.getAllEntity()) {
 					gameObject.draw(window);
@@ -276,7 +275,6 @@ public class GameController {
 					}
 					if (Mouse.isButtonPressed(Button.RIGHT)) {
 						clearBuilding();
-
 					}
 				}
 			}
@@ -407,8 +405,8 @@ public class GameController {
 				buildingImageButtons.add(barrack);
 				buildingImageButtons.add(forge);
 				buildingImageButtons.add(watchtower);
-				for(int i = 0; i <= 3;i++){
-					buildingTabRectangle[i].setTexture(buildingImageButtons.get(i));
+				for (int i = 0; i <= 3; i++) {
+					buildingTabRectangle[i].setTexture(buildingImageButtons.remove(0));
 				}
 				buildingTabRectangle[4].setFillColor(Color.TRANSPARENT);
 				buildingTabRectangle[5].setFillColor(Color.TRANSPARENT);
@@ -498,11 +496,9 @@ public class GameController {
 				for (RectangleShape rect : buildingTabRectangle) {
 					rect.setFillColor(Color.TRANSPARENT);
 				}
-				 if(!selectedEntityIcon.equals(rockIconTexture)){
-					 selectedEntityIcon.setTexture(rockIconTexture);
-				 }
-				break;
-			case "WhateverOtherBuildingsWeHave":
+				if (!selectedEntityIcon.equals(rockIconTexture)) {
+					selectedEntityIcon.setTexture(rockIconTexture);
+				}
 				break;
 			default:
 				break;
@@ -536,7 +532,8 @@ public class GameController {
 		window.draw(selectedEntityAttackSpeed);
 		window.draw(labelTreeRessource);
 		window.draw(labelRockRessource);
-		for(int i = 0;i <= 5;i++){
+		buildingTabRectangle[1].setFillColor(new Color(Color.WHITE, 255));
+		for (int i = 0; i <= 5; i++) {
 			window.draw(buildingTabRectangle[i]);
 		}
 	}
