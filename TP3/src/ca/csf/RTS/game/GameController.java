@@ -481,7 +481,7 @@ public class GameController {
 		case FOOTMAN:
 			return footman;
 		case WORKER:
-			return footman;
+			return worker;
 		default:
 			return rockIconTexture;
 		}
