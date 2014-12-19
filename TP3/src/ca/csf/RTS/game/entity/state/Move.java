@@ -73,8 +73,8 @@ public class Move implements State {
 		}
 	}
 
-	@Override
-	public String getStateName() {
-		return "Move";
-	}
+//	@Override
+	//public String getStateName() {
+	//	return "Move";
+//	}
 }

@@ -29,8 +29,8 @@ public class Alert implements State {
 		}
 	}
 
-	@Override
-	public String getStateName() {
-		return "Alert";
-	}
+	//@Override
+	//public String getStateName() {
+	//	return "Alert";
+	//}
 }

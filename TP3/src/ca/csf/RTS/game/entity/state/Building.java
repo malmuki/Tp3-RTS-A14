@@ -33,8 +33,8 @@ public class Building implements State {
 		}
 	}
 
-	@Override
-	public String getStateName() {
-		return "Building";
-	}
+//@Override
+//	public String getStateName() {
+//		return "Building";
+//	}
 }

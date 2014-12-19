@@ -43,6 +43,7 @@ public class Worker extends Human {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		sprite.setTexture(texture);
 		setSpritePos();
 	}

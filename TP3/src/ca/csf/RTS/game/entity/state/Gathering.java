@@ -60,8 +60,8 @@ public class Gathering implements State {
 		}
 	}
 
-	@Override
-	public String getStateName() {
-		return "Gathering";
-	}
+//	@Override
+//	public String getStateName() {
+//		return "Gathering";
+//	}
 }

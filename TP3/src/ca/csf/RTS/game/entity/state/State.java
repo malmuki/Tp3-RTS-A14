@@ -4,5 +4,5 @@ public interface State {
 
 	public StateInteraction action(float deltaTime);
 
-	public String getStateName();
+//	public String getStateName();
 }
