@@ -32,6 +32,7 @@ import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.TownCenter;
+import ca.csf.RTS.game.entity.controllableEntity.building.factory.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Stone;
@@ -463,6 +464,18 @@ public class GameController {
 				UISizeHeight * 0.11f);
 
 	}
+	
+	private Texture getPortrait(Trainee trainee){
+		
+		switch (trainee) {
+		case FOOTMAN:
+			return footman;
+		case WORKER:
+			return worker;
+		default:
+			return rockIconTexture;
+		}
+	}
 
 	private void drawGUI(RenderWindow window, Game game) throws IOException {
 
@@ -529,7 +542,7 @@ public class GameController {
 				Factory factoryQueue = (Factory)game.getAllSelected().get(0);
 				if(!factoryQueue.getQueue().isEmpty()){
 					for(int i = 0; i < 5; i++){
-						//trainingQueueRectangle[i].setTexture(factoryQueue.getQueue().get(i).);
+						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue.getQueue().get(i)));
 					}
 					factoryQueue.getNextInQueue();
 				}
