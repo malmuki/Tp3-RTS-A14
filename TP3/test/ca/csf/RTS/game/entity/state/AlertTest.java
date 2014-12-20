@@ -1,9 +1,10 @@
 package ca.csf.RTS.game.entity.state;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.jsfml.graphics.Color;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import ca.csf.RTS.game.Game;
 import ca.csf.RTS.game.Team;

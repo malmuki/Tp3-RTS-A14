@@ -3,14 +3,12 @@ package ca.csf.RTS.game.pathFinding;
 import static org.junit.Assert.assertEquals;
 
 import org.jsfml.graphics.Color;
-import org.jsfml.system.Vector2i;
 import org.junit.Before;
 import org.junit.Test;
 
 import ca.csf.RTS.game.Game;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
-import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
@@ -18,8 +16,6 @@ import ca.csf.RTS.game.entity.controllableEntity.human.FootMan;
 import ca.csf.RTS.game.entity.controllableEntity.human.Human;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Tree;
-import ca.csf.RTS.game.entity.state.State;
-import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class PathFinderTest {
 	
@@ -124,7 +120,7 @@ public class PathFinderTest {
 	@Test
 	public void whenThereIsAnEnnemyOutsideTheWatchTowerSearchRange_thenItIsNotConsidered() {
 		WatchTower tower = new WatchTower(game.map[4][4], new Team("Idiot", Color.BLUE), game);
-		FootMan ennemyFootman = new FootMan(game.map[20][20], new Team("Ennemy", Color.BLUE), game);
+        game.add(new FootMan(game.map[20][20], new Team("Ennemy", Color.BLUE), game));
 		
 		assert(PathFinder.findClosestEnnemy(tower, 10).equals(null));
 	}
@@ -139,7 +135,7 @@ public class PathFinderTest {
 	@Test
 	public void whenThereIsMoreThanOneEnnemyWithinAHumanSearchRange_thenTheClosestIsReturned() {
 		Human human = new FootMan(game.map[2][2], new Team("Ennemy", Color.BLUE), game);
-		new Worker(game.map[5][5], new Team("Idiot", Color.BLUE), game);
+		game.add(new Worker(game.map[5][5], new Team("Idiot", Color.BLUE), game));
 		
 		assertEquals(PathFinder.findClosestEnnemy(human, 35), worker);
 	}

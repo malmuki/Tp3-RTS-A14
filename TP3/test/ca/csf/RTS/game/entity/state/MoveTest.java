@@ -1,6 +1,6 @@
 package ca.csf.RTS.game.entity.state;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.jsfml.graphics.Color;
 import org.junit.Before;
