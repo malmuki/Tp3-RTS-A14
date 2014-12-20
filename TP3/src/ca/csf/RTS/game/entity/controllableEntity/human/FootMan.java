@@ -3,6 +3,7 @@ package ca.csf.RTS.game.entity.controllableEntity.human;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Texture;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
@@ -21,7 +22,7 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class FootMan extends Human implements Fighter {
 
-	private static final String TEXTURE_PATH = "./ressource/Soldat.png";
+	private static final String TEXTURE_PATH = "./ressource/footman.png";
 	private static Texture texture;
 	public static final String NAME = "Footman";
 	private final int RANGE;
@@ -44,6 +45,7 @@ public class FootMan extends Human implements Fighter {
 		}
 		SoundPlayer.playSound(1, 0);
 		sprite.setTexture(texture);
+		sprite.setTextureRect(new IntRect(314, 10, 36, 48));
 		setSpritePos();
 	}
 
