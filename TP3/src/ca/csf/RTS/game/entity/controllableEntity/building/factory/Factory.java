@@ -85,7 +85,7 @@ public abstract class Factory extends Building {
 	public void addToQueue(int index) {
 		if (trainingQueue.size() < MAX_QUEUE) {
 			if (getTrainable(index).woodCost() <= team.getWood()) {
-				if (getTrainable(index).stoneCost() <= team.getStoned()) {
+				if (getTrainable(index).stoneCost() <= team.getStone()) {
 					team.substractStone(getTrainable(index).stoneCost());
 					team.substractWood(getTrainable(index).woodCost());
 					if (trainingQueue.isEmpty()) {
