@@ -46,6 +46,7 @@ public class Worker extends Human {
 			e.printStackTrace();
 		}
 		sprite.setTextureRect(new IntRect(15, 5, 28, 32));
+		sprite.setScale(0.714f, 0.625f);
 		sprite.setTexture(texture);
 		setSpritePos();
 		stateStack.push(getDefaultState());

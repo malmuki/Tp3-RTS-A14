@@ -46,6 +46,7 @@ public class FootMan extends Human implements Fighter {
 		SoundPlayer.playSound(1, 0);
 		sprite.setTexture(texture);
 		sprite.setTextureRect(new IntRect(314, 10, 36, 48));
+		sprite.setScale(0.555f, 0.416f);
 		setSpritePos();
 	}
 
