@@ -65,6 +65,11 @@ public class GameController {
 	private static final int UISizeHeight = VideoMode.getDesktopMode().height;
 	private static final String PATH_GUI_TEX = "./ressource/GUI.png";
 	private static final String PATH_GAZON_TEX = "./ressource/gazon.jpg";
+	private static final String PATH_TOWERUP_TEX = "./ressource/watchtower_upgrade_icon.png";
+	private static final String PATH_WORKERUP_TEX = "./ressource/worker_upgrade_icon.png";
+	private static final String PATH_FOOTMANUP_TEX = "./ressource/footman_upgrade_icon.png";
+	private static final String PATH_TREESPRITE_TEX = "./ressource/Tree_Sprite.png";
+
 	private Game game;
 	private Texture gui;
 	private Texture gazon;
@@ -119,16 +124,18 @@ public class GameController {
 			watchtower.loadFromFile(Paths.get(PATH_WATCHTOWER_TEX));
 			footman = new Texture();
 			footman.loadFromFile(Paths.get(PATH_FOOTMAN_TEX));
+			treeSprite = new Texture();
+			treeSprite.loadFromFile(Paths.get(PATH_TREESPRITE_TEX));
 			treeIconTexture = new Texture();
 			treeIconTexture.loadFromFile(Paths.get(PATH_TREE_TEX));
 			rockIconTexture = new Texture();
 			rockIconTexture.loadFromFile(Paths.get(PATH_STONE_TEX));
 			towerUp = new Texture();
-			towerUp = forge;
+			towerUp.loadFromFile(Paths.get(PATH_TOWERUP_TEX));;
 			workerUp = new Texture();
-			workerUp = forge;
+			workerUp.loadFromFile(Paths.get(PATH_WORKERUP_TEX));;
 			footManUp = new Texture();
-			footManUp = forge;
+			footManUp.loadFromFile(Paths.get(PATH_FOOTMANUP_TEX));;
 			gui = new Texture();
 			gui.loadFromFile(Paths.get(PATH_GUI_TEX));
 			gazon = new Texture();
