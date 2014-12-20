@@ -16,7 +16,7 @@ public class Alert implements State {
 	@Override
 	public StateInteraction action(float deltaTime) {
 		alertTimer += deltaTime;
-		if (alertTimer > 0.2f) {
+		if (alertTimer >= 0.2f) {
 			Entity target = watcher.search();
 			if (target != null) {
 				((ControlableEntity) watcher).setTarget(target);

@@ -14,18 +14,23 @@ public class Training implements State {
 	@Override
 	public StateInteraction action(float deltaTime) {
 		timeElapsed += deltaTime;
-		if (timeElapsed < trainer.getNextInQueue().time()) {
-			return StateInteraction.notFinished;
-		} else {
-			if (trainer.spawnNext()) {
-				return StateInteraction.ended;
+		if (trainer.getNextInQueue() != null) {
+
+			if (timeElapsed >= trainer.getNextInQueue().time()) {
+				if (trainer.spawnNext()) {
+					return StateInteraction.ended;
+				} else {
+					return StateInteraction.blocked;
+				}
 			} else {
-				return StateInteraction.blocked;
+				return StateInteraction.notFinished;
 			}
+		}else {
+			return StateInteraction.ended;
 		}
 	}
-	
-	public int getPourcentageDone(){
-		return (int) (timeElapsed/ trainer.getNextInQueue().time() * 100);
+
+	public int getPourcentageDone() {
+		return (int) (timeElapsed / trainer.getNextInQueue().time() * 100);
 	}
 }

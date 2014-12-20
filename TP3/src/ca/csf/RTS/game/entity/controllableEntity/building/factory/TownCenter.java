@@ -19,9 +19,9 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class TownCenter extends Factory {
 
-	private static String TEXTURE_PATH = "./ressource/buildings.png";
+	private static final String TEXTURE_PATH = "./ressource/buildings.png";
 	private static Texture texture;
-	private static final String NAME = "TownCenter";
+	public static final String NAME = "TownCenter";
 	public static final Vector2i DIMENSION = new Vector2i(8, 8);
 
 	public TownCenter(Tile originTile, Team team, GameEventHandler game) {

@@ -13,7 +13,7 @@ import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
-import ca.csf.RTS.game.entity.controllableEntity.building.Fondation;
+import ca.csf.RTS.game.entity.controllableEntity.building.Foundation;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Factory;
@@ -33,7 +33,8 @@ public class Game implements GameEventHandler {
 	public static final String TEAM_COMPUTER = "Ennemy";
 	public static final String TEAM_NATURE = "Nature";
 
-	private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
+	//TODO pour les test
+	public Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
 	private ArrayList<Entity> entityList;
 	private ArrayList<Entity> selectedList;
 	private ArrayList<Entity> toBeDeleted;
@@ -267,15 +268,16 @@ public class Game implements GameEventHandler {
 			return;
 		}
 		switch (selectedList.get(0).getName()) {
-		case "Forge":
-			break;
-		case "Barrack":
+		case Forge.NAME:
+		  ((Factory) selectedList.get(0)).addToQueue(index);
+          break;
+		case Barrack.NAME:
+		  ((Factory) selectedList.get(0)).addToQueue(index);
+          break;
+		case TownCenter.NAME:
 			((Factory) selectedList.get(0)).addToQueue(index);
 			break;
-		case "TownCenter":
-			((Factory) selectedList.get(0)).addToQueue(index);
-			break;
-		case "Worker":
+		case Worker.NAME:
 			builder = (Worker) selectedList.get(0);
 			targetTrainee = builder.getBuildingOrder(index);
 			buildingSize = builder.getBuildingSize(targetTrainee);
@@ -290,29 +292,29 @@ public class Game implements GameEventHandler {
 		if (builder.getTeam().substractWood(targetTrainee.woodCost())) {
 			if (builder.getTeam().substractStone(targetTrainee.stoneCost())) {
 				builder.build(targetTrainee);
-				Fondation fondation = null;
+				Foundation foundation = null;
 				switch (targetTrainee) {
 				case BARRACK:
 					Barrack barrack = new Barrack(map[pos.x][pos.y], builder.getTeam(), this);
-					fondation = new Fondation(barrack);
+					foundation = new Foundation(barrack);
 					break;
 				case TOWN_CENTER:
 					TownCenter townCenter = new TownCenter(map[pos.x][pos.y], builder.getTeam(), this);
-					fondation = new Fondation(townCenter);
+					foundation = new Foundation(townCenter);
 					break;
 				case FORGE:
 					Forge forge = new Forge(map[pos.x][pos.y], builder.getTeam(), this);
-					fondation = new Fondation(forge);
+					foundation = new Foundation(forge);
 					break;
 				case WATCH_TOWER:
 					WatchTower tower = new WatchTower(map[pos.x][pos.y], builder.getTeam(), this);
-					fondation = new Fondation(tower);
+					foundation = new Foundation(tower);
 					break;
 				default:
 					break;
 				}
-				add(fondation);
-				builder.setTarget(fondation);
+				add(foundation);
+				builder.setTarget(foundation);
 			} else {
 				builder.getTeam().addWood(targetTrainee.woodCost());
 

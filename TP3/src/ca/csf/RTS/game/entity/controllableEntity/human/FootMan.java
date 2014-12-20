@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import org.jsfml.graphics.Texture;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
+import ca.csf.RTS.game.Game;
 import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
@@ -20,13 +21,13 @@ import ca.csf.RTS.game.pathFinding.PathFinder;
 
 public class FootMan extends Human implements Fighter {
 
-	private static String TEXTURE_PATH = "./ressource/Soldat.png";
+	private static final String TEXTURE_PATH = "./ressource/Soldat.png";
 	private static Texture texture;
-	private static final String NAME = "Footman";
+	public static final String NAME = "Footman";
 	private final int RANGE;
 	private final int DAMAGE;
 	private final float ATTACK_DELAY;
-	private static final int ENNEMY_SEARCH_RANGE = 35; // this accounts for 10 per horizontal move and 14 for diagonal
+	public static final int ENNEMY_SEARCH_RANGE = 35; // this accounts for 10 per horizontal move and 14 for diagonal
 
 	public FootMan(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, team, game, team.getFootManModel().getHealthMax());
@@ -61,10 +62,10 @@ public class FootMan extends Human implements Fighter {
 		super.order(target);
 		SoundPlayer.playSound(1, 3);
 	}
-	
+
 	@Override
 	public void order(Entity target) {
-		if (target.getTeam().getName() != "Nature" && target.getTeam() != this.team) {
+		if (target.getTeam().getName() != Game.TEAM_NATURE && target.getTeam() != this.team) {
 			setTarget(target);
 			stateStack.push(new Attack(this));
 			SoundPlayer.playSound(1, 4);

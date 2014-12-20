@@ -11,6 +11,7 @@ import org.jsfml.audio.SoundSource.Status;
 
 public class MusicPlayer {
 
+	private static final String RESSOURCE_MUSICLIST_PATH = "./ressource/musiclist.txt";
 	private static Music music = new Music();
 	private static ArrayList<Music> musicList = new ArrayList<Music>();
 
@@ -20,7 +21,7 @@ public class MusicPlayer {
 	public static void initialize() {
 		// Music list
 		try {
-			BufferedReader read = new BufferedReader(new FileReader(new File("./ressource/musiclist.txt")));
+			BufferedReader read = new BufferedReader(new FileReader(new File(RESSOURCE_MUSICLIST_PATH)));
 			String line = new String();
 			Music musicBuffer = new Music();
 

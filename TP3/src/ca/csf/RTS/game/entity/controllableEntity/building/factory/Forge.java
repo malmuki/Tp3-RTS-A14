@@ -12,16 +12,17 @@ import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
+import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.State;
-import ca.csf.RTS.upgrades.FootmanUpgrade;
-import ca.csf.RTS.upgrades.WatchTowerUpgrade;
-import ca.csf.RTS.upgrades.WorkerUpgrade;
+import ca.csf.RTS.game.upgrades.FootmanUpgrade;
+import ca.csf.RTS.game.upgrades.WatchTowerUpgrade;
+import ca.csf.RTS.game.upgrades.WorkerUpgrade;
 
 public class Forge extends Factory {
 
-	private static String TEXTURE_PATH = "./ressource/buildings.png";
+	private static final String TEXTURE_PATH = "./ressource/buildings.png";
 	private static Texture texture;
-	private static final String NAME = "Forge";
+	public static final String NAME = "Forge";
 	public static final Vector2i DIMENSION = new Vector2i(5, 7);
 
 	public Forge(Tile originTile, Team team, GameEventHandler game) {
@@ -39,17 +40,12 @@ public class Forge extends Factory {
 		setSpritePos();
 	}
 
-  @Override
+	@Override
 	public void order(Entity onTile) {
 	}
 
-  @Override
-	public void order(Tile target) {
-	}
-
 	@Override
-	public void doTasks(float deltaTime) {
-
+	public void order(Tile target) {
 	}
 
 	@Override
@@ -57,40 +53,42 @@ public class Forge extends Factory {
 		return NAME;
 	}
 
-
-  @Override
-  public boolean spawnNext() {
-    switch (trainingQueue.get(0)) {
-      case FOOTMAN_UPGRADE:
-        FootmanUpgrade.applyUpgrade(this.getTeam());
-        break;
-      case WORKER_UPGRADE:
-        WorkerUpgrade.applyUpgrade(this.getTeam());
-        break;
-      case TOWER_UPGRADE:
-        WatchTowerUpgrade.applyUpgrade(this.getTeam());
-        break;
-      default:
-        break;
-    }
-    return true;
-  }
+	@Override
+	public boolean spawnNext() {
+		switch (trainingQueue.get(0)) {
+		case FOOTMAN_UPGRADE:
+			FootmanUpgrade.applyUpgrade(this.getTeam());
+			break;
+		case WORKER_UPGRADE:
+			WorkerUpgrade.applyUpgrade(this.getTeam());
+			break;
+		case TOWER_UPGRADE:
+			WatchTowerUpgrade.applyUpgrade(this.getTeam());
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
 
 	@Override
 	protected State getDefaultState() {
-		return null;
+		return new Idle();
 	}
 
-	
-  @Override
-  protected Trainee getTrainable(int index) {
-    switch (index) {
-      case 0:
-        return Trainee.FOOTMAN;
-      default:
-        return null;
-    }
-  }
+	@Override
+	protected Trainee getTrainable(int index) {
+		switch (index) {
+		case 0:
+			return Trainee.WORKER_UPGRADE;
+		case 1:
+		  return Trainee.FOOTMAN_UPGRADE;
+		case 2:
+		  return Trainee.TOWER_UPGRADE;
+		default:
+			return null;
+		}
+	}
 
 	@Override
 	public Vector2i getCenter() {
