@@ -268,15 +268,16 @@ public class Game implements GameEventHandler {
 			return;
 		}
 		switch (selectedList.get(0).getName()) {
-		case "Forge":
-			break;
-		case "Barrack":
+		case Forge.NAME:
+		  ((Factory) selectedList.get(0)).addToQueue(index);
+          break;
+		case Barrack.NAME:
+		  ((Factory) selectedList.get(0)).addToQueue(index);
+          break;
+		case TownCenter.NAME:
 			((Factory) selectedList.get(0)).addToQueue(index);
 			break;
-		case "TownCenter":
-			((Factory) selectedList.get(0)).addToQueue(index);
-			break;
-		case "Worker":
+		case Worker.NAME:
 			builder = (Worker) selectedList.get(0);
 			targetTrainee = builder.getBuildingOrder(index);
 			buildingSize = builder.getBuildingSize(targetTrainee);

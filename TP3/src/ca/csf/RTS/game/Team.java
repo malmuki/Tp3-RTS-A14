@@ -93,7 +93,7 @@ public class Team {
 		return wood;
 	}
 
-	public int getStoned() {
+	public int getStone() {
 		return stone;
 	}
 

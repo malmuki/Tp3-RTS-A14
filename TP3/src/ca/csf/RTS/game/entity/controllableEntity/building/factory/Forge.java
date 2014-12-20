@@ -12,6 +12,7 @@ import ca.csf.RTS.game.Team;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
+import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.State;
 import ca.csf.RTS.game.upgrades.FootmanUpgrade;
 import ca.csf.RTS.game.upgrades.WatchTowerUpgrade;
@@ -48,11 +49,6 @@ public class Forge extends Factory {
 	}
 
 	@Override
-	public void doTasks(float deltaTime) {
-
-	}
-
-	@Override
 	public String getName() {
 		return NAME;
 	}
@@ -77,14 +73,18 @@ public class Forge extends Factory {
 
 	@Override
 	protected State getDefaultState() {
-		return null;
+		return new Idle();
 	}
 
 	@Override
 	protected Trainee getTrainable(int index) {
 		switch (index) {
 		case 0:
-			return Trainee.FOOTMAN;
+			return Trainee.WORKER_UPGRADE;
+		case 1:
+		  return Trainee.FOOTMAN_UPGRADE;
+		case 2:
+		  return Trainee.TOWER_UPGRADE;
 		default:
 			return null;
 		}

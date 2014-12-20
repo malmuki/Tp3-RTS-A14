@@ -79,6 +79,9 @@ public class GameController {
 	private Texture barrack;
 	private Texture forge;
 	private Texture watchtower;
+	private Texture footManUp;
+	private Texture workerUp;
+	private Texture towerUp;
 	private Text labelTreeRessource = new Text();
 	private Text labelRockRessource = new Text();
 	private Text selectedEntityHP = new Text();
@@ -120,6 +123,12 @@ public class GameController {
 			treeIconTexture.loadFromFile(Paths.get(PATH_TREE_TEX));
 			rockIconTexture = new Texture();
 			rockIconTexture.loadFromFile(Paths.get(PATH_STONE_TEX));
+			towerUp = new Texture();
+			towerUp = forge;
+			workerUp = new Texture();
+			workerUp = forge;
+			footManUp = new Texture();
+			footManUp = forge;
 			gui = new Texture();
 			gui.loadFromFile(Paths.get(PATH_GUI_TEX));
 			gazon = new Texture();
@@ -426,6 +435,12 @@ public class GameController {
 			return footman;
 		case WORKER:
 			return worker;
+		case FOOTMAN_UPGRADE:
+		  return footManUp;
+		case WORKER_UPGRADE:
+		  return workerUp;
+		case TOWER_UPGRADE:
+		  return towerUp;
 		default:
 			return rockIconTexture;
 		}
@@ -459,7 +474,6 @@ public class GameController {
 				if (!selectedEntityIcon.equals(footman)) {
 					selectedEntityIcon.setTexture(footman);
 				}
-
 				break;
 			case Worker.NAME:
 				selectedEntityName.setString(Worker.NAME);
@@ -554,24 +568,26 @@ public class GameController {
 				break;
 			case Forge.NAME:
 				Forge entityForge = (Forge) game.getAllSelected().get(0);
+				selectedEntityName.setString(entityForge.getName());
 				selectedEntityDamage.setString("");
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
-				progressPourcentageUnit.setString("");
-				for (RectangleShape rect : buildingTabRectangle) {
-					rect.setFillColor(Color.TRANSPARENT);
-				}
-				selectedEntityName.setString(entityForge.getName());
 				selectedEntityHP.setString(HEALTH_STR + (entityForge.getHP()) + " / " + entityForge.getMaxHealth());
-				buildingImageButtons.add(footman);
-				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
-				for (int i = 1; i < 6; i++) {
+				
+				buildingImageButtons.add(footManUp);
+				buildingImageButtons.add(workerUp);
+				buildingImageButtons.add(towerUp);
+				
+                for (int i = 0; i <= 2; i++) {
+                  buildingTabRectangle[i].setTexture(buildingImageButtons.remove(0));
+                }
+
+				Factory factoryQueue3 = (Factory) entityForge;
+				
+				for (int i = 3; i < 6; i++) {
 					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
 				}
-				if (!selectedEntityIcon.equals(forge)) {
-					selectedEntityIcon.setTexture(forge);
-				}
-				Factory factoryQueue3 = (Factory) game.getAllSelected().get(0);
+				
 				if (!factoryQueue3.getQueue().isEmpty()) {
 					for (int i = 0; i < factoryQueue3.getQueue().size(); i++) {
 						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue3.getQueue().get(i)));
@@ -582,9 +598,9 @@ public class GameController {
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) factoryQueue3.getStateStack().peek()).getPourcentageDone()));
 				}
-				//if (!selectedEntityIcon.equals(barrack)) {
-				//	selectedEntityIcon.setTexture(barrack);
-				//}
+				if (!selectedEntityIcon.equals(forge)) {
+					selectedEntityIcon.setTexture(forge);
+				}
 				break;
 			case Tree.NAME:
 				Tree entityTree = (Tree) game.getAllSelected().get(0);
@@ -649,7 +665,7 @@ public class GameController {
 		treeRessource.setTexture(this.treeIconTexture);
 
 		labelTreeRessource.setString(Integer.toString(game.getPlayerTeam().getWood()));
-		labelRockRessource.setString(Integer.toString(game.getPlayerTeam().getStoned()));
+		labelRockRessource.setString(Integer.toString(game.getPlayerTeam().getStone()));
 
 		window.draw(guiRectangle);
 		window.draw(rockRessource);

@@ -19,7 +19,7 @@ public class GatheringTest {
 	private Worker worker;
 	private Gathering gathering;
 	private Game game;
-
+ 
 	@Before
 	public void setUp() throws Exception {
 		game = new Game();
