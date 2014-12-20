@@ -53,12 +53,14 @@ public class GameController {
 	private static final int SELECTION_THICKNESS = 2;
 	private static final float GUI_SCALE = 0.15f;
 	private static final String PATH_FONT = "./ressource/ARIBLK.TTF";
-	private static final String PATH_TOWNCENTER_TEX = "./ressource/towncenter.png";
-	private static final String PATH_BARRACK_TEX = "./ressource/barrack.png";
+	private static final String PATH_TOWNCENTER_TEX = "./ressource/towncenter_icon.png";
+	private static final String PATH_BARRACK_TEX = "./ressource/barrack_icon.png";
 	private static final String PATH_TREE_TEX = "./ressource/tree.png";
 	private static final String PATH_STONE_TEX = "./ressource/rock.png";
-	private static final String PATH_WATCHTOWER_TEX = "./ressource/watchtower.png";
-	private static final String PATH_FOOTMAN_TEX = "./ressource/Soldat.png";
+	private static final String PATH_WATCHTOWER_TEX = "./ressource/watchtower_icon.png";
+	private static final String PATH_FOOTMAN_TEX = "./ressource/footman_icon.png";
+	private static final String PATH_WORKER_TEX = "./ressource/worker_icon.png";
+	private static final String PATH_FORGE_TEX = "./ressource/forge_icon.png";
 	private static final int UISizeWidth = VideoMode.getDesktopMode().width;
 	private static final int UISizeHeight = VideoMode.getDesktopMode().height;
 	private static final String PATH_GUI_TEX = "./ressource/GUI.png";
@@ -102,11 +104,14 @@ public class GameController {
 		game = new Game();
 		try {
 			arial.loadFromFile(Paths.get(PATH_FONT));
+			worker = new Texture();
+			worker.loadFromFile(Paths.get(PATH_WORKER_TEX));
 			towncenter = new Texture();
 			towncenter.loadFromFile(Paths.get(PATH_TOWNCENTER_TEX));
 			barrack = new Texture();
 			barrack.loadFromFile(Paths.get(PATH_BARRACK_TEX));
 			forge = new Texture();
+			forge.loadFromFile(Paths.get(PATH_FORGE_TEX));
 			watchtower = new Texture();
 			watchtower.loadFromFile(Paths.get(PATH_WATCHTOWER_TEX));
 			footman = new Texture();
@@ -471,6 +476,9 @@ public class GameController {
 				for (int i = 0; i <= 3; i++) {
 					buildingTabRectangle[i].setTexture(buildingImageButtons.remove(0));
 				}
+				if (!selectedEntityIcon.equals(worker)) {
+					selectedEntityIcon.setTexture(worker);
+				}
 				buildingTabRectangle[4].setFillColor(Color.TRANSPARENT);
 				buildingTabRectangle[5].setFillColor(Color.TRANSPARENT);
 				break;
@@ -560,6 +568,9 @@ public class GameController {
 				for (int i = 1; i < 6; i++) {
 					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
 				}
+				if (!selectedEntityIcon.equals(forge)) {
+					selectedEntityIcon.setTexture(forge);
+				}
 				Factory factoryQueue3 = (Factory) game.getAllSelected().get(0);
 				if (!factoryQueue3.getQueue().isEmpty()) {
 					for (int i = 0; i < factoryQueue3.getQueue().size(); i++) {
@@ -571,9 +582,9 @@ public class GameController {
 					}
 					progressPourcentageUnit.setString(Float.toString(((Training) factoryQueue3.getStateStack().peek()).getPourcentageDone()));
 				}
-				if (!selectedEntityIcon.equals(barrack)) {
-					selectedEntityIcon.setTexture(barrack);
-				}
+				//if (!selectedEntityIcon.equals(barrack)) {
+				//	selectedEntityIcon.setTexture(barrack);
+				//}
 				break;
 			case Tree.NAME:
 				Tree entityTree = (Tree) game.getAllSelected().get(0);
