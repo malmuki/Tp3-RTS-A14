@@ -27,6 +27,7 @@ import org.jsfml.window.event.KeyEvent;
 
 import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.game.audio.MusicPlayer;
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
@@ -64,7 +65,6 @@ public class GameController {
 	private static final int UISizeWidth = VideoMode.getDesktopMode().width;
 	private static final int UISizeHeight = VideoMode.getDesktopMode().height;
 	private static final String PATH_GUI_TEX = "./ressource/GUI.png";
-	private static final String PATH_GAZON_TEX = "./ressource/gazon.jpg";
 	private static final String PATH_TOWERUP_TEX = "./ressource/watchtower_upgrade_icon.png";
 	private static final String PATH_WORKERUP_TEX = "./ressource/worker_upgrade_icon.png";
 	private static final String PATH_FOOTMANUP_TEX = "./ressource/footman_upgrade_icon.png";
@@ -72,7 +72,6 @@ public class GameController {
 
 	private Game game;
 	private Texture gui;
-	private Texture gazon;
 	private boolean isFocused = true;
 	private MusicPlayer music;
 	private Texture rockIconTexture;
@@ -131,17 +130,16 @@ public class GameController {
 			rockIconTexture = new Texture();
 			rockIconTexture.loadFromFile(Paths.get(PATH_STONE_TEX));
 			towerUp = new Texture();
-			towerUp.loadFromFile(Paths.get(PATH_TOWERUP_TEX));;
+			towerUp.loadFromFile(Paths.get(PATH_TOWERUP_TEX));
+			
 			workerUp = new Texture();
-			workerUp.loadFromFile(Paths.get(PATH_WORKERUP_TEX));;
+			workerUp.loadFromFile(Paths.get(PATH_WORKERUP_TEX));
+			
 			footManUp = new Texture();
-			footManUp.loadFromFile(Paths.get(PATH_FOOTMANUP_TEX));;
+			footManUp.loadFromFile(Paths.get(PATH_FOOTMANUP_TEX));
+			
 			gui = new Texture();
 			gui.loadFromFile(Paths.get(PATH_GUI_TEX));
-			gazon = new Texture();
-			gazon.loadFromFile(Paths.get(PATH_GAZON_TEX));
-			gazon.setRepeated(true);
-			gazon.setSmooth(true);
 			initializeGUI();
 
 			buildingPlacer = new RectangleShape();
@@ -177,7 +175,6 @@ public class GameController {
 		selection.setOutlineThickness(SELECTION_THICKNESS);
 
 		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE * Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
-		map.setTexture(gazon);
 		map.setTextureRect(new IntRect(0, 0, (int) (Game.MAP_SIZE * Tile.TILE_SIZE), (int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
 
 		MusicPlayer.musicStop();
@@ -314,6 +311,7 @@ public class GameController {
 							if (Mouse.isButtonPressed(Button.LEFT)) {
 								clearBuilding();
 								// play blocked sound
+								SoundPlayer.playSound(5);
 							}
 						}
 					}
@@ -443,11 +441,11 @@ public class GameController {
 		case WORKER:
 			return worker;
 		case FOOTMAN_UPGRADE:
-		  return footManUp;
+			return footManUp;
 		case WORKER_UPGRADE:
-		  return workerUp;
+			return workerUp;
 		case TOWER_UPGRADE:
-		  return towerUp;
+			return towerUp;
 		default:
 			return rockIconTexture;
 		}
@@ -580,21 +578,21 @@ public class GameController {
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
 				selectedEntityHP.setString(HEALTH_STR + (entityForge.getHP()) + " / " + entityForge.getMaxHealth());
-				
+
 				buildingImageButtons.add(footManUp);
 				buildingImageButtons.add(workerUp);
 				buildingImageButtons.add(towerUp);
-				
-                for (int i = 0; i <= 2; i++) {
-                  buildingTabRectangle[i].setTexture(buildingImageButtons.remove(0));
-                }
+
+				for (int i = 0; i <= 2; i++) {
+					buildingTabRectangle[i].setTexture(buildingImageButtons.remove(0));
+				}
 
 				Factory factoryQueue3 = (Factory) entityForge;
-				
+
 				for (int i = 3; i < 6; i++) {
 					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
 				}
-				
+
 				if (!factoryQueue3.getQueue().isEmpty()) {
 					for (int i = 0; i < factoryQueue3.getQueue().size(); i++) {
 						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue3.getQueue().get(i)));
