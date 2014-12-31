@@ -206,6 +206,7 @@ public class GameController {
 				for (GameObject gameObject : game.getAllEntity()) {
 					gameObject.draw(window);
 				}
+				
 				window.draw(buildingPlacer);
 				window.draw(selection);
 

@@ -101,6 +101,7 @@ public class Worker extends Human {
 				setTarget(search());
 				break;
 			case dead:
+				target = null;
 				game.remove(this);
 				break;
 			default:
