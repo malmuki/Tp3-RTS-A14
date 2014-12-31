@@ -33,19 +33,19 @@ public class BuildingTest {
 
 	@Test
 	public void whenDeltaEqual_0f_andIsNotInRange_thenTargetTooFar() {
-		worker.setTarget(new Foundation(new Barrack(game.map[5][5], new Team("Idiot", Color.BLUE), game)));
+		worker.setTarget(new Foundation(new Barrack(game.map[5][5], new Team("Idiot", Color.BLUE), game), worker));
 		assertEquals(StateInteraction.targetTooFar, building.action(0f));
 	}
 
 	@Test
 	public void whenDeltaEqual_0f_andIsInRange_thenIsNotFinished() {
-		worker.setTarget(new Foundation(new Barrack(game.map[1][1], new Team("Idiot", Color.BLUE), game)));
+		worker.setTarget(new Foundation(new Barrack(game.map[1][1], new Team("Idiot", Color.BLUE), game), worker));
 		assertEquals(StateInteraction.notFinished, building.action(0f));
 	}
 
 	@Test
 	public void whenBuildingIsDone_andIsInRange_thenNoTargetSighted() {
-		worker.setTarget(new Foundation(new Barrack(game.map[1][1], new Team("Idiot", Color.BLUE), game)));
+		worker.setTarget(new Foundation(new Barrack(game.map[1][1], new Team("Idiot", Color.BLUE), game), worker));
 		assertEquals(StateInteraction.ended, building.action(Trainee.BARRACK.time()));
 	}
 

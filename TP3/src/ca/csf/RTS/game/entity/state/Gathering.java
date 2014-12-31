@@ -1,5 +1,6 @@
 package ca.csf.RTS.game.entity.state;
 
+import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.ressource.Ressource;
 import ca.csf.RTS.game.pathFinding.DirectionFinder;
@@ -28,6 +29,7 @@ public class Gathering implements State {
 					case "Stone":
 						worker.getTeam().addStone(((Ressource) worker.getTarget()).removeRessources(RESSOURCES_PER_COLLECT_TIME));
 						if (((Ressource) worker.getTarget()).getRessources() <= 0) {
+							// check if the ressources have already been removed
 							if (worker.getTarget() == worker.getTarget().getTilesOrigin().getOnTile()) {
 								worker.getGame().remove(worker.getTarget());
 							}
@@ -38,10 +40,12 @@ public class Gathering implements State {
 					case "Tree":
 						worker.getTeam().addWood(((Ressource) worker.getTarget()).removeRessources(RESSOURCES_PER_COLLECT_TIME));
 						if (((Ressource) worker.getTarget()).getRessources() <= 0) {
+							// check if the ressources have already been removed
 							if (worker.getTarget() == worker.getTarget().getTilesOrigin().getOnTile()) {
 								worker.getGame().remove(worker.getTarget());
+								//treefall sound
+								SoundPlayer.playSound(11);
 							}
-
 							worker.setTarget(null);
 							return StateInteraction.ressourceDepleted;
 						}
