@@ -288,6 +288,7 @@ public class Game implements GameEventHandler {
 		}
 	}
 
+	//order a build action on  worker
 	public void build(Vector2i pos) {
 		if (builder.getTeam().substractWood(targetTrainee.woodCost())) {
 			if (builder.getTeam().substractStone(targetTrainee.stoneCost())) {
@@ -296,19 +297,19 @@ public class Game implements GameEventHandler {
 				switch (targetTrainee) {
 				case BARRACK:
 					Barrack barrack = new Barrack(map[pos.x][pos.y], builder.getTeam(), this);
-					foundation = new Foundation(barrack);
+					foundation = new Foundation(barrack, builder);
 					break;
 				case TOWN_CENTER:
 					TownCenter townCenter = new TownCenter(map[pos.x][pos.y], builder.getTeam(), this);
-					foundation = new Foundation(townCenter);
+					foundation = new Foundation(townCenter, builder);
 					break;
 				case FORGE:
 					Forge forge = new Forge(map[pos.x][pos.y], builder.getTeam(), this);
-					foundation = new Foundation(forge);
+					foundation = new Foundation(forge, builder);
 					break;
 				case WATCH_TOWER:
 					WatchTower tower = new WatchTower(map[pos.x][pos.y], builder.getTeam(), this);
-					foundation = new Foundation(tower);
+					foundation = new Foundation(tower, builder);
 					break;
 				default:
 					break;
