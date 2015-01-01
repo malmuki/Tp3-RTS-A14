@@ -8,8 +8,8 @@ import ca.csf.RTS.game.pathFinding.DirectionFinder;
 public class Building implements State {
 
 	private Worker worker;
-	private float buildProgression;
 	private Trainee target;
+	private float buildProgression;
 
 	public Building(Worker worker, Trainee target) {
 		this.worker = worker;
