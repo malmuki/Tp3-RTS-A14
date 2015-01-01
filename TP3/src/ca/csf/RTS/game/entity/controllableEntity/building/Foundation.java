@@ -5,7 +5,6 @@ import org.jsfml.system.Vector2i;
 import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
-import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.State;
@@ -14,14 +13,13 @@ public class Foundation extends Building {
 
 	public static final String NAME = "Foundation";
 	private Building building;
-	private Worker worker;
+	private Worker builder;
 
-	public Foundation(Building building, Worker worker) {
+	public Foundation(Building building, Worker builder) {
 		super(building.getTilesOrigin(), building.getTeam(), building.getGame(), building.getDimention(), building.getTeam().getWatchTowerModel()
 				.getHealthMax());
 		this.building = building;
-		this.worker = worker;
-
+		this.builder = builder;
 		sprite = building.getSprite();
 		setSpritePos();
 	}
@@ -48,12 +46,6 @@ public class Foundation extends Building {
 	@Override
 	public void doTasks(float deltaTime) {
 
-		if (worker.getTarget() != this) {
-			team.addStone(Trainee.getTrainee(building).stoneCost());
-			team.addWood(Trainee.getTrainee(building).woodCost());
-			remove();
-		}
-
 		if (!stateStack.isEmpty()) {
 
 			switch (stateStack.peek().action(deltaTime)) {
@@ -65,7 +57,11 @@ public class Foundation extends Building {
 					stateStack.push(getDefaultState());
 				}
 				break;
-
+			case notFinished:
+				if (builder.getTarget() != this) {
+					remove();
+				}
+				break;
 			case dead:
 				remove();
 				break;
@@ -74,9 +70,10 @@ public class Foundation extends Building {
 				break;
 			}
 		}
+
 	}
 
-	private void remove() {
+	public void remove() {
 		game.remove(building);
 		game.remove(this);
 	}
@@ -95,5 +92,9 @@ public class Foundation extends Building {
 	public void loseLife(int damage) {
 		super.loseLife(damage);
 		building.loseLife(damage);
+	}
+
+	public Building getBuilding() {
+		return building;
 	}
 }

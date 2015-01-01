@@ -203,7 +203,6 @@ public class Game implements GameEventHandler {
 		}
 	}
 
-	@Override
 	public void add(Entity entity) {
 		if (canPlace(entity)) {
 			toBeCreated.add(entity);
@@ -292,30 +291,26 @@ public class Game implements GameEventHandler {
 	public void build(Vector2i pos) {
 		if (builder.getTeam().substractWood(targetTrainee.woodCost())) {
 			if (builder.getTeam().substractStone(targetTrainee.stoneCost())) {
-				builder.build(targetTrainee);
 				Foundation foundation = null;
 				switch (targetTrainee) {
 				case BARRACK:
-					Barrack barrack = new Barrack(map[pos.x][pos.y], builder.getTeam(), this);
-					foundation = new Foundation(barrack, builder);
+					foundation = new Foundation(new Barrack(map[pos.x][pos.y], builder.getTeam(), this), builder);
 					break;
 				case TOWN_CENTER:
-					TownCenter townCenter = new TownCenter(map[pos.x][pos.y], builder.getTeam(), this);
-					foundation = new Foundation(townCenter, builder);
+					foundation = new Foundation(new TownCenter(map[pos.x][pos.y], builder.getTeam(), this), builder);
 					break;
 				case FORGE:
-					Forge forge = new Forge(map[pos.x][pos.y], builder.getTeam(), this);
-					foundation = new Foundation(forge, builder);
+					foundation = new Foundation(new Forge(map[pos.x][pos.y], builder.getTeam(), this), builder);
 					break;
 				case WATCH_TOWER:
-					WatchTower tower = new WatchTower(map[pos.x][pos.y], builder.getTeam(), this);
-					foundation = new Foundation(tower, builder);
+					foundation = new Foundation(new WatchTower(map[pos.x][pos.y], builder.getTeam(), this), builder);
 					break;
 				default:
 					break;
 				}
-				add(foundation);
 				builder.setTarget(foundation);
+				add(foundation);
+				builder.build(targetTrainee);
 			} else {
 				builder.getTeam().addWood(targetTrainee.woodCost());
 
