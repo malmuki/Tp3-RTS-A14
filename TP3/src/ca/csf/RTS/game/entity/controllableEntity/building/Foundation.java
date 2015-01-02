@@ -1,5 +1,6 @@
 package ca.csf.RTS.game.entity.controllableEntity.building;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.game.audio.SoundPlayer;
@@ -20,8 +21,11 @@ public class Foundation extends Building {
 				.getHealthMax());
 		this.building = building;
 		this.builder = builder;
-		sprite = building.getSprite();
+		sprite.setTexture(building.getSprite().getTexture());
+		sprite.setTextureRect(new IntRect(building.getSprite().getTextureRect().left, building.getSprite().getTextureRect().top + building.getSprite().getTextureRect().height,
+				building.getSprite().getTextureRect().width, building.getSprite().getTextureRect().height));
 		setSpritePos();
+
 	}
 
 	public void transform() {

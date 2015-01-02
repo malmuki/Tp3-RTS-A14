@@ -3,6 +3,7 @@ package ca.csf.RTS.game.entity;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -11,7 +12,7 @@ import ca.csf.RTS.eventHandler.GameEventHandler;
 
 public class Tile extends GameObject {
 
-	public static final float TILE_SIZE = 32;
+	public static final float TILE_SIZE = 20;
 
 	private static final String NAME = "Tile";
 	private static final String TEXTURE_PATH = "./ressource/footman.png";
@@ -36,6 +37,14 @@ public class Tile extends GameObject {
 		this.screenLocation = new Vector2f(mapLocation.x * TILE_SIZE, mapLocation.y * TILE_SIZE);
 	}
 
+	//draw itself before what is on itself
+	public void draw(RenderTarget target){
+		target.draw(sprite);
+		if (onTile != null) {
+			onTile.draw(target);
+		}
+	}
+	
 	public Vector2f getScreenLocation() {
 		return screenLocation;
 	}

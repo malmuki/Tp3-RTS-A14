@@ -28,7 +28,6 @@ import org.jsfml.window.event.KeyEvent;
 import ca.csf.RTS.Menu.model.Menu;
 import ca.csf.RTS.game.audio.MusicPlayer;
 import ca.csf.RTS.game.audio.SoundPlayer;
-import ca.csf.RTS.game.entity.GameObject;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.building.Foundation;
@@ -202,9 +201,7 @@ public class GameController {
 				window.draw(map);
 
 				// dessine toutes les entitys
-				for (GameObject gameObject : game.getAllEntity()) {
-					gameObject.draw(window);
-				}
+					game.drawGame(window);
 
 				window.draw(buildingPlacer);
 				window.draw(selection);
@@ -465,6 +462,7 @@ public class GameController {
 	}
 
 	private void drawGUI(RenderWindow window, Game game) throws IOException {
+		// TODO: ne pas le laisser hardcoder
 		int tabUsed = 0;
 		if (!game.getAllSelected().isEmpty()) {
 			buildingImageButtons.clear();
@@ -474,8 +472,7 @@ public class GameController {
 				queueRect.setTexture(null);
 			}
 
-			Texture temp = null;
-			// TODO: ne pas le laisser hardcoder
+			Texture temp = gui;
 
 			switch (game.getAllSelected().get(0).getName()) {
 			case FootMan.NAME:

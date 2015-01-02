@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.jsfml.graphics.Color;
+import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
@@ -338,4 +339,11 @@ public class Game implements GameEventHandler {
 		}
 	}
 
+	public void drawGame(RenderWindow window) {
+		for (int i = 0; i < MAP_SIZE; i++) {
+			for (int j = 0; j < MAP_SIZE; j++) {
+				map[i][j].draw(window);
+			}
+		}
+	}
 }
