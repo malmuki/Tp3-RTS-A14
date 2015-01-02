@@ -465,19 +465,17 @@ public class GameController {
 	}
 
 	private void drawGUI(RenderWindow window, Game game) throws IOException {
-
+		int tabUsed = 0;
 		if (!game.getAllSelected().isEmpty()) {
 			buildingImageButtons.clear();
 			selectedEntityIcon.setFillColor(Color.WHITE);
-			for (RectangleShape rect : buildingTabRectangle) {
-				rect.setFillColor(Color.WHITE);
-			}
 			for (RectangleShape queueRect : trainingQueueRectangle) {
 				queueRect.setFillColor(Color.TRANSPARENT);
 				queueRect.setTexture(null);
 			}
 
 			Texture temp = null;
+			// TODO: ne pas le laisser hardcoder
 
 			switch (game.getAllSelected().get(0).getName()) {
 			case FootMan.NAME:
@@ -488,9 +486,6 @@ public class GameController {
 				selectedEntityRange.setString(RANGE_STR + (entityFootman.getRange()));
 				selectedEntityAttackSpeed.setString(APS_STR + (1 / (entityFootman.getAttackDelay())));
 				progressPourcentageUnit.setString("");
-				for (RectangleShape rect : buildingTabRectangle) {
-					rect.setFillColor(Color.TRANSPARENT);
-				}
 				temp = textureFootman;
 				break;
 			case Worker.NAME:
@@ -509,8 +504,7 @@ public class GameController {
 					buildingTabRectangle[i].setTexture(buildingImageButtons.remove(0));
 				}
 				temp = textureWorker;
-				buildingTabRectangle[4].setFillColor(Color.TRANSPARENT);
-				buildingTabRectangle[5].setFillColor(Color.TRANSPARENT);
+				tabUsed = 4;
 				break;
 			case TownCenter.NAME:
 				TownCenter entityTownCenter = (TownCenter) game.getAllSelected().get(0);
@@ -531,10 +525,8 @@ public class GameController {
 				} else {
 					progressPourcentageUnit.setString("");
 				}
-				for (int i = 1; i < 6; i++) {
-					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
-				}
 				temp = textureTowncenter;
+				tabUsed = 1;
 				break;
 			case Barrack.NAME:
 				Barrack entityBarrack = (Barrack) game.getAllSelected().get(0);
@@ -545,9 +537,6 @@ public class GameController {
 				selectedEntityHP.setString(HEALTH_STR + (entityBarrack.getHP()) + " / " + entityBarrack.getMaxHealth());
 				buildingImageButtons.add(textureFootman);
 				buildingTabRectangle[0].setTexture(buildingImageButtons.get(0));
-				for (int i = 1; i < 6; i++) {
-					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
-				}
 				Factory factoryQueue2 = (Factory) game.getAllSelected().get(0);
 				if (!factoryQueue2.getQueue().isEmpty()) {
 					for (int i = 0; i < factoryQueue2.getQueue().size(); i++) {
@@ -561,10 +550,8 @@ public class GameController {
 				} else {
 					progressPourcentageUnit.setString("");
 				}
-				if (!selectedEntityIcon.equals(textureBarrack)) {
-					selectedEntityIcon.setTextureRect(new IntRect(new Vector2i(0, 0), textureBarrack.getSize()));
-					selectedEntityIcon.setTexture(textureBarrack);
-				}
+				temp = textureBarrack;
+				tabUsed = 1;
 				break;
 			case WatchTower.NAME:
 				WatchTower entityWatchTower = (WatchTower) game.getAllSelected().get(0);
@@ -573,9 +560,6 @@ public class GameController {
 				selectedEntityRange.setString(RANGE_STR + (entityWatchTower.getRange()));
 				selectedEntityAttackSpeed.setString(APS_STR + (1 / (entityWatchTower.getAttackDelay())));
 				progressPourcentageUnit.setString("");
-				for (RectangleShape rect : buildingTabRectangle) {
-					rect.setFillColor(Color.TRANSPARENT);
-				}
 				selectedEntityHP.setString(HEALTH_STR + (entityWatchTower.getHP()) + " / " + entityWatchTower.getMaxHealth());
 				temp = textureWatchtower;
 				break;
@@ -597,10 +581,6 @@ public class GameController {
 
 				Factory factoryQueue3 = (Factory) entityForge;
 
-				for (int i = 3; i < 6; i++) {
-					buildingTabRectangle[i].setFillColor(Color.TRANSPARENT);
-				}
-
 				if (!factoryQueue3.getQueue().isEmpty()) {
 					for (int i = 0; i < factoryQueue3.getQueue().size(); i++) {
 						trainingQueueRectangle[i].setTexture(getPortrait(factoryQueue3.getQueue().get(i)));
@@ -612,6 +592,7 @@ public class GameController {
 					progressPourcentageUnit.setString(Float.toString(((Training) factoryQueue3.getStateStack().peek()).getPourcentageDone()));
 				}
 				temp = textureForge;
+				tabUsed = 3;
 				break;
 			case Tree.NAME:
 				Tree entityTree = (Tree) game.getAllSelected().get(0);
@@ -621,9 +602,6 @@ public class GameController {
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
 				progressPourcentageUnit.setString("");
-				for (RectangleShape rect : buildingTabRectangle) {
-					rect.setFillColor(Color.TRANSPARENT);
-				}
 				temp = textureTree;
 				break;
 			case Stone.NAME:
@@ -633,9 +611,6 @@ public class GameController {
 				selectedEntityRange.setString("");
 				selectedEntityDamage.setString("");
 				selectedEntityAttackSpeed.setString("");
-				for (RectangleShape rect : buildingTabRectangle) {
-					rect.setFillColor(Color.TRANSPARENT);
-				}
 				temp = textureRock;
 				break;
 			default:
@@ -646,21 +621,15 @@ public class GameController {
 				selectedEntityRange.setString("");
 				selectedEntityAttackSpeed.setString("");
 				progressPourcentageUnit.setString("");
-				for (RectangleShape rect : buildingTabRectangle) {
-					rect.setFillColor(Color.TRANSPARENT);
-				}
 				break;
 			}
-			if (!selectedEntityIcon.equals(temp)) {
+			if (selectedEntityIcon.getTexture() != temp) {
 				selectedEntityIcon.setTextureRect(new IntRect(new Vector2i(0, 0), temp.getSize()));
 				selectedEntityIcon.setTexture(temp);
 			}
 
 		} else {
 			selectedEntityIcon.setFillColor(Color.TRANSPARENT);
-			for (RectangleShape rect : buildingTabRectangle) {
-				rect.setFillColor(Color.TRANSPARENT);
-			}
 			for (RectangleShape queueRect : trainingQueueRectangle) {
 				queueRect.setFillColor(Color.TRANSPARENT);
 				queueRect.setTexture(null);
@@ -691,11 +660,30 @@ public class GameController {
 		window.draw(labelTreeRessource);
 		window.draw(labelRockRessource);
 		window.draw(progressPourcentageUnit);
+
+		clearUnusedBuildingTab(tabUsed);
+		clearBuildingTab();
 		for (int i = 0; i <= 5; i++) {
 			window.draw(buildingTabRectangle[i]);
 		}
 		for (int i = 0; i <= 4; i++) {
 			window.draw(trainingQueueRectangle[i]);
+		}
+	}
+
+	private void clearBuildingTab() {
+		for (RectangleShape rect : buildingTabRectangle) {
+			if (rect.getTexture() == null) {
+				rect.setFillColor(Color.TRANSPARENT);
+			} else {
+				rect.setFillColor(Color.WHITE);
+			}
+		}
+	}
+
+	private void clearUnusedBuildingTab(int qtUsed) {
+		for (int i = 6; i > qtUsed; i--) {
+			buildingTabRectangle[i - 1].setTexture(null);
 		}
 	}
 

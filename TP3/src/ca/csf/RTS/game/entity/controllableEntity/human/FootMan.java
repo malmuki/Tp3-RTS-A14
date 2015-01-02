@@ -24,11 +24,15 @@ public class FootMan extends Human implements Fighter {
 
 	private static final String TEXTURE_PATH = "./ressource/footman.png";
 	private static Texture texture;
+
 	public static final String NAME = "Footman";
+
 	private final int RANGE;
 	private final int DAMAGE;
 	private final float ATTACK_DELAY;
-	public static final int ENNEMY_SEARCH_RANGE = 35; // this accounts for 10 per horizontal move and 14 for diagonal
+	public static final int ENNEMY_SEARCH_RANGE = 35; // this accounts for 10
+														// per horizontal move
+														// and 14 for diagonal
 
 	public FootMan(Tile originTile, Team team, GameEventHandler game) {
 		super(originTile, team, game, team.getFootManModel().getHealthMax());
