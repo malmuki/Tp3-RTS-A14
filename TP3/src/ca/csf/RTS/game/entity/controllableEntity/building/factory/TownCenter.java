@@ -37,7 +37,7 @@ public class TownCenter extends Factory {
 		stateStack.push(getDefaultState());
 
 		sprite.setTexture(texture);
-		sprite.setTextureRect(new IntRect(134, 3, 130, 130));
+		sprite.setTextureRect(new IntRect(134, 0, 130, 130));
 		setSpritePos();
 	}
 

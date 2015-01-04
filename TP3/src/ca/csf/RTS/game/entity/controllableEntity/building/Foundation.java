@@ -1,5 +1,6 @@
 package ca.csf.RTS.game.entity.controllableEntity.building;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.game.audio.SoundPlayer;
@@ -14,16 +15,19 @@ public class Foundation extends Building {
 
 	public static final String NAME = "Foundation";
 	private Building building;
-	private Worker worker;
+	private Trainee target;
+	private float buildProgression;
 
-	public Foundation(Building building, Worker worker) {
+	public Foundation(Building building, Worker builder, Trainee target) {
 		super(building.getTilesOrigin(), building.getTeam(), building.getGame(), building.getDimention(), building.getTeam().getWatchTowerModel()
 				.getHealthMax());
 		this.building = building;
-		this.worker = worker;
-
-		sprite = building.getSprite();
+		this.target = target;
+		sprite.setTexture(building.getSprite().getTexture());
+		sprite.setTextureRect(new IntRect(building.getSprite().getTextureRect().left, building.getSprite().getTextureRect().top
+				+ building.getSprite().getTextureRect().height, building.getSprite().getTextureRect().width, building.getSprite().getTextureRect().height));
 		setSpritePos();
+		stateStack.push(getDefaultState());
 	}
 
 	public void transform() {
@@ -48,23 +52,9 @@ public class Foundation extends Building {
 	@Override
 	public void doTasks(float deltaTime) {
 
-		if (worker.getTarget() != this) {
-			team.addStone(Trainee.getTrainee(building).stoneCost());
-			team.addWood(Trainee.getTrainee(building).woodCost());
-			remove();
-		}
-
 		if (!stateStack.isEmpty()) {
 
 			switch (stateStack.peek().action(deltaTime)) {
-
-			case ended:
-				stateStack.pop();
-
-				if (stateStack.isEmpty()) {
-					stateStack.push(getDefaultState());
-				}
-				break;
 
 			case dead:
 				remove();
@@ -74,9 +64,10 @@ public class Foundation extends Building {
 				break;
 			}
 		}
+
 	}
 
-	private void remove() {
+	public void remove() {
 		game.remove(building);
 		game.remove(this);
 	}
@@ -95,5 +86,24 @@ public class Foundation extends Building {
 	public void loseLife(int damage) {
 		super.loseLife(damage);
 		building.loseLife(damage);
+	}
+
+	public Building getBuilding() {
+		return building;
+	}
+	
+	public void addTime(float delta) {
+		buildProgression += delta;
+	}
+	
+	public float getTimeProgression(){
+		return buildProgression;
+	}
+
+	public boolean isFinishedBuilding() {
+		if (buildProgression >= target.time()) {
+			return true;
+		}
+		return false;
 	}
 }

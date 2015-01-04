@@ -1,5 +1,7 @@
 package ca.csf.RTS.game.entity;
 
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2i;
 
 import ca.csf.RTS.eventHandler.GameEventHandler;
@@ -17,6 +19,11 @@ public abstract class Entity extends GameObject {
 		selected = false;
 		this.tilesOrigin = tiles;
 		this.team = team;
+	}
+	
+	public void draw(RenderTarget target) {
+		sprite.setOrigin(0, 0);
+		sprite.draw(target, RenderStates.DEFAULT);
 	}
 
 	public Tile getTilesOrigin() {
@@ -45,15 +52,16 @@ public abstract class Entity extends GameObject {
 		selected = false;
 	}
 
+	public Team getTeam() {
+		return team;
+	}
+
 	public abstract void order(Entity onTile);
 
 	public abstract void order(Tile target);
 
 	public abstract void doTasks(float deltaTime);
 
-	public Team getTeam() {
-		return team;
-	}
-
 	public abstract boolean isObstacle();
+
 }

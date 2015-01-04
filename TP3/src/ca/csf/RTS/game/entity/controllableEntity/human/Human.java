@@ -23,6 +23,7 @@ public abstract class Human extends ControlableEntity implements Watcher {
 		stateStack.clear();
 		setTarget(null);
 		stateStack.add(new Move(target, this));
+		setSpritePos();
 	}
 
 	public boolean moveToTile(Tile targetTile, float moveProgression) {
