@@ -21,6 +21,7 @@ public class BuildingTest {
 	private Building building;
 	private Team team;
 	private Game game;
+	private Foundation foundation;
 
 	@Before
 	public void setUp() throws Exception {
@@ -30,24 +31,25 @@ public class BuildingTest {
 		PathFinder.initialisePathFinder(game.map);
 		worker = new Worker(game.map[0][0], team, game);
 		game.add(worker);
-		building = new Building(worker, Trainee.BARRACK);
+		foundation = new Foundation(new Barrack(game.map[5][5], team, game), worker, Trainee.BARRACK);
+		building = new Building(worker, foundation);
 	}
 
 	@Test
 	public void whenDeltaEqual_0f_andIsNotInRange_thenTargetTooFar() {
-		worker.setTarget(new Foundation(new Barrack(game.map[5][5], team, game), worker));
+		worker.setTarget(new Foundation(new Barrack(game.map[5][5], team, game), worker, Trainee.BARRACK));
 		assertEquals(StateInteraction.targetTooFar, building.action(0f));
 	}
 
 	@Test
 	public void whenDeltaEqual_0f_andIsInRange_thenIsNotFinished() {
-		worker.setTarget(new Foundation(new Barrack(game.map[1][1], team, game), worker));
+		worker.setTarget(new Foundation(new Barrack(game.map[1][1], team, game), worker, Trainee.BARRACK));
 		assertEquals(StateInteraction.notFinished, building.action(0f));
 	}
 
 	@Test
 	public void whenBuildingIsDone_andIsInRange_thenEnded() {
-		worker.setTarget(new Foundation(new Barrack(game.map[1][1], team, game), worker));
+		worker.setTarget(new Foundation(new Barrack(game.map[1][1], team, game), worker, Trainee.BARRACK));
 		assertEquals(StateInteraction.ended, building.action(Trainee.BARRACK.time()));
 	}
 

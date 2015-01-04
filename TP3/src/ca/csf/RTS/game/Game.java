@@ -295,23 +295,23 @@ public class Game implements GameEventHandler {
 				Foundation foundation = null;
 				switch (targetTrainee) {
 				case BARRACK:
-					foundation = new Foundation(new Barrack(map[pos.x][pos.y], builder.getTeam(), this), builder);
+					foundation = new Foundation(new Barrack(map[pos.x][pos.y], builder.getTeam(), this), builder, targetTrainee);
 					break;
 				case TOWN_CENTER:
-					foundation = new Foundation(new TownCenter(map[pos.x][pos.y], builder.getTeam(), this), builder);
+					foundation = new Foundation(new TownCenter(map[pos.x][pos.y], builder.getTeam(), this), builder, targetTrainee);
 					break;
 				case FORGE:
-					foundation = new Foundation(new Forge(map[pos.x][pos.y], builder.getTeam(), this), builder);
+					foundation = new Foundation(new Forge(map[pos.x][pos.y], builder.getTeam(), this), builder, targetTrainee);
 					break;
 				case WATCH_TOWER:
-					foundation = new Foundation(new WatchTower(map[pos.x][pos.y], builder.getTeam(), this), builder);
+					foundation = new Foundation(new WatchTower(map[pos.x][pos.y], builder.getTeam(), this), builder, targetTrainee);
 					break;
 				default:
 					break;
 				}
 				builder.setTarget(foundation);
 				add(foundation);
-				builder.build(targetTrainee);
+				builder.build(foundation);
 			} else {
 				builder.getTeam().addWood(targetTrainee.woodCost());
 
