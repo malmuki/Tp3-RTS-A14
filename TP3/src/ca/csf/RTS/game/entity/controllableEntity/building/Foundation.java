@@ -6,6 +6,7 @@ import org.jsfml.system.Vector2i;
 import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
+import ca.csf.RTS.game.entity.controllableEntity.Trainee;
 import ca.csf.RTS.game.entity.controllableEntity.human.Worker;
 import ca.csf.RTS.game.entity.state.Idle;
 import ca.csf.RTS.game.entity.state.State;
@@ -14,18 +15,19 @@ public class Foundation extends Building {
 
 	public static final String NAME = "Foundation";
 	private Building building;
-	private Worker builder;
+	private Trainee target;
+	private float buildProgression;
 
-	public Foundation(Building building, Worker builder) {
+	public Foundation(Building building, Worker builder, Trainee target) {
 		super(building.getTilesOrigin(), building.getTeam(), building.getGame(), building.getDimention(), building.getTeam().getWatchTowerModel()
 				.getHealthMax());
 		this.building = building;
-		this.builder = builder;
+		this.target = target;
 		sprite.setTexture(building.getSprite().getTexture());
-		sprite.setTextureRect(new IntRect(building.getSprite().getTextureRect().left, building.getSprite().getTextureRect().top + building.getSprite().getTextureRect().height,
-				building.getSprite().getTextureRect().width, building.getSprite().getTextureRect().height));
+		sprite.setTextureRect(new IntRect(building.getSprite().getTextureRect().left, building.getSprite().getTextureRect().top
+				+ building.getSprite().getTextureRect().height, building.getSprite().getTextureRect().width, building.getSprite().getTextureRect().height));
 		setSpritePos();
-
+		stateStack.push(getDefaultState());
 	}
 
 	public void transform() {
@@ -54,18 +56,6 @@ public class Foundation extends Building {
 
 			switch (stateStack.peek().action(deltaTime)) {
 
-			case ended:
-				stateStack.pop();
-
-				if (stateStack.isEmpty()) {
-					stateStack.push(getDefaultState());
-				}
-				break;
-			case notFinished:
-				if (builder.getTarget() != this) {
-					remove();
-				}
-				break;
 			case dead:
 				remove();
 				break;
@@ -100,5 +90,20 @@ public class Foundation extends Building {
 
 	public Building getBuilding() {
 		return building;
+	}
+	
+	public void addTime(float delta) {
+		buildProgression += delta;
+	}
+	
+	public float getTimeProgression(){
+		return buildProgression;
+	}
+
+	public boolean isFinishedBuilding() {
+		if (buildProgression >= target.time()) {
+			return true;
+		}
+		return false;
 	}
 }

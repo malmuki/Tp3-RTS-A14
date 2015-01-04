@@ -13,6 +13,7 @@ import ca.csf.RTS.game.audio.SoundPlayer;
 import ca.csf.RTS.game.entity.Entity;
 import ca.csf.RTS.game.entity.Tile;
 import ca.csf.RTS.game.entity.controllableEntity.Trainee;
+import ca.csf.RTS.game.entity.controllableEntity.building.Foundation;
 import ca.csf.RTS.game.entity.controllableEntity.building.WatchTower;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Barrack;
 import ca.csf.RTS.game.entity.controllableEntity.building.factory.Forge;
@@ -70,7 +71,10 @@ public class Worker extends Human {
 		if (target.getTeam().getName() == "Nature") {
 			setTarget(target);
 			stateStack.push(new Gathering(this));
-		} else {
+		} else if(target.getName().lastIndexOf(" ") != -1){
+			setTarget(target);
+			stateStack.push(new Building(this, (Foundation) target));
+		}else {
 			stateStack.push(new Move(target.getTilesOrigin(), this));
 		}
 	}
@@ -120,7 +124,7 @@ public class Worker extends Human {
 		return NAME;
 	}
 
-	public void build(Trainee target) {
+	public void build(Foundation target) {
 		stateStack.push(new Building(this, target));
 	}
 
