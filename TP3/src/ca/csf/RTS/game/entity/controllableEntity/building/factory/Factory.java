@@ -76,30 +76,32 @@ public abstract class Factory extends Building {
 	public Trainee getNextInQueue() {
 		if (!trainingQueue.isEmpty()) {
 			return trainingQueue.get(0);
-		}else {
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	public void addToQueue(int index) {
-		if (trainingQueue.size() < MAX_QUEUE) {
-			if (getTrainable(index).woodCost() <= team.getWood()) {
-				if (getTrainable(index).stoneCost() <= team.getStone()) {
-					team.substractStone(getTrainable(index).stoneCost());
-					team.substractWood(getTrainable(index).woodCost());
-					if (trainingQueue.isEmpty()) {
-						stateStack.push(new Training(this));
+		if (getTrainable(index) != null) {
+			if (trainingQueue.size() < MAX_QUEUE) {
+				if (getTrainable(index).woodCost() <= team.getWood()) {
+					if (getTrainable(index).stoneCost() <= team.getStone()) {
+						team.substractStone(getTrainable(index).stoneCost());
+						team.substractWood(getTrainable(index).woodCost());
+						if (trainingQueue.isEmpty()) {
+							stateStack.push(new Training(this));
+						}
+						trainingQueue.add(getTrainable(index));
+					} else {
+						SoundPlayer.playSound(2);
 					}
-					trainingQueue.add(getTrainable(index));
 				} else {
-					SoundPlayer.playSound(2);
+					SoundPlayer.playSound(3);
 				}
 			} else {
-				SoundPlayer.playSound(3);
+				SoundPlayer.playSound(0);
 			}
-		} else {
-			SoundPlayer.playSound(0);
 		}
 	}
 
