@@ -7,8 +7,8 @@ public class WatchTowerModel extends Model {
 	}
 
 	private int range = 10;
-	private int damage = 10;
-	private float attackDelay = 1.0f;
+	private int damage = 25;
+	private float attackDelay = 2.5f;
 
 	public int getRange() {
 		return range;

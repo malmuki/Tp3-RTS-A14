@@ -280,8 +280,10 @@ public class Game implements GameEventHandler {
 		case Worker.NAME:
 			builder = (Worker) selectedList.get(0);
 			targetTrainee = builder.getBuildingOrder(index);
-			buildingSize = builder.getBuildingSize(targetTrainee);
-			gameController.setBuildingColor();
+			if (targetTrainee != null) {
+				buildingSize = builder.getBuildingSize(targetTrainee);
+				gameController.setBuildingColor();
+			}
 			break;
 		default:
 			break;

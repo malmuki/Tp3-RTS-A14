@@ -30,7 +30,7 @@ public class FootMan extends Human implements Fighter {
 	private final int RANGE;
 	private final int DAMAGE;
 	private final float ATTACK_DELAY;
-	public static final int ENNEMY_SEARCH_RANGE = 35; // this accounts for 10
+	public static final int ENNEMY_SEARCH_RANGE = 65; // this accounts for 10
 														// per horizontal move
 														// and 14 for diagonal
 
