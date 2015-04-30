@@ -53,6 +53,7 @@ public class GameController {
 	private static final int SELECTION_THICKNESS = 2;
 	private static final float GUI_SCALE = 0.15f;
 	private static final String PATH_FONT = "./ressource/ARIBLK.TTF";
+	private static final String PATH_BACKGROUND_TEX = "./ressource/gazon.png";
 	private static final String PATH_TOWNCENTER_TEX = "./ressource/towncenter_icon.png";
 	private static final String PATH_BARRACK_TEX = "./ressource/barrack_icon.png";
 	private static final String PATH_TREE_TEX = "./ressource/tree.png";
@@ -71,6 +72,7 @@ public class GameController {
 
 	private Game game;
 	private Texture gui;
+	private Texture gazon;
 	private boolean isFocused = true;
 	private RenderWindow window = new RenderWindow();
 	private Boolean isLeftButtonPressed = false;
@@ -120,6 +122,7 @@ public class GameController {
 		buildingPlacer = new RectangleShape();
 		buildingPlacer.setFillColor(Color.TRANSPARENT);
 		try {
+			
 
 			arial.loadFromFile(Paths.get(PATH_FONT));
 			textureWorker = new Texture();
@@ -149,8 +152,12 @@ public class GameController {
 			footManUp = new Texture();
 			footManUp.loadFromFile(Paths.get(PATH_FOOTMANUP_TEX));
 
-			gui = new Texture();
-			gui.loadFromFile(Paths.get(PATH_GUI_TEX));
+ 			gui = new Texture();
+ 			gui.loadFromFile(Paths.get(PATH_GUI_TEX));
+			gazon = new Texture();
+			gazon.loadFromFile(Paths.get(PATH_BACKGROUND_TEX));
+			gazon.setRepeated(true);
+			gazon.setSmooth(true);
 			initializeGUI();
 
 		} catch (IOException e) {
@@ -176,6 +183,7 @@ public class GameController {
 		Clock frameClock = new Clock();
 
 		RectangleShape map = new RectangleShape(new Vector2f(Game.MAP_SIZE * Tile.TILE_SIZE, Game.MAP_SIZE * Tile.TILE_SIZE));
+		map.setTexture(gazon);
 		map.setTextureRect(new IntRect(0, 0, (int) (Game.MAP_SIZE * Tile.TILE_SIZE), (int) (Game.MAP_SIZE * Tile.TILE_SIZE)));
 
 		MusicPlayer.musicStop();
